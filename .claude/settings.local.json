@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(open http://localhost:5179/)",
+      "WebFetch(domain:villadimaiowinery-p2h.webflow.io)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}

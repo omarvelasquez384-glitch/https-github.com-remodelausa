@@ -1,0 +1,28 @@
+# RemodelaUSA — Despliegue a producción
+# Blueprint para Render.com (servicio Node con disco persistente para SQLite)
+
+services:
+  - type: web
+    name: remodelausa
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "24" # node:sqlite requiere Node 22.5+; usa 22 si 24 no está disponible
+      - key: DATA_DIR
+        value: /var/data/remodelausa
+      - key: PUBLIC_URL
+        sync: false # pon aquí tu URL real, ej. https://remodelausa.com
+      - key: ADMIN_TOKEN
+        generateValue: true # token aleatorio para /admin; cámbialo tras el primer acceso
+      - key: RESEND_API_KEY
+        sync: false # opcional: correos reales
+      - key: STRIPE_SECRET_KEY
+        sync: false # opcional: cobro real de comisiones
+    disk:
+      name: remodelausa-data
+      mountPath: /var/data/remodelausa
+      sizeGB: 1
