@@ -38,6 +38,13 @@ export const enContent: SiteContent = {
       { name: "Contact", href: "#contact", icon: "Mail" },
     ],
     ctaButtonText: "Get a free quote",
+    accountMenu: {
+      label: "Sign in",
+      items: [
+        { name: "Homeowner account", href: "/account" },
+        { name: "Contractor account", href: "/portal" },
+      ],
+    },
   },
 
   preloader: {

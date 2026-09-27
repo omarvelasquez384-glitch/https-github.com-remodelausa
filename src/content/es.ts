@@ -38,6 +38,13 @@ export const esContent: SiteContent = {
       { name: "Contacto", href: "#contact", icon: "Mail" },
     ],
     ctaButtonText: "Cotizar gratis",
+    accountMenu: {
+      label: "Iniciar sesión",
+      items: [
+        { name: "Cuenta de dueño de casa", href: "/account" },
+        { name: "Cuenta de contratista", href: "/portal" },
+      ],
+    },
   },
 
   preloader: {

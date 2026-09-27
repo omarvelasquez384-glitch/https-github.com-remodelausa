@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Menu, X, ChevronDown, Wine, Home, BookOpen, Newspaper, Users, Mail, Grape, Calculator, HardHat } from 'lucide-react';
+import { Menu, X, ChevronDown, Wine, Home, BookOpen, Newspaper, Users, Mail, Grape, Calculator, HardHat, User } from 'lucide-react';
 import { navigationConfig } from '../config';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Home, BookOpen, Newspaper, Users, Mail, Grape, Wine, Menu, X, ChevronDown, Calculator, HardHat,
+  Home, BookOpen, Newspaper, Users, Mail, Grape, Wine, Menu, X, ChevronDown, Calculator, HardHat, User,
 };
 
 export function Navigation() {
@@ -65,6 +65,8 @@ export function Navigation() {
   };
 
   const navLinks = navigationConfig.navLinks;
+  const accountMenu = navigationConfig.accountMenu;
+  const ACCOUNT_KEY = '__account__';
 
   return (
     <nav
@@ -143,6 +145,51 @@ export function Navigation() {
               </div>
             );
           })}
+
+          {/* Menú de cuenta: crear cuenta / iniciar sesión (dueño o contratista) */}
+          {accountMenu && (
+            <div
+              className="relative"
+              onMouseEnter={() => setActiveDropdown(ACCOUNT_KEY)}
+              onMouseLeave={() => setActiveDropdown(null)}
+              role="none"
+            >
+              <button
+                onClick={() => goTo('/account')}
+                className="flex items-center gap-1 text-sm text-white/80 hover:text-gold-400 transition-colors duration-300 py-2"
+                role="menuitem"
+                aria-haspopup="true"
+                aria-expanded={activeDropdown === ACCOUNT_KEY}
+              >
+                <User className="w-4 h-4" aria-hidden="true" />
+                {accountMenu.label}
+                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
+                  activeDropdown === ACCOUNT_KEY ? 'rotate-180' : ''
+                }`} aria-hidden="true" />
+              </button>
+              <div
+                className={`absolute top-full left-0 pt-2 transition-all duration-300 ${
+                  activeDropdown === ACCOUNT_KEY
+                    ? 'opacity-100 visible translate-y-0'
+                    : 'opacity-0 invisible -translate-y-2'
+                }`}
+                role="menu"
+              >
+                <div className="bg-wine-800/95 backdrop-blur-md rounded-md overflow-hidden min-w-[200px] border border-white/10">
+                  {accountMenu.items.map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => goTo(item.href)}
+                      className="block w-full text-left px-4 py-3 text-sm text-white/80 hover:bg-gold-500/20 hover:text-gold-400 transition-colors"
+                      role="menuitem"
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* CTA Button */}
@@ -241,6 +288,42 @@ export function Navigation() {
               </div>
             );
           })}
+
+          {accountMenu && (
+            <div className="animate-fade-up">
+              <button
+                onClick={() => setActiveDropdown(activeDropdown === ACCOUNT_KEY ? null : ACCOUNT_KEY)}
+                className="flex items-center justify-between w-full py-4 text-lg text-white border-b border-white/10"
+                aria-expanded={activeDropdown === ACCOUNT_KEY}
+                role="menuitem"
+              >
+                <span className="flex items-center gap-3">
+                  <User className="w-5 h-5 text-gold-500" />
+                  {accountMenu.label}
+                </span>
+                <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${
+                  activeDropdown === ACCOUNT_KEY ? 'rotate-180' : ''
+                }`} aria-hidden="true" />
+              </button>
+              <div
+                className={`overflow-hidden transition-all duration-500 ${
+                  activeDropdown === ACCOUNT_KEY ? 'max-h-40' : 'max-h-0'
+                }`}
+                role="menu"
+              >
+                {accountMenu.items.map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={() => goTo(item.href)}
+                    className="block w-full text-left pl-12 py-3 text-white/70 hover:text-gold-400"
+                    role="menuitem"
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {navigationConfig.ctaButtonText && (
             <button

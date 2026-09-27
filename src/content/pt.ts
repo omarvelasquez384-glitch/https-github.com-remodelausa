@@ -38,6 +38,13 @@ export const ptContent: SiteContent = {
       { name: "Contato", href: "#contact", icon: "Mail" },
     ],
     ctaButtonText: "Orçamento grátis",
+    accountMenu: {
+      label: "Entrar",
+      items: [
+        { name: "Conta de proprietário", href: "/account" },
+        { name: "Conta de construtora", href: "/portal" },
+      ],
+    },
   },
 
   preloader: {

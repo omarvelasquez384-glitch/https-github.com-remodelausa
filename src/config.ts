@@ -44,6 +44,10 @@ export interface NavigationConfig {
   tagline: string;
   navLinks: NavLink[];
   ctaButtonText: string;
+  accountMenu?: {
+    label: string;
+    items: { name: string; href: string }[];
+  };
 }
 
 export const navigationConfig: NavigationConfig = { ...esContent.navigation };
