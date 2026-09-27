@@ -6,7 +6,7 @@ services:
     name: remodelausa
     runtime: node
     plan: 0.5c-512mb
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci && DATA_DIR=/tmp/remodelausa-build npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
