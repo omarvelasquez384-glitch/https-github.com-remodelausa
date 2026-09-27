@@ -363,11 +363,23 @@ export function createApiApp() {
   });
 
   // Subida de imágenes (logo o fotos de trabajos): base64 → archivo en /uploads
+  // Acepta tanto la sesión de email+contraseña (token de login) como el token
+  // de acceso legado del correo de bienvenida — antes solo aceptaba el legado
+  // y los contratistas que entraban con contraseña no podían subir fotos.
   app.post('/api/upload', (req, res) => {
     const adminOk = req.headers['x-admin-token'] === adminToken();
     const token = String(req.headers['x-contractor-token'] ?? '');
-    const owner = token ? db.prepare('SELECT id FROM contractors WHERE access_token = ?').get(token) : null;
-    if (!adminOk && !owner) return res.status(401).json({ error: 'unauthorized' });
+    let ownerId = null;
+    if (token) {
+      const session = resolveSession(token);
+      if (session?.user_type === 'contractor') {
+        ownerId = session.user_id;
+      } else {
+        const row = db.prepare('SELECT id FROM contractors WHERE access_token = ?').get(token);
+        if (row) ownerId = row.id;
+      }
+    }
+    if (!adminOk && !ownerId) return res.status(401).json({ error: 'unauthorized' });
 
     const { data, name } = req.body ?? {};
     if (!data || !String(data).startsWith('data:image/')) {
@@ -381,7 +393,7 @@ export function createApiApp() {
     const ext = match[1] === 'jpeg' ? 'jpg' : match[1];
     const safeName = crypto.randomBytes(10).toString('hex') + '.' + ext;
     fs.writeFileSync(path.join(UPLOAD_DIR, safeName), buffer);
-    trackEvent('image_uploaded', { name: safeName, by: owner ? `contractor:${owner.id}` : 'admin' });
+    trackEvent('image_uploaded', { name: safeName, by: ownerId ? `contractor:${ownerId}` : 'admin' });
     res.json({ ok: true, path: `/uploads/${safeName}`, name: String(name ?? '').slice(0, 120) });
   });
 
