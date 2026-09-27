@@ -221,6 +221,15 @@
     animation: hero-breathe 20s ease-in-out infinite;
   }
 
+  /* Pausar animaciones de fondo mientras el menú móvil está abierto: el menú
+     las tapa con fondo sólido y en teléfonos básicos seguir renderizándolas
+     causaba lag perceptible. */
+  body.menu-open .hero-kenburns,
+  body.menu-open .kenburns,
+  body.menu-open [class*="animate-"] {
+    animation-play-state: paused !important;
+  }
+
   /* Marquee animation */
   @keyframes marquee {
     0% {

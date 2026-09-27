@@ -26,14 +26,21 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll when mobile menu is open; also tag the body so heavy
+  // background animations (hero Ken Burns, count-ups) pause while the menu
+  // covers them — keeps low-end phones smooth.
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('menu-open');
     } else {
       document.body.style.overflow = '';
+      document.body.classList.remove('menu-open');
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('menu-open');
+    };
   }, [isMobileMenuOpen]);
 
   // Enlaces a páginas reales (/contractors, /track...) navegan; los que
@@ -223,7 +230,7 @@ export function Navigation() {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden fixed inset-0 top-[72px] z-50 bg-wine-900/95 backdrop-blur-lg transition-all duration-500 ${
+        className={`lg:hidden fixed inset-0 top-[72px] z-50 bg-wine-900 transition-all duration-500 ${
           isMobileMenuOpen
             ? 'opacity-100 visible'
             : 'opacity-0 invisible pointer-events-none'
