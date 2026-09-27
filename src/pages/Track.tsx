@@ -4,6 +4,7 @@ import { Search, Loader, PackageOpen, Phone, MapPin, Star, BadgeCheck, ArrowRigh
 import { Navigation } from '../sections/Navigation';
 import { Footer } from '../sections/Footer';
 import { publicApi, type MyRequest } from '../lib/api';
+import { requestSectionScroll } from '../lib/utils';
 import { useLang } from '../lib/use-lang';
 import { TRADE_LABELS, LEAD_STATUS_LABELS } from '../lib/labels';
 
@@ -140,9 +141,9 @@ export default function Track() {
                 <div className="text-center bg-white/5 border border-white/10 rounded-lg py-12">
                   <PackageOpen className="w-10 h-10 text-white/20 mx-auto mb-4" />
                   <p className="text-white/60 max-w-md mx-auto mb-6">{t.none}</p>
-                  <Link to="/#contact" className="btn-primary rounded-sm inline-flex items-center gap-2">
+                  <button onClick={() => requestSectionScroll('#contact')} className="btn-primary rounded-sm inline-flex items-center gap-2">
                     {t.newRequest} <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  </button>
                 </div>
               ) : (
                 <div className="space-y-6">

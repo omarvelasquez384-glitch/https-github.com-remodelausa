@@ -5,6 +5,7 @@ import { SEO_SERVICES, SEO_STRINGS } from '../lib/seo-data';
 import { US_STATES } from '../lib/us-states';
 import { getLanguage, type Lang } from '../i18n';
 import { api } from '../lib/api';
+import { requestSectionScroll } from '../lib/utils';
 
 const fmtUSD = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -94,12 +95,12 @@ function SeoContent({ state, service }: { state: { abbr: string; name: string };
             <p className="font-serif text-2xl text-white mb-1">{t.ctaTitle} {state.name}</p>
             <p className="text-white/60 text-sm">{t.duration}: {service.duration[lang]}</p>
           </div>
-          <a href="/#contact" className="btn-primary rounded-sm flex items-center gap-2">
+          <button onClick={() => requestSectionScroll('#contact')} className="btn-primary rounded-sm flex items-center gap-2">
             {t.ctaButton} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="/#calculadora" className="px-6 py-3 border border-white/20 rounded-sm text-white/80 hover:border-gold-500/50 hover:text-gold-400 transition-colors text-sm">
+          </button>
+          <button onClick={() => requestSectionScroll('#calculadora')} className="px-6 py-3 border border-white/20 rounded-sm text-white/80 hover:border-gold-500/50 hover:text-gold-400 transition-colors text-sm">
             {t.calcButton}
-          </a>
+          </button>
         </div>
 
         {/* Qué incluye */}
@@ -192,9 +193,9 @@ function SeoContent({ state, service }: { state: { abbr: string; name: string };
         {/* CTA final */}
         <div className="text-center border-t border-white/10 pt-10">
           <p className="font-serif text-2xl text-white mb-4">{service.name[lang]} — {state.name}</p>
-          <a href="/#contact" className="btn-primary rounded-sm inline-flex items-center gap-2">
+          <button onClick={() => requestSectionScroll('#contact')} className="btn-primary rounded-sm inline-flex items-center gap-2">
             {t.ctaButton} <ArrowRight className="w-4 h-4" />
-          </a>
+          </button>
         </div>
       </main>
     </div>

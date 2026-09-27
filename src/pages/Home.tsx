@@ -15,6 +15,7 @@ import { Preloader } from '../components/Preloader';
 import { ScrollToTop } from '../components/ScrollToTop';
 import { ChatWidget } from '../components/ChatWidget';
 import { getLanguage } from '../i18n';
+import { consumePendingScroll } from '../lib/utils';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +23,15 @@ export default function Home() {
 
   const handlePreloaderComplete = useCallback(() => {
     setIsLoading(false);
+    // Si venimos de otra página con un destino pendiente (p. ej. "Cotización
+    // gratis" desde /track o una landing SEO), aplicamos el scroll AHORA que el
+    // preloader terminó y la página ya se puede desplazar.
+    const pending = consumePendingScroll();
+    if (pending) {
+      setTimeout(() => {
+        document.querySelector(pending)?.scrollIntoView({ behavior: 'smooth' });
+      }, 400);
+    }
   }, []);
 
   // Re-renderiza todo el sitio cuando cambia el idioma

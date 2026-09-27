@@ -206,17 +206,49 @@ export default function Portal() {
     }
   };
 
+  // Las fotos de los teléfonos pesan 3–8 MB (y a veces vienen en HEIC), lo que
+  // superaba el límite del servidor y rechazaba la subida. Las redimensionamos
+  // en el navegador (máx. 1600 px, JPEG 85%) → ~200–500 KB, siempre aceptadas.
+  const resizeImage = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const MAX = 1600;
+          let w = img.naturalWidth;
+          let h = img.naturalHeight;
+          if (Math.max(w, h) > MAX) {
+            const scale = MAX / Math.max(w, h);
+            w = Math.round(w * scale);
+            h = Math.round(h * scale);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) throw new Error('canvas unavailable');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.85));
+        } catch (e) {
+          reject(e);
+        } finally {
+          URL.revokeObjectURL(url);
+        }
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('unreadable image'));
+      };
+      img.src = url;
+    });
+
   const uploadFile = async (file: File, kind: 'logo' | 'photo') => {
     if (!file) return;
     setUploading(true);
     setError('');
     try {
-      const dataUrl = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result));
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
+      const dataUrl = await resizeImage(file);
       const tk = window.localStorage.getItem(TOKEN_KEY) ?? token;
       const { path } = await contractorApi.upload(tk, dataUrl, file.name);
       if (kind === 'logo') {

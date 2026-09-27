@@ -46,10 +46,12 @@ export function Navigation() {
       window.scrollTo({ top: 0 });
     } else {
       if (window.location.pathname !== '/') {
+        // Guardamos el destino: Home lo aplica al terminar el preloader (el
+        // intento de scroll a los 120ms chocaba con el bloqueo del preloader
+        // y el usuario quedaba arriba, como "redirigido al inicio").
+        sessionStorage.setItem('remodelausa:pending-scroll', href);
         navigate('/');
         setTimeout(() => {
-          const element = document.querySelector(href);
-          element?.scrollIntoView({ behavior: 'smooth' });
           setIsMobileMenuOpen(false);
           setActiveDropdown(null);
         }, 120);
