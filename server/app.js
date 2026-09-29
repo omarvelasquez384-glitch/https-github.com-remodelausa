@@ -50,6 +50,31 @@ function adminToken() {
 export function createApiApp() {
   const app = express();
   app.use(express.json({ limit: '6mb' })); // las fotos van en base64
+
+  // ---- Rate limiting en memoria (anti fuerza bruta / spam) ----
+  // Ventana fija por IP+llave; al reiniciar el servidor se reinicia el conteo,
+  // lo cual es suficiente para una app de este tamaño.
+  const rateBuckets = new Map();
+  function rateLimit(key, max, windowMs) {
+    return (req, res, next) => {
+      const now = Date.now();
+      const id = `${key}:${req.ip ?? req.socket?.remoteAddress ?? 'unknown'}`;
+      const bucket = rateBuckets.get(id) ?? { count: 0, reset: now + windowMs };
+      if (now > bucket.reset) { bucket.count = 0; bucket.reset = now + windowMs; }
+      bucket.count += 1;
+      rateBuckets.set(id, bucket);
+      if (bucket.count > max) {
+        return res.status(429).json({ error: 'too many requests, try again later' });
+      }
+      next();
+    };
+  }
+  // Limpieza periódica de cubetas expiradas para no crecer sin fin
+  const rateCleaner = setInterval(() => {
+    const now = Date.now();
+    for (const [id, bucket] of rateBuckets) if (bucket.reset < now) rateBuckets.delete(id);
+  }, 10 * 60 * 1000);
+  rateCleaner.unref?.();
   // Fotos y logos subidos por los contratistas
   app.use('/uploads', express.static(UPLOAD_DIR));
 
@@ -63,10 +88,20 @@ export function createApiApp() {
   };
 
   const requireContractor = (req, res, next) => {
-    const token = req.headers['x-contractor-token'];
+    const token = String(req.headers['x-contractor-token'] ?? '');
     if (!token) return res.status(401).json({ error: 'unauthorized' });
+    // Acepta la sesión de email+contraseña (la que usa el portal actual)...
+    const session = resolveSession(token);
+    if (session?.user_type === 'contractor') {
+      const bySession = db.prepare('SELECT id, email, access_token FROM contractors WHERE id = ?').get(session.user_id);
+      if (bySession) {
+        req.contractor = bySession;
+        return next();
+      }
+    }
+    // ...y el token de acceso legado del correo de bienvenida.
     const row = db.prepare('SELECT id, email, access_token FROM contractors WHERE access_token = ? OR id = ?')
-      .get(String(token), Number(token) || 0);
+      .get(token, Number(token) || 0);
     if (!row) return res.status(401).json({ error: 'unauthorized' });
     req.contractor = row;
     next();
@@ -89,7 +124,9 @@ export function createApiApp() {
   };
 
   const requireHomeowner = (req, res, next) => {
-    const token = String(req.headers['x-homeowner-token'] ?? '');
+    // Acepta tanto el token de sesión estándar (x-session-token, usado por la
+    // página de cuenta) como el encabezado histórico x-homeowner-token.
+    const token = String(req.headers['x-homeowner-token'] ?? req.headers['x-session-token'] ?? '');
     const session = resolveSession(token);
     if (session?.user_type !== 'homeowner') return res.status(401).json({ error: 'unauthorized' });
     req.homeowner = { id: session.user_id };
@@ -110,7 +147,7 @@ export function createApiApp() {
   });
 
   // ============================ LEADS =====================================
-  app.post('/api/leads', (req, res) => {
+  app.post('/api/leads', rateLimit('leads', 10, 10 * 60 * 1000), (req, res) => {
     const b = req.body ?? {};
     if (!b.name || !b.email || !b.phone) {
       return res.status(400).json({ error: 'name, email and phone are required' });
@@ -118,7 +155,7 @@ export function createApiApp() {
 
     const projectType = normalizeProjectType(b.project_type);
     // Si el dueño envía con sesión iniciada, ligamos la solicitud a su cuenta
-    const session = resolveSession(String(req.headers['x-homeowner-token'] ?? ''));
+    const session = resolveSession(String(req.headers['x-homeowner-token'] ?? req.headers['x-session-token'] ?? ''));
     const homeownerId = session?.user_type === 'homeowner' ? session.user_id : 0;
     const info = db.prepare(`
       INSERT INTO leads (name, email, phone, project_type, start_date, message, state, city, lang, source, homeowner_id)
@@ -221,7 +258,7 @@ export function createApiApp() {
   });
 
   // ========================= CONTRATISTAS =================================
-  app.post('/api/contractors', (req, res) => {
+  app.post('/api/contractors', rateLimit('register', 6, 10 * 60 * 1000), (req, res) => {
     const b = req.body ?? {};
     if (!b.name || !b.email) {
       return res.status(400).json({ error: 'name and email are required' });
@@ -392,7 +429,13 @@ export function createApiApp() {
 
     const ext = match[1] === 'jpeg' ? 'jpg' : match[1];
     const safeName = crypto.randomBytes(10).toString('hex') + '.' + ext;
-    fs.writeFileSync(path.join(UPLOAD_DIR, safeName), buffer);
+    try {
+      fs.writeFileSync(path.join(UPLOAD_DIR, safeName), buffer);
+    } catch (err) {
+      // Un fallo de disco NO debe tumbar el proceso; respondemos 500 controlado.
+      console.error('upload failed:', err.message);
+      return res.status(500).json({ error: 'could not save the image, try again' });
+    }
     trackEvent('image_uploaded', { name: safeName, by: ownerId ? `contractor:${ownerId}` : 'admin' });
     res.json({ ok: true, path: `/uploads/${safeName}`, name: String(name ?? '').slice(0, 120) });
   });
@@ -437,7 +480,7 @@ export function createApiApp() {
     return { id: row.id, type, name: row.name, email: row.email, phone: row.phone };
   }
 
-  app.post('/api/auth/register-homeowner', (req, res) => {
+  app.post('/api/auth/register-homeowner', rateLimit('register', 6, 10 * 60 * 1000), (req, res) => {
     const b = req.body ?? {};
     if (!b.name || !b.email || !b.password) {
       return res.status(400).json({ error: 'name, email and password are required' });
@@ -461,7 +504,7 @@ export function createApiApp() {
     res.json({ ok: true, token, user: publicUser('homeowner', row) });
   });
 
-  app.post('/api/auth/login', (req, res) => {
+  app.post('/api/auth/login', rateLimit('login', 8, 10 * 60 * 1000), (req, res) => {
     const b = req.body ?? {};
     const type = b.type === 'contractor' ? 'contractor' : 'homeowner';
     const email = String(b.email ?? '').trim().toLowerCase();
@@ -637,6 +680,15 @@ export function createApiApp() {
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
+  });
+
+  // ---- Manejador global de errores: ninguna excepción debe tumbar el proceso ----
+  // Express llama a este middleware con cualquier error lanzado en un handler
+  // (síncrono o vía next(err)); sin él Node terminaba el servidor completo.
+  // eslint-disable-next-line no-unused-vars
+  app.use((err, _req, res, _next) => {
+    console.error('API error:', err?.message ?? err);
+    res.status(500).json({ error: 'internal error' });
   });
 
   return app;

@@ -19,7 +19,10 @@ function remodelausaApi(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  // Base ABSOLUTA: con './' las rutas anidadas (/legal/privacy, /s/texas/...)
+  // resolvían ./assets contra su propio nivel y el servidor devolvía HTML,
+  // rompiendo el JavaScript de las landings SEO y páginas legales.
+  base: '/',
   plugins: [inspectAttr(), react(), remodelausaApi()],
   server: {
     port: 7100,
