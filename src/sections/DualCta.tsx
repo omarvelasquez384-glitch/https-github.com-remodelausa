@@ -12,7 +12,7 @@ const T = {
     homeownerText: 'Get up to 4 free quotes from verified contractors in your area within 24 hours.',
     homeownerCta: 'Get my free quotes',
     contractorTitle: 'Are you a contractor?',
-    contractorText: 'Join our network and receive client requests in your area. No monthly fees — you only pay a commission when you sign the job.',
+    contractorText: 'Join our network and receive client requests in your area. Pay per signed job (8% commission) or go flat with the $100/month membership — your choice.',
     contractorCta: 'I want more jobs',
   },
   es: {
@@ -21,7 +21,7 @@ const T = {
     homeownerText: 'Recibe hasta 4 cotizaciones gratis de contratistas verificados de tu zona en menos de 24 horas.',
     homeownerCta: 'Cotizar gratis',
     contractorTitle: '¿Eres contratista?',
-    contractorText: 'Únete a la red y recibe solicitudes de clientes en tu zona. Sin cuotas mensuales — solo pagas comisión cuando firmas el trabajo.',
+    contractorText: 'Únete a la red y recibe solicitudes de clientes en tu zona. Paga por trabajo firmado (8% de comisión) o elige la membresía fija de $100/mes — tú decides.',
     contractorCta: 'Quiero más trabajos',
   },
   pt: {
@@ -30,7 +30,7 @@ const T = {
     homeownerText: 'Receba até 4 orçamentos grátis de construtoras verificadas da sua região em menos de 24 horas.',
     homeownerCta: 'Pedir orçamento grátis',
     contractorTitle: 'Você é uma construtora?',
-    contractorText: 'Junte-se à rede e receba solicitações de clientes da sua região. Sem mensalidades — você só paga comissão quando fecha o trabalho.',
+    contractorText: 'Junte-se à rede e receba solicitações de clientes da sua região. Pague por trabalho fechado (8% de comissão) ou escolha a assinatura fixa de US$ 100/mês — você decide.',
     contractorCta: 'Quero mais trabalhos',
   },
 } as const;

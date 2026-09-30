@@ -7,6 +7,7 @@ import { BudgetCalculator } from '../sections/BudgetCalculator';
 import { PopularProjects } from '../sections/PopularProjects';
 import { WineryCarousel } from '../sections/WineryCarousel';
 import { Museum } from '../sections/Museum';
+import { Membership } from '../sections/Membership';
 import { News } from '../sections/News';
 import { DualCta } from '../sections/DualCta';
 import { ContactForm } from '../sections/ContactForm';
@@ -66,6 +67,7 @@ export default function Home() {
             <PopularProjects />
             <WineryCarousel />
             <Museum />
+            <Membership />
             <News />
             <DualCta />
             <ContactForm />
