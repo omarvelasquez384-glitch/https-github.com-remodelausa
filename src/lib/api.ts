@@ -67,9 +67,14 @@ export interface MyRequest {
 }
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  // OJO al orden: las opciones van primero y los headers DESPUÉS, fusionados.
+  // Si se hace al revés, cualquier petición con headers propios (p. ej.
+  // x-contractor-token del portal) pisa el Content-Type y el servidor no
+  // parsea el cuerpo → la subida de fotos y el guardado de perfil fallaban
+  // con "image data required" aunque el navegador enviara todo bien.
   const res = await fetch(path, {
-    headers: { 'Content-Type': 'application/json', ...(options.headers ?? {}) },
     ...options,
+    headers: { 'Content-Type': 'application/json', ...(options.headers ?? {}) },
   });
   if (!res.ok) {
     let detail = '';
