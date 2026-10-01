@@ -119,6 +119,18 @@ addContractorCol('membership_started_at', "membership_started_at TEXT DEFAULT ''
 addContractorCol('membership_expires_at', "membership_expires_at TEXT DEFAULT ''");
 addContractorCol('stripe_customer_id', "stripe_customer_id TEXT DEFAULT ''");
 addContractorCol('stripe_subscription_id', "stripe_subscription_id TEXT DEFAULT ''");
+addContractorCol('terms_accepted_at', "terms_accepted_at TEXT DEFAULT ''"); // aceptación de términos al registrarse
+
+// Migración: consentimiento TCPA del dueño de casa al enviar una solicitud
+// (cumplimiento telemarketing: guardamos QUÉ aceptó y CUÁNDO) — idempotente.
+const leadCols = db.prepare('PRAGMA table_info(leads)').all().map((c) => c.name);
+function addLeadCol(name, ddl) {
+  if (!leadCols.includes(name)) {
+    try { db.exec(`ALTER TABLE leads ADD COLUMN ${ddl}`); } catch { /* ya existe */ }
+  }
+}
+addLeadCol('tcpa_consent', 'tcpa_consent INTEGER DEFAULT 0');
+addLeadCol('tcpa_consent_at', "tcpa_consent_at TEXT DEFAULT ''");
 
 // Ajustes por defecto
 const defaults = { commission_rate: '8', avg_ticket: '10000', admin_token: '', membership_price: '150' };

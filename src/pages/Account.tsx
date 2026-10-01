@@ -34,6 +34,9 @@ const T = {
     dateLabel: 'Desired start date', messageLabel: 'Details (optional)',
     messagePlaceholder: 'Tell us about your project: size, materials, ideas…',
     publish: 'Publish my request', publishing: 'Publishing…',
+    consentBefore: 'I agree to the', consentLink: 'Terms of Use',
+    consentAfter: 'and I consent to be contacted by phone, text or email by RemodelaUSA and up to 4 partner contractors about my project.',
+    consentRequired: 'Please accept the contact consent to publish.',
     publishedOk: 'Published! We are assigning verified contractors in your area.',
     myRequestsTitle: 'My requests',
     noRequests: 'You have no requests yet. Publish the first one — it takes 2 minutes.',
@@ -63,6 +66,9 @@ const T = {
     dateLabel: 'Fecha deseada de inicio', messageLabel: 'Detalles (opcional)',
     messagePlaceholder: 'Cuéntanos sobre tu proyecto: tamaño, materiales, ideas…',
     publish: 'Publicar mi solicitud', publishing: 'Publicando…',
+    consentBefore: 'Acepto los', consentLink: 'Términos de Uso',
+    consentAfter: 'y consiento ser contactado por teléfono, mensaje de texto o correo por RemodelaUSA y hasta 4 contratistas asociados sobre mi proyecto.',
+    consentRequired: 'Acepta el consentimiento de contacto para publicar.',
     publishedOk: '¡Publicada! Estamos asignando contratistas verificados en tu zona.',
     myRequestsTitle: 'Mis solicitudes',
     noRequests: 'Aún no tienes solicitudes. Publica la primera — toma 2 minutos.',
@@ -92,6 +98,9 @@ const T = {
     dateLabel: 'Data desejada de início', messageLabel: 'Detalhes (opcional)',
     messagePlaceholder: 'Conte-nos sobre seu projeto: tamanho, materiais, ideias…',
     publish: 'Publicar minha solicitação', publishing: 'Publicando…',
+    consentBefore: 'Aceito os', consentLink: 'Termos de Uso',
+    consentAfter: 'e consinto ser contatado por telefone, mensagem de texto ou e-mail pela RemodelaUSA e até 4 construtoras parceiras sobre o meu projeto.',
+    consentRequired: 'Aceite o consentimento de contato para publicar.',
     publishedOk: 'Publicada! Estamos atribuindo construtoras verificadas da sua região.',
     myRequestsTitle: 'Minhas solicitações',
     noRequests: 'Você ainda não tem solicitações. Publique a primeira — leva 2 minutos.',
@@ -133,6 +142,8 @@ export default function Account() {
   });
   const [publishing, setPublishing] = useState(false);
   const [publishState, setPublishState] = useState<'idle' | 'ok' | 'error'>('idle');
+  const [leadConsent, setLeadConsent] = useState(false); // consentimiento TCPA
+  const [publishError, setPublishError] = useState('');
   const [profileForm, setProfileForm] = useState({ name: '', phone: '' });
   const [profileSaved, setProfileSaved] = useState(false);
 
@@ -207,8 +218,15 @@ export default function Account() {
 
   const publishLead = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!leadConsent) {
+      setPublishError(t.consentRequired);
+      setPublishState('error');
+      setTimeout(() => setPublishState('idle'), 5000);
+      return;
+    }
     setPublishing(true);
     setPublishState('idle');
+    setPublishError('');
     try {
       const session = getSession();
       if (!session) throw new Error('no session');
@@ -223,11 +241,14 @@ export default function Account() {
         city: leadForm.city,
         lang: getLanguage(),
         source: 'account',
+        tcpa_consent: leadConsent,
       }, session.token);
       setPublishState('ok');
+      setLeadConsent(false);
       setLeadForm({ project_type: 'bathroom', state: '', city: '', start_date: '', message: '' });
       void loadLeads();
     } catch {
+      setPublishError(t.error);
       setPublishState('error');
     } finally {
       setPublishing(false);
@@ -379,6 +400,21 @@ export default function Account() {
                       placeholder={t.messagePlaceholder}
                       onChange={(e) => setLeadForm({ ...leadForm, message: e.target.value })} />
                   </div>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={leadConsent}
+                      onChange={(e) => setLeadConsent(e.target.checked)}
+                      className="mt-1 w-4 h-4 accent-[#d2a855] shrink-0"
+                    />
+                    <span className="text-xs text-white/60 leading-relaxed">
+                      {t.consentBefore}{' '}
+                      <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
+                        {t.consentLink}
+                      </a>{' '}
+                      {t.consentAfter}
+                    </span>
+                  </label>
                   <button type="submit" disabled={publishing} className="btn-primary rounded-sm flex items-center gap-2 disabled:opacity-50">
                     {publishing && <Loader className="w-4 h-4 animate-spin" />}
                     {publishing ? t.publishing : t.publish}
@@ -387,7 +423,7 @@ export default function Account() {
                     <p className="text-sm text-green-400 flex items-center gap-1.5"><CheckCircle className="w-4 h-4" /> {t.publishedOk}</p>
                   )}
                   {publishState === 'error' && (
-                    <p className="text-sm text-red-400 flex items-center gap-1.5"><AlertCircle className="w-4 h-4" /> {t.error}</p>
+                    <p className="text-sm text-red-400 flex items-center gap-1.5"><AlertCircle className="w-4 h-4" /> {publishError || t.error}</p>
                   )}
                 </form>
               </div>

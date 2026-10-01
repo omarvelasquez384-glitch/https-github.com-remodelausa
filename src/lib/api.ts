@@ -11,6 +11,7 @@ export interface LeadPayload {
   city?: string;
   lang: string;
   source?: string;
+  tcpa_consent?: boolean; // aceptación de contacto por teléfono/SMS/correo (TCPA)
 }
 
 export interface ContractorPayload {
@@ -27,6 +28,7 @@ export interface ContractorPayload {
   services?: string[];
   website?: string;
   password?: string;
+  agree_terms?: boolean; // aceptación de los Términos de Uso (comisión por trabajos firmados)
 }
 
 export interface PublicContractor {

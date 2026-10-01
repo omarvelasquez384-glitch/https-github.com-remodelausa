@@ -37,6 +37,12 @@ const STRINGS = {
     passwordPlaceholder: 'Create your password',
     confirmLabel: 'Repeat password',
     passwordMismatch: 'Passwords do not match.',
+    consentBefore: 'I agree to the',
+    consentLink: 'Terms of Use',
+    consentAfter: 'and I consent to be contacted by phone, text or email by RemodelaUSA and up to 4 partner contractors about my project. Consent is not a condition of purchase.',
+    consentRequired: 'Please accept the contact consent to submit your request.',
+    termsAfter: 'including the commission on jobs signed through RemodelaUSA.',
+    termsRequired: 'You must accept the Terms of Use to register.',
     successHomeowner: (matched: number) =>
       matched > 0
         ? `Done! Your request was received and sent to ${matched} verified contractor(s) in your area. You'll hear back within 24 hours.`
@@ -70,6 +76,12 @@ const STRINGS = {
     passwordPlaceholder: 'Crea tu contraseña',
     confirmLabel: 'Repite la contraseña',
     passwordMismatch: 'Las contraseñas no coinciden.',
+    consentBefore: 'Acepto los',
+    consentLink: 'Términos de Uso',
+    consentAfter: 'y consiento ser contactado por teléfono, mensaje de texto o correo por RemodelaUSA y hasta 4 contratistas asociados sobre mi proyecto. El consentimiento no es condición de compra.',
+    consentRequired: 'Por favor acepta el consentimiento de contacto para enviar tu solicitud.',
+    termsAfter: 'incluida la comisión por trabajos firmados a través de RemodelaUSA.',
+    termsRequired: 'Debes aceptar los Términos de Uso para registrarte.',
     successHomeowner: (matched: number) =>
       matched > 0
         ? `¡Listo! Recibimos tu solicitud y ya se envió a ${matched} contratista(s) verificado(s) de tu zona. Te contactarán en menos de 24 horas.`
@@ -103,6 +115,12 @@ const STRINGS = {
     passwordPlaceholder: 'Crie sua senha',
     confirmLabel: 'Repita a senha',
     passwordMismatch: 'As senhas não coincidem.',
+    consentBefore: 'Aceito os',
+    consentLink: 'Termos de Uso',
+    consentAfter: 'e consinto ser contatado por telefone, mensagem de texto ou e-mail pela RemodelaUSA e até 4 construtoras parceiras sobre o meu projeto. O consentimento não é condição de compra.',
+    consentRequired: 'Aceite o consentimento de contato para enviar sua solicitação.',
+    termsAfter: 'incluída a comissão por trabalhos fechados pela RemodelaUSA.',
+    termsRequired: 'Você deve aceitar os Termos de Uso para se cadastrar.',
     successHomeowner: (matched: number) =>
       matched > 0
         ? `Pronto! Recebemos sua solicitação e já a enviamos para ${matched} construtora(s) verificada(s) da sua região. Elas entrarão em contato em menos de 24 horas.`
@@ -170,6 +188,8 @@ export function ContactForm() {
     confirm: '',
   });
   const [services, setServices] = useState<string[]>(['bathroom']);
+  const [consent, setConsent] = useState(false);           // TCPA (dueño de casa)
+  const [agreeTerms, setAgreeTerms] = useState(false);     // términos (contratista)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
   const [portalLink, setPortalLink] = useState('');
@@ -211,6 +231,8 @@ export function ContactForm() {
       password: '', confirm: '',
     });
     setServices(['bathroom']);
+    setConsent(false);
+    setAgreeTerms(false);
   };
 
   const toggleService = (value: string) => {
@@ -238,6 +260,18 @@ export function ContactForm() {
         setIsSubmitting(false);
         return;
       }
+      if (!agreeTerms) {
+        setStatus('error');
+        setStatusMessage(t.termsRequired);
+        setIsSubmitting(false);
+        return;
+      }
+    } else if (!consent) {
+      // Consentimiento de contacto (TCPA) obligatorio para dueños de casa
+      setStatus('error');
+      setStatusMessage(t.consentRequired);
+      setIsSubmitting(false);
+      return;
     }
 
     try {
@@ -254,6 +288,7 @@ export function ContactForm() {
           city: loc?.city ?? '',
           lang,
           source: 'website',
+          tcpa_consent: consent,
         });
         setStatus('success');
         setStatusMessage(t.successHomeowner(result.matched));
@@ -273,6 +308,7 @@ export function ContactForm() {
           services,
           website: formData.website,
           password: formData.password,
+          agree_terms: agreeTerms,
         });
         setStatus('success');
         setStatusMessage(t.successContractor);
@@ -735,6 +771,41 @@ export function ContactForm() {
                       className={`${inputClass} resize-none`}
                     />
                   </div>
+
+                  {/* Consentimiento legal */}
+                  {mode === 'homeowner' ? (
+                    <label className="flex items-start gap-3 cursor-pointer text-left">
+                      <input
+                        type="checkbox"
+                        checked={consent}
+                        onChange={(e) => setConsent(e.target.checked)}
+                        className="mt-1 w-4 h-4 accent-[#d2a855] shrink-0"
+                      />
+                      <span className="text-xs text-white/60 leading-relaxed">
+                        {t.consentBefore}{' '}
+                        <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
+                          {t.consentLink}
+                        </a>{' '}
+                        {t.consentAfter}
+                      </span>
+                    </label>
+                  ) : (
+                    <label className="flex items-start gap-3 cursor-pointer text-left">
+                      <input
+                        type="checkbox"
+                        checked={agreeTerms}
+                        onChange={(e) => setAgreeTerms(e.target.checked)}
+                        className="mt-1 w-4 h-4 accent-[#d2a855] shrink-0"
+                      />
+                      <span className="text-xs text-white/60 leading-relaxed">
+                        {t.consentBefore}{' '}
+                        <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
+                          {t.consentLink}
+                        </a>{' '}
+                        {t.termsAfter}
+                      </span>
+                    </label>
+                  )}
 
                   {/* Submit Button */}
                   <button

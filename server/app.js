@@ -159,8 +159,8 @@ export function createApiApp() {
     const session = resolveSession(String(req.headers['x-homeowner-token'] ?? req.headers['x-session-token'] ?? ''));
     const homeownerId = session?.user_type === 'homeowner' ? session.user_id : 0;
     const info = db.prepare(`
-      INSERT INTO leads (name, email, phone, project_type, start_date, message, state, city, lang, source, homeowner_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO leads (name, email, phone, project_type, start_date, message, state, city, lang, source, homeowner_id, tcpa_consent, tcpa_consent_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       String(b.name).slice(0, 120),
       String(b.email).slice(0, 160),
@@ -173,6 +173,8 @@ export function createApiApp() {
       String(b.lang ?? 'en').slice(0, 5),
       String(b.source ?? 'website').slice(0, 40),
       homeownerId,
+      b.tcpa_consent ? 1 : 0,
+      b.tcpa_consent ? new Date().toISOString() : '',
     );
 
     const leadId = Number(info.lastInsertRowid);
@@ -293,8 +295,8 @@ export function createApiApp() {
     const accessToken = crypto.randomBytes(24).toString('hex');
     const { salt, hash } = b.password ? hashPassword(String(b.password)) : { salt: '', hash: '' };
     const info = db.prepare(`
-      INSERT INTO contractors (name, company, trade, state, city, phone, email, license, years, description, services, website, access_token, password_hash, password_salt)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO contractors (name, company, trade, state, city, phone, email, license, years, description, services, website, access_token, password_hash, password_salt, terms_accepted_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       String(b.name).slice(0, 120),
       String(b.company ?? '').slice(0, 120),
@@ -311,6 +313,7 @@ export function createApiApp() {
       accessToken,
       hash,
       salt,
+      b.agree_terms ? new Date().toISOString() : '',
     );
     const id = Number(info.lastInsertRowid);
     trackEvent('contractor_registered', { id, trade, state: b.state ?? '' });

@@ -2,6 +2,15 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Wine, MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube, ArrowUp, CheckCircle } from 'lucide-react';
 import { footerConfig } from '../config';
+import { getLanguage, type Lang } from '../i18n';
+
+// Aviso legal visible en todas las páginas: la plataforma es un servicio de
+// referidos, no un contratista (protección ante demandas por trabajo de terceros).
+const DISCLAIMER: Record<Lang, string> = {
+  en: 'RemodelaUSA is a referral service, not a contractor. All work is performed by independent contractors who hold their own licenses and insurance.',
+  es: 'RemodelaUSA es un servicio de referidos, no un contratista. Todo el trabajo lo realizan contratistas independientes con sus propias licencias y seguros.',
+  pt: 'A RemodelaUSA é um serviço de indicação, não uma construtora. Todo o trabalho é executado por construtoras independentes com suas próprias licenças e seguros.',
+};
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -226,6 +235,15 @@ export function Footer() {
               </div>
             </button>
           )}
+        </div>
+      </div>
+
+      {/* Disclaimer: servicio de referidos (visibilidad legal en cada página) */}
+      <div className="border-t border-white/10">
+        <div className="container-custom py-4">
+          <p className="text-center text-white/40 text-xs max-w-3xl mx-auto leading-relaxed">
+            {DISCLAIMER[getLanguage() as Lang] ?? DISCLAIMER.en}
+          </p>
         </div>
       </div>
 
