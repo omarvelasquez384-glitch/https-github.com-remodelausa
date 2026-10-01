@@ -262,7 +262,7 @@ export const adminApi = {
 
   contractors: () => adminRequest<ContractorRecord[]>('/api/contractors'),
 
-  updateContractor: (id: number, body: { status?: string; verified?: boolean; rating?: number; jobs_done?: number }) =>
+  updateContractor: (id: number, body: { status?: string; verified?: boolean; rating?: number; jobs_done?: number; membership_reset?: boolean }) =>
     adminRequest<ContractorRecord>(`/api/contractors/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
 
   outbox: () => adminRequest<{ id: number; to_email: string; subject: string; body: string; sent: number; created_at: string }[]>('/api/outbox'),

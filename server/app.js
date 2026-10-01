@@ -339,6 +339,10 @@ export function createApiApp() {
     const jobsDone = b.jobs_done !== undefined ? Math.max(0, Number(b.jobs_done) || 0) : contractor.jobs_done;
     db.prepare('UPDATE contractors SET status = ?, verified = ?, rating = ?, jobs_done = ? WHERE id = ?')
       .run(status, verified, rating, jobsDone, id);
+    // Reset de membresía (para corregir fechas infladas por clics repetidos)
+    if (b.membership_reset === true) {
+      db.prepare("UPDATE contractors SET membership_status = 'none', membership_started_at = '', membership_expires_at = '' WHERE id = ?").run(id);
+    }
     res.json(db.prepare('SELECT * FROM contractors WHERE id = ?').get(id));
   });
 

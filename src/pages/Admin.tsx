@@ -172,6 +172,7 @@ export default function Admin() {
   const [leadFilter, setLeadFilter] = useState('');
   const [collectingId, setCollectingId] = useState<number | null>(null);
   const [collectMsg, setCollectMsg] = useState('');
+  const [membershipMsg, setMembershipMsg] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -494,6 +495,7 @@ export default function Admin() {
         {/* ======================= CONTRATISTAS ======================= */}
         {tab === 'contractors' && (
           <div className="overflow-x-auto bg-white/5 border border-white/10 rounded-lg">
+            {membershipMsg && <p className="text-sm text-green-400 px-4 pt-4">{membershipMsg}</p>}
             {contractors.length === 0 ? (
               <p className="text-white/50 text-sm p-6">{t.contractorsTable.noContractors}</p>
             ) : (
@@ -548,7 +550,12 @@ export default function Admin() {
                               </span>
                               <div className="flex gap-1">
                                 <button
-                                  onClick={async () => { await adminApi.grantMembership(c.id, 30); await load(); }}
+                                  onClick={async () => {
+                                    const updated = await adminApi.grantMembership(c.id, 30);
+                                    setMembershipMsg(`✓ ${updated.name}: membresía activa hasta ${(updated.membership_expires_at ?? '').slice(0, 10)}`);
+                                    setTimeout(() => setMembershipMsg(''), 5000);
+                                    await load();
+                                  }}
                                   className="px-2 py-0.5 rounded-sm border border-green-500/40 text-green-400 hover:bg-green-500/10"
                                   title="Activate/extend 30 days (e.g. cash payment)"
                                 >
@@ -557,14 +564,36 @@ export default function Admin() {
                                 <button
                                   onClick={async () => {
                                     const r = await adminApi.membershipCheckout(c.id);
-                                    if (r.url) window.open(r.url, '_blank');
-                                    else await load();
+                                    if (r.url) {
+                                      window.open(r.url, '_blank');
+                                      setMembershipMsg('✓ Enlace de pago de Stripe generado (se abrió en otra pestaña)');
+                                    } else if (r.membership) {
+                                      setMembershipMsg(`✓ ${r.membership.name}: membresía activa hasta ${(r.membership.membership_expires_at ?? '').slice(0, 10)} (modo demo — sin Stripe)`);
+                                    } else {
+                                      setMembershipMsg('✓ Listo');
+                                    }
+                                    setTimeout(() => setMembershipMsg(''), 6000);
+                                    await load();
                                   }}
                                   className="px-2 py-0.5 rounded-sm border border-gold-500/40 text-gold-400 hover:bg-gold-500/10"
                                   title="Send Stripe payment link (or demo-activate if Stripe not configured)"
                                 >
                                   $150
                                 </button>
+                                {(c.membership_status === 'active') && (
+                                  <button
+                                    onClick={async () => {
+                                      await adminApi.updateContractor(c.id, { membership_reset: true });
+                                      setMembershipMsg(`✓ Membresía de ${c.name} reiniciada (sin membresía activa)`);
+                                      setTimeout(() => setMembershipMsg(''), 5000);
+                                      await load();
+                                    }}
+                                    className="px-2 py-0.5 rounded-sm border border-red-500/40 text-red-400 hover:bg-red-500/10"
+                                    title="Reset membership dates (fix over-extended dates)"
+                                  >
+                                    ↺
+                                  </button>
+                                )}
                               </div>
                             </div>
                           );
