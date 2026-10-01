@@ -12,7 +12,7 @@ const T = {
     homeownerText: 'Get up to 4 free quotes from verified contractors in your area within 24 hours.',
     homeownerCta: 'Get my free quotes',
     contractorTitle: 'Are you a contractor?',
-    contractorText: 'Join our network and receive client requests in your area. Pay per signed job (8% commission) or go flat with the $100/month membership — your choice.',
+    contractorText: 'Join our network and receive client requests in your area. Your first lead is free — then $150/month: first month with no commission, 8% only on jobs you sign after that.',
     contractorCta: 'I want more jobs',
   },
   es: {
@@ -21,7 +21,7 @@ const T = {
     homeownerText: 'Recibe hasta 4 cotizaciones gratis de contratistas verificados de tu zona en menos de 24 horas.',
     homeownerCta: 'Cotizar gratis',
     contractorTitle: '¿Eres contratista?',
-    contractorText: 'Únete a la red y recibe solicitudes de clientes en tu zona. Paga por trabajo firmado (8% de comisión) o elige la membresía fija de $100/mes — tú decides.',
+    contractorText: 'Únete a la red y recibe solicitudes de clientes en tu zona. Tu primer lead es gratis — luego $150/mes: primer mes sin comisión y 8% solo de los trabajos que firmes después.',
     contractorCta: 'Quiero más trabajos',
   },
   pt: {
@@ -30,7 +30,7 @@ const T = {
     homeownerText: 'Receba até 4 orçamentos grátis de construtoras verificadas da sua região em menos de 24 horas.',
     homeownerCta: 'Pedir orçamento grátis',
     contractorTitle: 'Você é uma construtora?',
-    contractorText: 'Junte-se à rede e receba solicitações de clientes da sua região. Pague por trabalho fechado (8% de comissão) ou escolha a assinatura fixa de US$ 100/mês — você decide.',
+    contractorText: 'Junte-se à rede e receba solicitações de clientes da sua região. Seu primeiro lead é grátis — depois US$ 150/mês: primeiro mês sem comissão e 8% apenas dos trabalhos fechados depois disso.',
     contractorCta: 'Quero mais trabalhos',
   },
 } as const;

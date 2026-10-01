@@ -1,61 +1,67 @@
 import { BadgeCheck, ArrowRight, XCircle } from 'lucide-react';
 import { useLang } from '../lib/use-lang';
 
-// Sección de membresía mensual para contratistas: $100/mes por hasta 3
-// trabajos firmados, sin comisión en esos trabajos. Coexiste con el plan
-// gratuito de 8% de comisión por trabajo.
+// Sección de membresía mensual para contratistas: modelo híbrido — primer lead
+// GRATIS, luego membresía de $150/mes; primer mes sin comisión y 8% por trabajo
+// firmado a partir del segundo mes.
 
 const T = {
   en: {
     eyebrow: 'MEMBERSHIP',
-    title: '3 jobs a month. One flat fee.',
+    title: 'Your first lead is free. Then grow with a flat membership.',
     subtitle:
-      'Prefer predictable costs? The monthly membership covers up to 3 signed jobs for a flat $100 — no commission on those jobs.',
+      'Try RemodelaUSA with zero risk: your first client lead is free. To keep receiving leads, the membership is $150/month — first month with no commission, then 8% only on jobs you sign through us.',
     planName: 'Monthly Membership',
-    price: '$100',
+    price: '$150',
     per: '/month',
     features: [
-      'Up to 3 signed jobs per month',
-      '$0 commission on membership jobs',
+      'First lead completely FREE',
+      'Unlimited client leads in your area',
+      'First month: $0 commission',
+      'From month 2: 8% only on signed jobs',
       'Verified profile included',
       'Cancel anytime',
     ],
     cta: 'Become a member',
-    note: 'Rather pay per job? The free plan with 8% commission per signed job is still available.',
+    note: 'No permanence: if you do not renew, you simply stop receiving leads.',
   },
   es: {
     eyebrow: 'MEMBRESÍA',
-    title: '3 trabajos al mes. Una tarifa fija.',
+    title: 'Tu primer lead es gratis. Luego crece con una tarifa fija.',
     subtitle:
-      '¿Prefieres costos predecibles? La membresía mensual cubre hasta 3 trabajos firmados por $100 fijos — sin comisión en esos trabajos.',
+      'Prueba RemodelaUSA sin riesgo: tu primer lead de cliente es gratis. Para seguir recibiendo leads, la membresía es de $150/mes — primer mes sin comisión y desde el segundo solo 8% de los trabajos que firmes con nosotros.',
     planName: 'Membresía mensual',
-    price: '$100',
+    price: '$150',
     per: '/mes',
     features: [
-      'Hasta 3 trabajos firmados por mes',
-      'Comisión de $0 en trabajos de la membresía',
+      'Primer lead completamente GRATIS',
+      'Leads ilimitados de clientes de tu zona',
+      'Primer mes: comisión de $0',
+      'Desde el 2.º mes: 8% solo de trabajos firmados',
       'Perfil verificado incluido',
       'Cancela cuando quieras',
     ],
     cta: 'Quiero la membresía',
-    note: '¿Prefieres pagar por trabajo? El plan gratis con 8% de comisión por trabajo firmado sigue disponible.',
+    note: 'Sin permanencia: si no renuevas, solo dejas de recibir leads.',
   },
   pt: {
     eyebrow: 'ASSINATURA',
-    title: '3 trabalhos por mês. Uma taxa fixa.',
+    title: 'Seu primeiro lead é grátis. Depois cresça com uma taxa fixa.',
     subtitle:
-      'Prefere custos previsíveis? A assinatura mensal cobre até 3 trabalhos fechados por US$ 100 fixos — sem comissão nesses trabalhos.',
+      'Teste a RemodelaUSA sem risco: seu primeiro lead de cliente é grátis. Para continuar recebendo leads, a assinatura é de US$ 150/mês — primeiro mês sem comissão e, a partir do segundo, só 8% dos trabalhos fechados conosco.',
     planName: 'Assinatura mensal',
-    price: 'US$ 100',
+    price: 'US$ 150',
     per: '/mês',
     features: [
-      'Até 3 trabalhos fechados por mês',
-      'US$ 0 de comissão nos trabalhos da assinatura',
+      'Primeiro lead completamente GRÁTIS',
+      'Leads ilimitados de clientes da sua região',
+      'Primeiro mês: comissão de US$ 0',
+      'Do 2.º mês: 8% apenas de trabalhos fechados',
       'Perfil verificado incluído',
       'Cancele quando quiser',
     ],
     cta: 'Quero a assinatura',
-    note: 'Prefere pagar por trabalho? O plano grátis com 8% de comissão por trabalho fechado continua disponível.',
+    note: 'Sem permanência: se não renovar, você apenas para de receber leads.',
   },
 } as const;
 

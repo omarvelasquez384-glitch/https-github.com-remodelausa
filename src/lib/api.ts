@@ -267,6 +267,9 @@ export const adminApi = {
 
   outbox: () => adminRequest<{ id: number; to_email: string; subject: string; body: string; sent: number; created_at: string }[]>('/api/outbox'),
 
+  resendOutbox: (id: number) =>
+    adminRequest<{ ok: boolean; demo?: boolean; message?: string }>(`/api/outbox/${id}/resend`, { method: 'POST' }),
+
   settings: () => adminRequest<{ commission_rate: string; avg_ticket: string; membership_price: string; admin_token: string; resend: boolean; stripe: boolean }>('/api/settings'),
 
   saveSettings: (body: { commission_rate?: number; avg_ticket?: number; membership_price?: number; admin_token?: string }) =>

@@ -11,7 +11,7 @@ import {
   hashPassword, verifyPassword, createSession, resolveSession, destroySession,
   membershipActive, grantMembership, commissionApplies,
 } from './db.js';
-import { queueEmail, leadNotificationEmail, contractorWelcomeEmail, freeLeadEmail, membershipSignupEmail } from './mailer.js';
+import { queueEmail, leadNotificationEmail, contractorWelcomeEmail, freeLeadEmail, membershipSignupEmail, resendOutboxEmail } from './mailer.js';
 
 const VALID_LEAD_STATUS = ['new', 'contacted', 'quoted', 'signed', 'lost'];
 const VALID_CONTRACTOR_STATUS = ['pending', 'active', 'suspended'];
@@ -688,6 +688,11 @@ export function createApiApp() {
   // ============================ OUTBOX ====================================
   app.get('/api/outbox', requireAdmin, (_req, res) => {
     res.json(db.prepare('SELECT * FROM outbox ORDER BY created_at DESC LIMIT 100').all());
+  });
+
+  app.post('/api/outbox/:id/resend', requireAdmin, async (req, res) => {
+    const result = await resendOutboxEmail(Number(req.params.id));
+    res.json(result);
   });
 
   // =========================== AJUSTES ====================================

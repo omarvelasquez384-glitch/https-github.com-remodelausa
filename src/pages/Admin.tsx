@@ -173,6 +173,7 @@ export default function Admin() {
   const [collectingId, setCollectingId] = useState<number | null>(null);
   const [collectMsg, setCollectMsg] = useState('');
   const [membershipMsg, setMembershipMsg] = useState('');
+  const [outboxMsg, setOutboxMsg] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -642,6 +643,9 @@ export default function Admin() {
         {/* ======================= OUTBOX ======================= */}
         {tab === 'outbox' && (
           <div className="space-y-3">
+            {outboxMsg && (
+              <p className="text-sm bg-gold-500/10 border border-gold-500/30 text-gold-300 rounded-lg px-4 py-3">{outboxMsg}</p>
+            )}
             {outbox.length === 0 ? (
               <p className="text-white/50 text-sm bg-white/5 border border-white/10 rounded-lg p-6">{t.outboxEmpty}</p>
             ) : (
@@ -655,6 +659,29 @@ export default function Admin() {
                     {m.sent === 1
                       ? <span className="text-xs text-green-400">✓ Sent</span>
                       : <span className="text-xs text-amber-400">Queued</span>}
+                    {m.sent !== 1 && (
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          try {
+                            const r = await adminApi.resendOutbox(m.id);
+                            setOutboxMsg(r.message || (r.ok ? 'Enviado ✓' : 'No se pudo enviar'));
+                            if (r.ok) {
+                              setOutbox((prev) => prev.map((x) => (x.id === m.id ? { ...x, sent: 1 } : x)));
+                              await load();
+                            }
+                          } catch {
+                            setOutboxMsg('Error de conexión al reenviar');
+                          }
+                          setTimeout(() => setOutboxMsg(''), 8000);
+                        }}
+                        className="px-2 py-0.5 text-xs rounded-sm border border-gold-500/40 text-gold-400 hover:bg-gold-500/10"
+                        title="Reenviar ahora vía Resend (requiere RESEND_API_KEY configurado)"
+                      >
+                        ↻ Reenviar
+                      </button>
+                    )}
                   </summary>
                   <pre className="mt-3 text-xs text-white/60 whitespace-pre-wrap bg-black/30 rounded p-3">{m.body}</pre>
                 </details>

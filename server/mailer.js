@@ -34,6 +34,42 @@ async function sendWithResend(to, subject, body) {
   }
 }
 
+// Reenvía un correo de la bandeja de salida por ID (botón "Reenviar" del
+// panel admin). Devuelve { ok, demo, message } para mostrar en la interfaz.
+export async function resendOutboxEmail(id) {
+  const row = db.prepare('SELECT * FROM outbox WHERE id = ?').get(id);
+  if (!row) return { ok: false, demo: true, message: 'Correo no encontrado en la bandeja.' };
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.RESEND_FROM || 'RemodelaUSA <onboarding@resend.dev>';
+  if (!apiKey) {
+    return {
+      ok: false,
+      demo: true,
+      message: 'Resend aún no está conectado. Agrega RESEND_API_KEY en Render → Environment y vuelve a intentar.',
+    };
+  }
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ from, to: [row.to_email], subject: row.subject, text: row.body }),
+    });
+    if (res.ok) {
+      db.prepare('UPDATE outbox SET sent = 1 WHERE id = ?').run(id);
+      return { ok: true, message: `Enviado a ${row.to_email} ✓` };
+    }
+    const detail = await res.text();
+    console.error('[resend] error:', res.status, detail);
+    return { ok: false, demo: false, message: `Resend respondió ${res.status}: ${detail.slice(0, 200)}` };
+  } catch (err) {
+    console.error('[resend] falló:', err.message);
+    return { ok: false, demo: false, message: `Fallo de red: ${err.message}` };
+  }
+}
+
 export function leadNotificationEmail({ lead, contractor }) {
   const subject = `Nuevo proyecto en ${lead.state || 'tu zona'} — ${lead.project_type}`;
   const body = [
