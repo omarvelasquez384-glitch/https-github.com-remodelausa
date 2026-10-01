@@ -374,6 +374,41 @@ export default function Portal() {
                 </div>
               </div>
 
+              {/* Tarjeta de membresía (modelo híbrido) */}
+              {(() => {
+                const expires = profile.membership_expires_at ? new Date(profile.membership_expires_at) : null;
+                const active = profile.membership_status === 'active' && expires !== null && expires.getTime() > Date.now();
+                const freeLeft = !profile.free_lead_used;
+                return (
+                  <div className={`border rounded-lg p-6 mb-6 ${active ? 'bg-green-500/5 border-green-500/30' : freeLeft ? 'bg-gold-500/5 border-gold-500/30' : 'bg-red-500/5 border-red-500/30'}`}>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                      <div className="flex-1">
+                        <p className="text-xs uppercase tracking-[0.2em] mb-1 text-white/50">Membership</p>
+                        {active ? (
+                          <>
+                            <p className="text-green-400 font-medium">Active — leads keep coming</p>
+                            <p className="text-sm text-white/60 mt-1">Renews / expires: {expires!.toLocaleDateString()} · $150/mes + 8% desde el 2.º mes</p>
+                          </>
+                        ) : freeLeft ? (
+                          <>
+                            <p className="text-gold-400 font-medium">Your first lead is FREE</p>
+                            <p className="text-sm text-white/60 mt-1">Recibirás tu primer lead de cortesía. Después: $150/mes (el 1.er mes sin comisión, desde el 2.º +8% por trabajo firmado).</p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-red-400 font-medium">No membership — leads paused</p>
+                            <p className="text-sm text-white/60 mt-1">Ya usaste tu lead gratis. Activa tu membresía de $150/mes para seguir recibiendo solicitudes de clientes.</p>
+                          </>
+                        )}
+                      </div>
+                      {!active && !freeLeft && (
+                        <a href="mailto:hola@remodelausa.com?subject=Membership%20activation" className="btn-primary rounded text-center whitespace-nowrap">Activar membresía</a>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
+
               {/* Pestañas */}
               <div className="flex gap-2 mb-6">
                 {(['profile', 'leads'] as const).map((key) => (

@@ -49,6 +49,11 @@ export interface PublicContractor {
   jobs_done: number;
   verified: number;
   created_at: string;
+  // Modelo híbrido (solo visibles para el propio contratista y el admin)
+  free_lead_used?: number;
+  membership_status?: string;
+  membership_started_at?: string;
+  membership_expires_at?: string;
 }
 
 export interface MyRequest {
@@ -256,13 +261,19 @@ export const adminApi = {
 
   outbox: () => adminRequest<{ id: number; to_email: string; subject: string; body: string; sent: number; created_at: string }[]>('/api/outbox'),
 
-  settings: () => adminRequest<{ commission_rate: string; avg_ticket: string; admin_token: string; resend: boolean; stripe: boolean }>('/api/settings'),
+  settings: () => adminRequest<{ commission_rate: string; avg_ticket: string; membership_price: string; admin_token: string; resend: boolean; stripe: boolean }>('/api/settings'),
 
-  saveSettings: (body: { commission_rate?: number; avg_ticket?: number; admin_token?: string }) =>
+  saveSettings: (body: { commission_rate?: number; avg_ticket?: number; membership_price?: number; admin_token?: string }) =>
     adminRequest<{ ok: boolean }>('/api/settings', { method: 'PATCH', body: JSON.stringify(body) }),
 
   commissionCheckout: (leadId: number) =>
     adminRequest<{ ok?: boolean; demo?: boolean; message?: string; url?: string }>(`/api/billing/commission/${leadId}`, { method: 'POST' }),
+
+  grantMembership: (contractorId: number, days = 30) =>
+    adminRequest<ContractorRecord>(`/api/contractors/${contractorId}/membership`, { method: 'POST', body: JSON.stringify({ days }) }),
+
+  membershipCheckout: (contractorId: number) =>
+    adminRequest<{ ok?: boolean; demo?: boolean; url?: string; membership?: ContractorRecord }>(`/api/billing/membership/${contractorId}`, { method: 'POST' }),
 };
 
 export interface LeadRecord {
@@ -304,4 +315,8 @@ export interface ContractorRecord {
   status: string;
   verified: number;
   created_at: string;
+  free_lead_used?: number;
+  membership_status?: string;
+  membership_started_at?: string;
+  membership_expires_at?: string;
 }

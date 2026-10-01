@@ -106,8 +106,22 @@ db.exec(`
   );
 `);
 
+// Migración suave: columnas del modelo híbrido (idempotente, se salta si ya existen)
+const contractorCols = db.prepare('PRAGMA table_info(contractors)').all().map((c) => c.name);
+function addContractorCol(name, ddl) {
+  if (!contractorCols.includes(name)) {
+    try { db.exec(`ALTER TABLE contractors ADD COLUMN ${ddl}`); } catch { /* ya existe */ }
+  }
+}
+addContractorCol('free_lead_used', "free_lead_used INTEGER DEFAULT 0");
+addContractorCol('membership_status', "membership_status TEXT DEFAULT 'none'"); // none|active|canceled
+addContractorCol('membership_started_at', "membership_started_at TEXT DEFAULT ''");
+addContractorCol('membership_expires_at', "membership_expires_at TEXT DEFAULT ''");
+addContractorCol('stripe_customer_id', "stripe_customer_id TEXT DEFAULT ''");
+addContractorCol('stripe_subscription_id', "stripe_subscription_id TEXT DEFAULT ''");
+
 // Ajustes por defecto
-const defaults = { commission_rate: '8', avg_ticket: '10000', admin_token: '' };
+const defaults = { commission_rate: '8', avg_ticket: '10000', admin_token: '', membership_price: '150' };
 for (const [key, value] of Object.entries(defaults)) {
   db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)').run(key, value);
 }
@@ -194,4 +208,39 @@ export function resolveSession(token) {
 
 export function destroySession(token) {
   if (token) db.prepare('DELETE FROM sessions WHERE token = ?').run(String(token));
+}
+
+// -----------------------------------------------------------------------------
+// Membresía del modelo híbrido (primer lead gratis → $150/mes → +8% al 2.º mes)
+// -----------------------------------------------------------------------------
+export function membershipActive(contractor) {
+  return contractor.membership_status === 'active'
+    && !!contractor.membership_expires_at
+    && new Date(contractor.membership_expires_at).getTime() > Date.now();
+}
+
+// Otorga/extiende la membresía `days` días a partir de hoy (o desde la fecha
+// de expiración actual si aún está vigente). Devuelve el contratista actualizado.
+export function grantMembership(contractorId, days = 30) {
+  const c = db.prepare('SELECT * FROM contractors WHERE id = ?').get(contractorId);
+  if (!c) return null;
+  const now = Date.now();
+  const base = membershipActive(c)
+    ? new Date(c.membership_expires_at).getTime()
+    : now;
+  const expires = new Date(base + days * 24 * 60 * 60 * 1000);
+  const started = c.membership_started_at || new Date(now).toISOString();
+  db.prepare(`
+    UPDATE contractors SET membership_status = 'active', membership_started_at = ?, membership_expires_at = ?
+    WHERE id = ?
+  `).run(started, expires.toISOString(), contractorId);
+  return db.prepare('SELECT * FROM contractors WHERE id = ?').get(contractorId);
+}
+
+// ¿La comisión del 8 % aplica para este contratista? Solo desde el 2.º mes de
+// membresía (el primer mes es $150 plano, sin comisión por trabajos).
+export function commissionApplies(contractor) {
+  if (!membershipActive(contractor) || !contractor.membership_started_at) return false;
+  const ageMs = Date.now() - new Date(contractor.membership_started_at).getTime();
+  return ageMs > 30 * 24 * 60 * 60 * 1000;
 }

@@ -167,7 +167,7 @@ export default function Admin() {
   const [contractors, setContractors] = useState<ContractorRecord[]>([]);
   const [outbox, setOutbox] = useState<{ id: number; to_email: string; subject: string; body: string; sent: number; created_at: string }[]>([]);
   const [settingsInfo, setSettingsInfo] = useState<{ commission_rate: string; avg_ticket: string; admin_token: string; resend: boolean; stripe: boolean } | null>(null);
-  const [settingsForm, setSettingsForm] = useState({ commission_rate: '8', avg_ticket: '10000', admin_token: '' });
+  const [settingsForm, setSettingsForm] = useState({ commission_rate: '8', avg_ticket: '10000', membership_price: '150', admin_token: '' });
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [leadFilter, setLeadFilter] = useState('');
   const [collectingId, setCollectingId] = useState<number | null>(null);
@@ -200,7 +200,7 @@ export default function Admin() {
     if (authed && tab === 'settings') {
       adminApi.settings().then((s) => {
         setSettingsInfo(s);
-        setSettingsForm({ commission_rate: s.commission_rate, avg_ticket: s.avg_ticket, admin_token: '' });
+        setSettingsForm({ commission_rate: s.commission_rate, avg_ticket: s.avg_ticket, membership_price: s.membership_price ?? '150', admin_token: '' });
       }).catch(() => {});
     }
   }, [authed, tab]);
@@ -269,6 +269,7 @@ export default function Admin() {
     await adminApi.saveSettings({
       commission_rate: Number(settingsForm.commission_rate),
       avg_ticket: Number(settingsForm.avg_ticket),
+      membership_price: Number(settingsForm.membership_price),
       ...(settingsForm.admin_token.length >= 8 ? { admin_token: settingsForm.admin_token } : {}),
     });
     setSettingsSaved(true);
@@ -313,6 +314,9 @@ export default function Admin() {
     { label: t.projectedCommissions, value: fmtUSD.format(stats?.totals.commissionsTotal ?? 0), icon: CreditCard },
     { label: t.activeContractors, value: stats?.totals.activeContractors ?? 0, icon: Users },
     { label: t.verifiedContractors, value: stats?.totals.verifiedContractors ?? 0, icon: ShieldCheck },
+    { label: 'MRR (memberships)', value: fmtUSD.format(stats?.totals.mrr ?? 0), icon: CreditCard },
+    { label: 'Active memberships', value: stats?.totals.activeMemberships ?? 0, icon: Users },
+    { label: 'Free leads left', value: stats?.totals.freeLeadsRemaining ?? 0, icon: Clock },
   ];
 
   const leadStatusList = ['new', 'contacted', 'quoted', 'signed', 'lost'] as const;
@@ -502,6 +506,7 @@ export default function Admin() {
                     <th className="px-4 py-3">{t.leadsTable.type}</th>
                     <th className="px-4 py-3">{t.leadsTable.location}</th>
                     <th className="px-4 py-3">Status</th>
+                    <th className="px-4 py-3">Membership</th>
                     <th className="px-4 py-3">Acciones</th>
                   </tr>
                 </thead>
@@ -529,6 +534,41 @@ export default function Admin() {
                           <option value="active">Active</option>
                           <option value="suspended">Suspended</option>
                         </select>
+                      </td>
+                      <td className="px-4 py-3 text-xs">
+                        {(() => {
+                          const exp = c.membership_expires_at ? new Date(c.membership_expires_at) : null;
+                          const mActive = c.membership_status === 'active' && exp !== null && exp.getTime() > Date.now();
+                          return (
+                            <div className="space-y-1">
+                              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-sm ${mActive ? 'bg-green-500/10 text-green-400' : c.free_lead_used ? 'bg-red-500/10 text-red-400' : 'bg-gold-500/10 text-gold-400'}`}>
+                                {mActive
+                                  ? <>Active · {exp!.toLocaleDateString()}</>
+                                  : c.free_lead_used ? 'No membership' : 'Free lead left'}
+                              </span>
+                              <div className="flex gap-1">
+                                <button
+                                  onClick={async () => { await adminApi.grantMembership(c.id, 30); await load(); }}
+                                  className="px-2 py-0.5 rounded-sm border border-green-500/40 text-green-400 hover:bg-green-500/10"
+                                  title="Activate/extend 30 days (e.g. cash payment)"
+                                >
+                                  +30d
+                                </button>
+                                <button
+                                  onClick={async () => {
+                                    const r = await adminApi.membershipCheckout(c.id);
+                                    if (r.url) window.open(r.url, '_blank');
+                                    else await load();
+                                  }}
+                                  className="px-2 py-0.5 rounded-sm border border-gold-500/40 text-gold-400 hover:bg-gold-500/10"
+                                  title="Send Stripe payment link (or demo-activate if Stripe not configured)"
+                                >
+                                  $150
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })()}
                       </td>
                       <td className="px-4 py-3 space-x-2">
                         <button
@@ -624,6 +664,15 @@ export default function Admin() {
                 type="number" step="100" min="0"
                 value={settingsForm.avg_ticket}
                 onChange={(e) => setSettingsForm((p) => ({ ...p, avg_ticket: e.target.value }))}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-sm text-white focus:outline-none focus:border-gold-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-white/80 mb-2">Membership price (USD/month)</label>
+              <input
+                type="number" step="5" min="0" max="500"
+                value={settingsForm.membership_price}
+                onChange={(e) => setSettingsForm((p) => ({ ...p, membership_price: e.target.value }))}
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-sm text-white focus:outline-none focus:border-gold-500"
               />
             </div>

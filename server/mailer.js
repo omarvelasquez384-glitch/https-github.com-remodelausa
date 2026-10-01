@@ -74,7 +74,54 @@ export function contractorWelcomeEmail({ contractor }) {
     `2. Nuestro equipo verificará tu licencia (${contractor.license || 'pendiente'}) y seguro.`,
     `3. Tu perfil aparecerá en el directorio público y empezarás a recibir solicitudes de clientes de ${contractor.state || 'tu zona'}.`,
     ``,
-    `Recuerda: solo pagas comisión cuando firmas un trabajo.`,
+    `Cómo funciona el modelo (sin letra chica):`,
+    `• Tu PRIMER lead de cliente es GRATIS — para que pruebes el servicio sin riesgo.`,
+    `• Después, la membresía es $150/mes y te sigue enviando leads de tu zona.`,
+    `• El primer mes de membresía no lleva comisión.`,
+    `• Desde el segundo mes: $150/mes + 8% solo de los trabajos que firmes por RemodelaUSA.`,
+    ``,
+    `— Equipo RemodelaUSA`,
+  ].join('\n');
+  return { subject, body };
+}
+
+// Correo que acompaña al PRIMER lead gratuito: celebra el envío y explica que
+// el siguiente requiere membresía (convierte el lead gratis en venta).
+export function freeLeadEmail({ contractor }) {
+  const portalUrl = `${process.env.PUBLIC_URL || 'http://localhost:7100'}/portal`;
+  const subject = 'Tu primer lead GRATIS ya está en tu portal 🎉';
+  const body = [
+    `Hola ${contractor.name},`,
+    '',
+    `Buenas noticias: acabas de recibir tu primer lead de RemodelaUSA y es GRATIS, como te prometimos.`,
+    ``,
+    `Contacta al cliente cuanto antes — los contratistas que responden en la primera hora firman 3 veces más trabajos.`,
+    portalUrl,
+    ``,
+    `Para seguir recibiendo leads después de este:`,
+    `• Activa tu membresía de $150/mes.`,
+    `• El primer mes no lleva comisión: todo lo que firmes es tuyo.`,
+    `• Desde el segundo mes: $150/mes + 8% solo de los trabajos firmados.`,
+    ``,
+    `Sin permanencia. Si un mes no te conviene, no renuevas y listo.`,
+    ``,
+    `— Equipo RemodelaUSA`,
+  ].join('\n');
+  return { subject, body };
+}
+
+// Correo cuando el contratista activa su membresía (o el admin se la activa).
+export function membershipSignupEmail({ contractor, expiresAt, price }) {
+  const subject = 'Membresía RemodelaUSA activa — sigue recibiendo leads';
+  const body = [
+    `Hola ${contractor.name},`,
+    '',
+    `Tu membresía de $${price}/mes está activa hasta el ${String(expiresAt || '').slice(0, 10)}.`,
+    ``,
+    `Recuerda cómo funciona:`,
+    `• Recibes todos los leads de clientes de tu zona.`,
+    `• Este primer mes no pagas comisión por trabajos.`,
+    `• Desde el segundo mes: 8% solo de los trabajos que firmes por RemodelaUSA.`,
     ``,
     `— Equipo RemodelaUSA`,
   ].join('\n');

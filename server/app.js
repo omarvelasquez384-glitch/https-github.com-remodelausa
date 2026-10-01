@@ -9,8 +9,9 @@ import {
   db, getSetting, setSetting, trackEvent,
   normalizeProjectType, normalizeTrade,
   hashPassword, verifyPassword, createSession, resolveSession, destroySession,
+  membershipActive, grantMembership, commissionApplies,
 } from './db.js';
-import { queueEmail, leadNotificationEmail, contractorWelcomeEmail } from './mailer.js';
+import { queueEmail, leadNotificationEmail, contractorWelcomeEmail, freeLeadEmail, membershipSignupEmail } from './mailer.js';
 
 const VALID_LEAD_STATUS = ['new', 'contacted', 'quoted', 'signed', 'lost'];
 const VALID_CONTRACTOR_STATUS = ['pending', 'active', 'suspended'];
@@ -178,13 +179,29 @@ export function createApiApp() {
     trackEvent('lead_submitted', { id: leadId, project_type: projectType, state: b.state ?? '' });
 
     // ---- Emparejamiento automático: hasta 4 contratistas ----
+    // REGLA DEL MODELO HÍBRIDO: un contratista recibe leads si
+    //   a) aún no usó su lead GRATIS de cortesía, o
+    //   b) tiene la membresía activa (pagada y vigente).
     const assigned = matchContractors({ projectType, state: b.state ?? '' });
     const lead = db.prepare('SELECT * FROM leads WHERE id = ?').get(leadId);
     for (const contractor of assigned) {
       db.prepare('INSERT OR IGNORE INTO assignments (lead_id, contractor_id) VALUES (?, ?)')
         .run(leadId, contractor.id);
+
+      const wasFreeLead = !contractor.free_lead_used;
+      if (wasFreeLead) {
+        // El lead de cortesía se consume; el siguiente requiere membresía.
+        db.prepare('UPDATE contractors SET free_lead_used = 1 WHERE id = ?').run(contractor.id);
+      }
+
       const { subject, body } = leadNotificationEmail({ lead, contractor });
       queueEmail(contractor.email, subject, body);
+
+      if (wasFreeLead) {
+        // Aviso especial: este fue gratis; el siguiente requiere membresía.
+        const free = freeLeadEmail({ contractor });
+        queueEmail(contractor.email, free.subject, free.body);
+      }
     }
 
     // Aviso al dueño del sitio
@@ -199,28 +216,32 @@ export function createApiApp() {
 
   function matchContractors({ projectType, state }) {
     const stateNorm = String(state || '').toLowerCase().trim();
+    // Elegible: lead gratis sin usar O membresía vigente.
+    const eligible = (rows) => rows.filter((c) => !c.free_lead_used || membershipActive(c));
+    const pick = (rows) => eligible(rows).slice(0, 4);
+
     let rows = [];
     if (stateNorm) {
-      rows = db.prepare(`
+      rows = pick(db.prepare(`
         SELECT * FROM contractors
         WHERE status = 'active' AND lower(state) = ?
         ORDER BY (trade = ?) DESC, verified DESC, created_at ASC
-        LIMIT 4
-      `).all(stateNorm, projectType);
+        LIMIT 25
+      `).all(stateNorm, projectType));
       // Sin coincidencia de oficio en ese estado: cualquier activo del estado
       if (rows.length === 0) {
-        rows = db.prepare(`
+        rows = pick(db.prepare(`
           SELECT * FROM contractors WHERE status = 'active' AND lower(state) = ?
-          ORDER BY verified DESC, created_at ASC LIMIT 4
-        `).all(stateNorm);
+          ORDER BY verified DESC, created_at ASC LIMIT 25
+        `).all(stateNorm));
       }
     }
-    // Sin contratistas en el estado: los más recientes activos
+    // Sin contratistas elegibles en el estado: los más recientes activos
     if (rows.length === 0) {
-      rows = db.prepare(`
+      rows = pick(db.prepare(`
         SELECT * FROM contractors WHERE status = 'active'
-        ORDER BY verified DESC, created_at ASC LIMIT 4
-      `).all();
+        ORDER BY verified DESC, created_at ASC LIMIT 25
+      `).all());
     }
     return rows;
   }
@@ -242,7 +263,9 @@ export function createApiApp() {
     const status = b.status && VALID_LEAD_STATUS.includes(b.status) ? b.status : lead.status;
     const jobValue = b.job_value !== undefined ? Math.max(0, Number(b.job_value) || 0) : lead.job_value;
 
-    // Comisión automática: rate% × valor del trabajo
+    // Comisión: rate% × valor del trabajo. En el modelo híbrido solo aplica
+    // desde el 2.º mes de membresía del contratista que firmó; si aún no se
+    // sabe quién firmó, se calcula y el admin puede ajustar a 0 si es mes 1.
     let commission = lead.commission;
     if (status === 'signed') {
       const rate = Number(getSetting('commission_rate', '8')) || 8;
@@ -595,6 +618,25 @@ export function createApiApp() {
     const b = req.body ?? {};
     const status = b.status && VALID_LEAD_STATUS.includes(b.status) ? b.status : null;
     if (!status) return res.status(400).json({ error: 'invalid status' });
+
+    if (status === 'signed') {
+      // Valor del trabajo (lo pasa el contratista al firmar) y regla del
+      // modelo híbrido: la comisión del 8 % solo aplica desde el 2.º mes de
+      // membresía (el primer mes es $150 plano).
+      const lead = db.prepare('SELECT * FROM leads WHERE id = ?').get(leadId);
+      const jobValue = Math.max(0, Number(b.job_value) || Number(lead.job_value) || 0);
+      const me = db.prepare('SELECT * FROM contractors WHERE id = ?').get(req.contractor.id);
+      let commission = 0;
+      if (commissionApplies(me)) {
+        const rate = Number(getSetting('commission_rate', '8')) || 8;
+        commission = Math.round((jobValue || Number(getSetting('avg_ticket', '10000'))) * rate) / 100;
+      }
+      db.prepare('UPDATE leads SET status = ?, job_value = ?, commission = ? WHERE id = ?')
+        .run(status, jobValue, commission, leadId);
+      trackEvent('lead_signed', { id: leadId, contractor: req.contractor.id, job_value: jobValue, commission });
+      return res.json({ ok: true, commission, commissionApplies: commission > 0 });
+    }
+
     db.prepare('UPDATE leads SET status = ? WHERE id = ?').run(status, leadId);
     res.json({ ok: true });
   });
@@ -614,7 +656,29 @@ export function createApiApp() {
       commissionsTotal: db.prepare('SELECT SUM(commission) AS s FROM leads').get().s ?? 0,
       events: db.prepare('SELECT COUNT(*) AS n FROM events').get().n,
     };
-    res.json({ totals, byStatus, settings: { commission_rate: getSetting('commission_rate', '8'), avg_ticket: getSetting('avg_ticket', '10000') } });
+    // Métricas del modelo híbrido: membresías vigentes e ingreso mensual recurrente
+    const membershipPrice = Number(getSetting('membership_price', '150')) || 150;
+    const nowIso = new Date().toISOString();
+    const activeMemberships = db.prepare(
+      "SELECT COUNT(*) AS n FROM contractors WHERE membership_status = 'active' AND membership_expires_at > ?"
+    ).get(nowIso).n;
+    const freeLeadsRemaining = db.prepare(
+      "SELECT COUNT(*) AS n FROM contractors WHERE status = 'active' AND free_lead_used = 0"
+    ).get().n;
+    res.json({
+      totals: {
+        ...totals,
+        activeMemberships,
+        freeLeadsRemaining,
+        mrr: activeMemberships * membershipPrice,
+      },
+      byStatus,
+      settings: {
+        commission_rate: getSetting('commission_rate', '8'),
+        avg_ticket: getSetting('avg_ticket', '10000'),
+        membership_price: String(membershipPrice),
+      },
+    });
   });
 
   // ============================ OUTBOX ====================================
@@ -627,6 +691,7 @@ export function createApiApp() {
     res.json({
       commission_rate: getSetting('commission_rate', '8'),
       avg_ticket: getSetting('avg_ticket', '10000'),
+      membership_price: getSetting('membership_price', '150'),
       admin_token: adminToken(),
       resend: Boolean(process.env.RESEND_API_KEY),
       stripe: Boolean(process.env.STRIPE_SECRET_KEY),
@@ -634,11 +699,79 @@ export function createApiApp() {
   });
 
   app.patch('/api/settings', requireAdmin, (req, res) => {
+    if (req.body?.membership_price !== undefined) {
+      setSetting('membership_price', Math.min(500, Math.max(0, Number(req.body.membership_price) || 150)));
+    }
     const b = req.body ?? {};
     if (b.commission_rate !== undefined) setSetting('commission_rate', Math.min(30, Math.max(0, Number(b.commission_rate) || 8)));
     if (b.avg_ticket !== undefined) setSetting('avg_ticket', Math.max(0, Number(b.avg_ticket) || 10000));
     if (b.admin_token !== undefined && String(b.admin_token).length >= 8) setSetting('admin_token', String(b.admin_token).slice(0, 80));
     res.json({ ok: true });
+  });
+
+  // ==================== MEMBRESÍA MENSUAL ($150/mes) ========================
+  // Modelo híbrido: 1er lead gratis → membresía $150/mes → +8% desde el 2.º mes.
+  // POST /api/billing/membership/:contractorId  (solo admin)
+  //   Con STRIPE_SECRET_KEY crea una sesión de Stripe Checkout de SUSCRIPCIÓN
+  //   mensual; sin clave, activa 30 días en modo demostración.
+  app.post('/api/billing/membership/:contractorId', requireAdmin, async (req, res) => {
+    const contractorId = Number(req.params.contractorId);
+    const contractor = db.prepare('SELECT * FROM contractors WHERE id = ?').get(contractorId);
+    if (!contractor) return res.status(404).json({ error: 'not found' });
+
+    const price = Number(getSetting('membership_price', '150')) || 150;
+    const secret = process.env.STRIPE_SECRET_KEY;
+
+    if (!secret) {
+      // Modo demostración: activa la membresía 30 días sin cobrar.
+      const updated = grantMembership(contractorId, 30);
+      trackEvent('membership_demo_activated', { contractor_id: contractorId, price });
+      const signup = membershipSignupEmail({ contractor, expiresAt: updated.membership_expires_at, price });
+      queueEmail(contractor.email, signup.subject, signup.body);
+      return res.json({ ok: true, demo: true, membership: updated });
+    }
+
+    try {
+      const origin = req.headers.origin || process.env.PUBLIC_URL || 'http://localhost:7100';
+      const body = new URLSearchParams({
+        mode: 'subscription',
+        success_url: `${origin}/admin?membership=ok&contractor=${contractorId}`,
+        cancel_url: `${origin}/admin?membership=cancel`,
+        'line_items[0][price_data][currency]': 'usd',
+        'line_items[0][price_data][unit_amount]': String(price * 100),
+        'line_items[0][price_data][recurring][interval]': 'month',
+        'line_items[0][price_data][product_data][name]': 'RemodelaUSA membership — 30 days of leads',
+        'line_items[0][quantity]': '1',
+        'metadata[contractor_id]': String(contractorId),
+        customer_email: contractor.email,
+      });
+      const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+      const data = await r.json();
+      if (!r.ok) return res.status(502).json({ error: data.error?.message ?? 'stripe error' });
+      // Cuando el contratista pague, Stripe dispara el webhook (si está
+      // configurado) o tú confirmas en el panel; por ahora dejamos el enlace.
+      trackEvent('membership_checkout_created', { contractor_id: contractorId, price });
+      res.json({ url: data.url });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // Activación/extensión manual de membresía (admin, p. ej. cobro en efectivo)
+  app.post('/api/contractors/:id/membership', requireAdmin, (req, res) => {
+    const contractorId = Number(req.params.id);
+    const days = Math.max(1, Math.min(365, Number(req.body?.days) || 30));
+    const updated = grantMembership(contractorId, days);
+    if (!updated) return res.status(404).json({ error: 'not found' });
+    trackEvent('membership_granted', { contractor_id: contractorId, days });
+    const price = Number(getSetting('membership_price', '150')) || 150;
+    const signup = membershipSignupEmail({ contractor: updated, expiresAt: updated.membership_expires_at, price });
+    queueEmail(updated.email, signup.subject, signup.body);
+    res.json(updated);
   });
 
   // ===================== COBRO DE COMISIÓN (Stripe) =======================
