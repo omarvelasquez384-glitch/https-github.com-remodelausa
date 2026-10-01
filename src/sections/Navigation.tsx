@@ -228,9 +228,11 @@ export function Navigation() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu (desplazable: en pantallas bajas "Sign in" y el botón CTA
+          quedan fuera de la vista y el body está bloqueado, así que el panel
+          debe hacer scroll por sí mismo) */}
       <div
-        className={`lg:hidden fixed inset-0 top-[72px] z-50 bg-wine-900 transition-all duration-500 ${
+        className={`lg:hidden fixed inset-0 top-[72px] z-50 bg-wine-900 overflow-y-auto overscroll-contain transition-all duration-500 ${
           isMobileMenuOpen
             ? 'opacity-100 visible'
             : 'opacity-0 invisible pointer-events-none'
