@@ -230,6 +230,12 @@
     animation-play-state: paused !important;
   }
 
+  /* El botón flotante del chat no debe tapar la opción "Sign in" del menú
+     móvil: se oculta mientras el menú está abierto. */
+  body.menu-open .chat-fab {
+    display: none !important;
+  }
+
   /* Marquee animation */
   @keyframes marquee {
     0% {

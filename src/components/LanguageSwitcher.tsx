@@ -12,11 +12,15 @@ export function LanguageSwitcher({ variant = 'desktop' }: LanguageSwitcherProps)
     if (lang !== current) setLanguage(lang);
   };
 
+  // La etiqueta se muestra SOLO en el idioma activo (antes salían las tres
+  // palabras apiladas: "Idioma / Language / Idioma" en cualquier idioma).
+  const langWord: Record<Lang, string> = { en: 'Language', es: 'Idioma', pt: 'Idioma' };
+
   if (variant === 'mobile') {
     return (
       <div className="flex items-center gap-3 py-4 border-b border-white/10">
         <Globe className="w-5 h-5 text-gold-500" aria-hidden="true" />
-        <span className="text-lg text-white/70 mr-auto">Idioma / Language / Idioma</span>
+        <span className="text-lg text-white/70 mr-auto">{langWord[current]}</span>
         <div className="flex gap-2">
           {LANGUAGES.map((lang) => (
             <button

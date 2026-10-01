@@ -345,10 +345,11 @@ export function ChatWidget() {
 
   return (
     <>
-      {/* Botón flotante */}
+      {/* Botón flotante (oculto mientras el menú móvil está abierto para no
+          tapar la opción "Sign in" del menú) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 left-6 z-[60] w-14 h-14 rounded-full bg-gold-500 text-white flex items-center justify-center shadow-lg shadow-gold-500/25 hover:scale-110 transition-transform duration-300"
+        className="chat-fab fixed bottom-6 left-6 z-[60] w-14 h-14 rounded-full bg-gold-500 text-white flex items-center justify-center shadow-lg shadow-gold-500/25 hover:scale-110 transition-transform duration-300"
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
@@ -356,7 +357,7 @@ export function ChatWidget() {
 
       {/* Panel del chat */}
       {isOpen && (
-        <div className="fixed bottom-24 left-6 z-[60] w-[calc(100vw-3rem)] max-w-sm bg-wine-800 border border-white/10 rounded-lg shadow-2xl shadow-black/60 overflow-hidden flex flex-col">
+        <div className="chat-fab fixed bottom-24 left-6 z-[60] w-[calc(100vw-3rem)] max-w-sm bg-wine-800 border border-white/10 rounded-lg shadow-2xl shadow-black/60 overflow-hidden flex flex-col">
           {/* Encabezado */}
           <div className="flex items-center gap-3 px-4 py-3 bg-wine-900 border-b border-white/10">
             <div className="w-9 h-9 rounded-full bg-gold-500/20 border border-gold-500/40 flex items-center justify-center flex-shrink-0">
