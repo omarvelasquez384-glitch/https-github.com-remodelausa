@@ -211,6 +211,12 @@ export const contractorApi = {
     contractorRequest<PublicContractor>(token, '/api/me', { method: 'PATCH', body: JSON.stringify(body) }),
   myLeads: (token: string) =>
     contractorRequest<(LeadRecord & { assigned_at: string })[]>(token, '/api/my-leads'),
+  updateLeadStatus: (token: string, leadId: number, status: string, jobValue?: number) =>
+    contractorRequest<{ ok: boolean; commission?: number; commissionApplies?: boolean }>(
+      token,
+      `/api/my-leads/${leadId}/status`,
+      { method: 'POST', body: JSON.stringify({ status, ...(jobValue ? { job_value: jobValue } : {}) }) },
+    ),
   upload: (token: string, data: string, name?: string) =>
     contractorRequest<{ ok: boolean; path: string }>(token, '/api/upload', {
       method: 'POST',

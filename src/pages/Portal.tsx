@@ -273,6 +273,32 @@ export default function Portal() {
     setProfile(updated);
   };
 
+  // Cambiar el estado de una solicitud (contacted → quoted → signed / lost).
+  // Al marcar "signed" se pide el valor del trabajo para calcular la comisión.
+  const [signingId, setSigningId] = useState<number | null>(null);
+  const [signValue, setSignValue] = useState('');
+  const [statusMsg, setStatusMsg] = useState('');
+
+  const changeStatus = async (leadId: number, status: string, jobValue?: number) => {
+    const tk = window.localStorage.getItem(TOKEN_KEY) ?? token;
+    try {
+      const r = await contractorApi.updateLeadStatus(tk, leadId, status, jobValue);
+      setLeads((prev) => prev.map((l) => (l.id === leadId ? { ...l, status, job_value: jobValue ?? l.job_value, commission: r.commission ?? l.commission } : l)));
+      setStatusMsg(
+        status === 'signed'
+          ? (r.commission && r.commission > 0
+            ? `✓ Signed — commission recorded: $${r.commission}`
+            : '✓ Signed — month 1 of membership: no commission (per your plan)')
+          : '',
+      );
+      setSigningId(null);
+      setSignValue('');
+      setTimeout(() => setStatusMsg(''), 6000);
+    } catch {
+      setStatusMsg('Could not update status. Try again.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#141414]">
       <Navigation />
@@ -628,10 +654,64 @@ export default function Portal() {
                             {' · '}
                             <a href={`mailto:${lead.email}`} className="text-gold-400 hover:underline">{lead.email}</a>
                           </p>
+
+                          {/* Selector de estado: contactado → cotizado → firmado/perdido */}
+                          {lead.status !== 'signed' && lead.status !== 'lost' && (
+                            <div className="mt-3 pt-3 border-t border-white/10">
+                              {signingId === lead.id ? (
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <label className="text-xs text-white/60">Job value ($)</label>
+                                  <input
+                                    type="number" min={0} value={signValue}
+                                    onChange={(e) => setSignValue(e.target.value)}
+                                    placeholder="10000"
+                                    className="w-28 px-3 py-1.5 bg-white/5 border border-white/20 rounded-sm text-white text-sm focus:outline-none focus:border-gold-500"
+                                  />
+                                  <button
+                                    onClick={() => void changeStatus(lead.id, 'signed', Number(signValue) || undefined)}
+                                    className="px-3 py-1.5 rounded-sm bg-green-600/80 hover:bg-green-600 text-white text-xs"
+                                  >
+                                    ✓ Confirm signed
+                                  </button>
+                                  <button onClick={() => { setSigningId(null); setSignValue(''); }} className="px-3 py-1.5 rounded-sm border border-white/20 text-white/60 text-xs hover:text-white">
+                                    Cancel
+                                  </button>
+                                </div>
+                              ) : (
+                                <div className="flex flex-wrap gap-2">
+                                  {lead.status === 'new' && (
+                                    <button onClick={() => void changeStatus(lead.id, 'contacted')} className="px-3 py-1.5 rounded-sm border border-gold-500/40 text-gold-400 text-xs hover:bg-gold-500/10">
+                                      Mark contacted
+                                    </button>
+                                  )}
+                                  {(lead.status === 'new' || lead.status === 'contacted') && (
+                                    <button onClick={() => void changeStatus(lead.id, 'quoted')} className="px-3 py-1.5 rounded-sm border border-white/30 text-white/70 text-xs hover:bg-white/10">
+                                      Mark quoted
+                                    </button>
+                                  )}
+                                  <button onClick={() => setSigningId(lead.id)} className="px-3 py-1.5 rounded-sm bg-green-600/80 hover:bg-green-600 text-white text-xs">
+                                    ✓ Mark signed
+                                  </button>
+                                  <button onClick={() => void changeStatus(lead.id, 'lost')} className="px-3 py-1.5 rounded-sm border border-red-500/40 text-red-400 text-xs hover:bg-red-500/10">
+                                    Lost
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                          {lead.status === 'signed' && (lead.job_value ?? 0) > 0 && (
+                            <p className="text-xs text-white/50 mt-2">
+                              Job value: ${Number(lead.job_value).toLocaleString()}
+                              {(lead.commission ?? 0) > 0
+                                ? <span className="text-gold-400"> · commission: ${Number(lead.commission).toLocaleString()}</span>
+                                : <span className="text-white/40"> · month 1: no commission</span>}
+                            </p>
+                          )}
                         </li>
                       ))}
                     </ul>
                   )}
+                  {statusMsg && <p className="text-sm text-gold-400 mt-4">{statusMsg}</p>}
                 </div>
               )}
             </>
