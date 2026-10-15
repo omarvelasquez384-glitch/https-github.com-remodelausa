@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Settings, Sparkles } from 'lucide-react';
 import { getLanguage, type Lang } from '../i18n';
-import { getStoredLocation, getContractorCount } from './LocationBar';
+import { getStoredLocation } from './LocationBar';
 
 // -----------------------------------------------------------------------------
 // Asistente virtual integrado en la página.
@@ -44,9 +44,9 @@ const INTENTS: Intent[] = [
       pt: ['serviço', 'servico', 'serviços', 'servicos', 'o que fazem', 'fazem', 'banheiro', 'cozinha', 'pintura', 'concreto', 'reparo'],
     },
     answer: {
-      en: 'We connect you with verified contractors for: bathrooms, kitchens, interior and exterior painting, concrete (driveways, patios, stamped), full remodels, and home repairs. Every contractor is checked for license, insurance, and background.',
-      es: 'Te conectamos con contratistas verificados para: baños, cocinas, pintura interior y exterior, concreto (driveways, patios, estampado), remodelaciones completas y reparaciones del hogar. Cada contratista es verificado en licencia, seguro y antecedentes.',
-      pt: 'Conectamos você a construtoras verificadas para: banheiros, cozinhas, pintura interna e externa, concreto (garagens, pátios, estampado), reformas completas e reparos residenciais. Toda construtora é verificada em licença, seguro e antecedentes.',
+      en: 'We connect you with contractors reviewed by our team for: bathrooms, kitchens, interior and exterior painting, concrete (driveways, patios, stamped), full remodels, and home repairs.',
+      es: 'Te conectamos con contratistas revisados por nuestro equipo para: baños, cocinas, pintura interior y exterior, concreto (driveways, patios, estampado), remodelaciones completas y reparaciones del hogar.',
+      pt: 'Conectamos você a construtoras revisadas pela nossa equipe para: banheiros, cozinhas, pintura interna e externa, concreto (garagens, pátios, estampado), reformas completas e reparos residenciais.',
     },
   },
   {
@@ -69,9 +69,9 @@ const INTENTS: Intent[] = [
       pt: ['construtora', 'cadastro', 'cadastrar', 'comissão', 'comissao', 'meu negócio', 'trabalhos', 'trabalhar com vocês'],
     },
     answer: {
-      en: 'For contractors: 1) Create your free profile and get verified (license, insurance, background). 2) Receive up to 15 client requests per month in your area, straight to your phone. 3) Quote and sign the jobs you want. 4) Pay only an 8% commission on signed jobs — if you don\'t sign, you pay nothing.',
-      es: 'Para contratistas: 1) Crea tu perfil gratis y verifícate (licencia, seguro, antecedentes). 2) Recibe hasta 15 solicitudes de clientes al mes en tu zona, directo a tu teléfono. 3) Cotiza y firma los trabajos que quieras. 4) Solo pagas una comisión del 8% sobre trabajos firmados: si no firmas, no pagas nada.',
-      pt: 'Para construtoras: 1) Crie seu perfil grátis e verifique-se (licença, seguro, antecedentes). 2) Receba até 15 solicitações de clientes por mês na sua região, direto no celular. 3) Orce e feche os trabalhos que quiser. 4) Pague apenas uma comissão de 8% sobre os trabalhos fechados: se não fechar, não paga nada.',
+      en: 'For contractors: 1) Create your free profile — our team reviews it. 2) Your first lead is free; then membership is $150/month with no monthly cap on requests in your area. 3) Quote and sign the jobs you want. 4) First month with no commission, then 8% only on signed jobs.',
+      es: 'Para contratistas: 1) Crea tu perfil gratis — nuestro equipo lo revisa. 2) Tu primer lead es gratis; luego la membresía es de $150/mes, sin tope mensual de solicitudes en tu zona. 3) Cotiza y firma los trabajos que quieras. 4) Primer mes sin comisión y desde el segundo solo 8% de los trabajos firmados.',
+      pt: 'Para construtoras: 1) Crie seu perfil grátis — nossa equipe o revisa. 2) Seu primeiro lead é grátis; depois a assinatura é de US$ 150/mês, sem limite mensal de solicitações na sua região. 3) Orce e feche os trabalhos que quiser. 4) Primeiro mês sem comissão e, a partir do segundo, só 8% dos trabalhos fechados.',
     },
     cta: { label: { en: 'Join as a contractor', es: 'Unirme como contratista', pt: 'Cadastrar como construtora' }, href: '#contact' },
   },
@@ -82,18 +82,9 @@ const INTENTS: Intent[] = [
       pt: ['onde', 'cobertura', 'estados', 'cidades', 'perto', 'localização', 'localizacao', 'região', 'regiao', 'disponíveis'],
     },
     answer: {
-      en: (loc) =>
-        loc && (loc.city || loc.state)
-          ? `We cover all 50 U.S. states. In your area (${loc.city ? loc.city + ', ' : ''}${loc.state || ''}) we have ${getContractorCount(loc.state || loc.display)} verified contractors ready to quote your project.`
-          : 'We cover all 50 U.S. states with more than 3,800 verified contractors. Share your location in the contact section and we\'ll show you contractors available in your exact area.',
-      es: (loc) =>
-        loc && (loc.city || loc.state)
-          ? `Cobrimos los 50 estados de EE. UU. En tu zona (${loc.city ? loc.city + ', ' : ''}${loc.state || ''}) tenemos ${getContractorCount(loc.state || loc.display)} contratistas verificados listos para cotizar tu proyecto.`
-          : 'Cobrimos los 50 estados de EE. UU. con más de 3,800 contratistas verificados. Comparte tu ubicación en la sección de contacto y te mostraremos los contratistas disponibles en tu zona exacta.',
-      pt: (loc) =>
-        loc && (loc.city || loc.state)
-          ? `Cobrimos os 50 estados dos EUA. Na sua região (${loc.city ? loc.city + ', ' : ''}${loc.state || ''}) temos ${getContractorCount(loc.state || loc.display)} construtoras verificadas prontas para orçar seu projeto.`
-          : 'Cobrimos os 50 estados dos EUA com mais de 3.800 construtoras verificadas. Compartilhe sua localização na seção de contato e mostraremos as construtoras disponíveis na sua região exata.',
+      en: () => 'We are growing from the Kansas City area (Missouri & Kansas). Share your project in the contact form and we\'ll tell you which contractors are available in your area.',
+      es: () => 'Estamos creciendo desde el área de Kansas City (Missouri y Kansas). Comparte tu proyecto en el formulario de contacto y te diremos qué contratistas hay disponibles en tu zona.',
+      pt: () => 'Estamos crescendo a partir da região de Kansas City (Missouri e Kansas). Compartilhe seu projeto no formulário de contato e diremos quais construtoras estão disponíveis na sua região.',
     },
   },
   {
@@ -103,9 +94,9 @@ const INTENTS: Intent[] = [
       pt: ['garantia', 'protegido', 'seguro'],
     },
     answer: {
-      en: 'Every project includes a written warranty: 1 year on bathrooms, kitchens, and full remodels; 2 years on painting; 5 years on concrete. Plus, contractors carry verified insurance for your peace of mind.',
-      es: 'Cada proyecto incluye garantía por escrito: 1 año en baños, cocinas y remodelaciones; 2 años en pintura; 5 años en concreto. Además, los contratistas cuentan con seguro verificado para tu tranquilidad.',
-      pt: 'Cada projeto inclui garantia por escrito: 1 ano em banheiros, cozinhas e reformas; 2 anos em pintura; 5 anos em concreto. Além disso, as construtoras possuem seguro verificado para sua tranquilidade.',
+      en: 'Every project includes a written warranty: 1 year on bathrooms, kitchens, and full remodels; 2 years on painting; 5 years on concrete. Plus, contractors carry their own insurance for your peace of mind.',
+      es: 'Cada proyecto incluye garantía por escrito: 1 año en baños, cocinas y remodelaciones; 2 años en pintura; 5 años en concreto. Además, los contratistas cuentan con su propio seguro para tu tranquilidad.',
+      pt: 'Cada projeto inclui garantia por escrito: 1 ano em banheiros, cozinhas e reformas; 2 anos em pintura; 5 anos em concreto. Além disso, as construtoras possuem seu próprio seguro para sua tranquilidade.',
     },
   },
   {
@@ -127,9 +118,9 @@ const INTENTS: Intent[] = [
       pt: ['contato', 'humano', 'agente', 'telefone', 'e-mail', 'email', 'falar', 'ligar'],
     },
     answer: {
-      en: 'You can reach our team at +1 (800) 555-0199 (Mon–Sat, 8 AM–6 PM) or hello@remodelausa.com — we reply within 24 hours. You can also send your project details through the free quote form below.',
-      es: 'Puedes contactar a nuestro equipo al +1 (800) 555-0199 (Lun–Sáb, 8 AM–6 PM) o hola@remodelausa.com — respondemos en menos de 24 horas. También puedes enviar los detalles de tu proyecto en el formulario de cotización gratis.',
-      pt: 'Você pode falar com nossa equipe pelo +1 (800) 555-0199 (Seg–Sáb, 8h–18h) ou ola@remodelausa.com — respondemos em menos de 24 horas. Você também pode enviar os detalhes do seu projeto no formulário de orçamento grátis.',
+      en: 'You can reach our team at hello@remodelausa.com — we reply within 24 hours. You can also send your project details through the free quote form below.',
+      es: 'Puedes contactar a nuestro equipo en hola@remodelausa.com — respondemos en menos de 24 horas. También puedes enviar los detalles de tu proyecto en el formulario de cotización gratis.',
+      pt: 'Você pode falar com nossa equipe pelo ola@remodelausa.com — respondemos em menos de 24 horas. Você também pode enviar os detalhes do seu projeto no formulário de orçamento grátis.',
     },
     cta: { label: { en: 'Open contact form', es: 'Abrir formulario', pt: 'Abrir formulário' }, href: '#contact' },
   },
@@ -252,10 +243,10 @@ async function askKimi(question: string, lang: Lang, apiKey: string, model: stri
         {
           role: 'system',
           content:
-            `You are Kimi, the virtual assistant of RemodelaUSA, a marketplace connecting homeowners with verified remodeling contractors across all 50 U.S. states. ` +
+            `You are Kimi, the virtual assistant of RemodelaUSA, a marketplace connecting homeowners with remodeling contractors reviewed by our team in the Kansas City area (Missouri & Kansas). ` +
             `Services: bathrooms, kitchens, painting, concrete, full remodels, repairs. Quotes are free and arrive within 24 hours (up to 4 proposals). ` +
-            `Contractors pay an 8% commission only on signed jobs. Warranties: 1 year (bathroom/kitchen/remodel), 2 years (painting), 5 years (concrete). ` +
-            `Contact: +1 (800) 555-0199, Mon-Sat 8 AM-6 PM. Answer briefly and warmly in ${langName}. If you don't know something, invite the user to the free quote form. Never invent specific prices beyond the ranges: painting from $1,200, bathroom from $4,500, kitchen from $12,000, concrete from $3,800, full remodel from $25,000.`,
+            `Contractors: first lead free, then $150/month membership; first month with no commission, then 8% only on signed jobs. Warranties: 1 year (bathroom/kitchen/remodel), 2 years (painting), 5 years (concrete). ` +
+            `Contact: hello@remodelausa.com. Answer briefly and warmly in ${langName}. If you don't know something, invite the user to the free quote form. Never invent specific prices beyond the ranges: painting from $1,200, bathroom from $4,500, kitchen from $12,000, concrete from $3,800, full remodel from $25,000.`,
         },
         { role: 'user', content: question },
       ],

@@ -108,7 +108,7 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
       sections: [
         {
           heading: 'The service',
-          body: 'RemodelaUSA connects homeowners with independent contractors for remodeling, repair, painting, concrete, and related services across the United States. We are a referral platform, not a contractor: all work is performed by independent contractors who carry their own licenses and insurance.',
+          body: 'RemodelaUSA connects homeowners with independent contractors for remodeling, repair, painting, concrete, and related services in the Kansas City area (Missouri & Kansas). We are a referral platform, not a contractor: all work is performed by independent contractors who carry their own licenses and insurance.',
         },
         {
           heading: 'Quotes for homeowners',
@@ -116,11 +116,11 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
         },
         {
           heading: 'Contractor commission',
-          body: 'Contractor registration is free. By registering, contractors agree to pay a commission (currently 8%) on the total value of any job signed through a RemodelaUSA lead, payable upon contract signature with the client. Failure to report signed jobs constitutes a breach of these terms.',
+          body: 'Contractor registration is free and the first lead is free. To keep receiving leads, contractors pay a membership (currently $150/month). The first membership month carries no commission; from the second month, contractors agree to pay a commission (currently 8%) on the total value of any job signed through a RemodelaUSA lead, payable upon contract signature with the client. Failure to report signed jobs constitutes a breach of these terms.',
         },
         {
           heading: 'Verification and quality',
-          body: 'We verify contractor licenses, insurance, and background information to the best of our ability, but verification does not guarantee workmanship. Disputes about work quality must be resolved directly with the contractor, who provides written warranties.',
+          body: 'Our team reviews contractor profiles before they receive requests. This review is not a verification of licenses, insurance, or background, and does not guarantee workmanship. Disputes about work quality must be resolved directly with the contractor, who provides written warranties.',
         },
         {
           heading: 'Limitation of liability',
@@ -135,7 +135,7 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
       sections: [
         {
           heading: 'El servicio',
-          body: 'RemodelaUSA conecta dueños de casa con contratistas independientes para remodelaciones, reparaciones, pintura, concreto y servicios relacionados en Estados Unidos. Somos una plataforma de referidos, no un contratista: todo el trabajo lo realizan contratistas independientes con sus propias licencias y seguros.',
+          body: 'RemodelaUSA conecta dueños de casa con contratistas independientes para remodelaciones, reparaciones, pintura, concreto y servicios relacionados en el área de Kansas City (Missouri y Kansas). Somos una plataforma de referidos, no un contratista: todo el trabajo lo realizan contratistas independientes con sus propias licencias y seguros.',
         },
         {
           heading: 'Cotizaciones para dueños de casa',
@@ -143,11 +143,11 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
         },
         {
           heading: 'Comisión del contratista',
-          body: 'El registro del contratista es gratis. Al registrarse, el contratista acepta pagar una comisión (actualmente del 8%) sobre el valor total de cualquier trabajo firmado a través de un lead de RemodelaUSA, pagadera al firmar el contrato con el cliente. No reportar trabajos firmados constituye incumplimiento de estos términos.',
+          body: 'El registro del contratista es gratis y el primer lead es gratis. Para seguir recibiendo leads, el contratista paga una membresía (actualmente de $150/mes). El primer mes de membresía no tiene comisión; desde el segundo mes, el contratista acepta pagar una comisión (actualmente del 8%) sobre el valor total de cualquier trabajo firmado a través de un lead de RemodelaUSA, pagadera al firmar el contrato con el cliente. No reportar trabajos firmados constituye incumplimiento de estos términos.',
         },
         {
           heading: 'Verificación y calidad',
-          body: 'Verificamos licencias, seguros y antecedentes de los contratistas con nuestro mejor esfuerzo, pero la verificación no garantiza la calidad de la obra. Las disputas sobre calidad deben resolverse directamente con el contratista, quien otorga garantías por escrito.',
+          body: 'Nuestro equipo revisa los perfiles de los contratistas antes de que reciban solicitudes. Esta revisión no es una verificación de licencias, seguros ni antecedentes, y no garantiza la calidad de la obra. Las disputas sobre calidad deben resolverse directamente con el contratista, quien otorga garantías por escrito.',
         },
         {
           heading: 'Limitación de responsabilidad',
@@ -162,7 +162,7 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
       sections: [
         {
           heading: 'O serviço',
-          body: 'A RemodelaUSA conecta proprietários a construtoras independentes para reformas, reparos, pintura, concreto e serviços relacionados nos Estados Unidos. Somos uma plataforma de indicação, não uma construtora: todo o trabalho é executado por construtoras independentes com suas próprias licenças e seguros.',
+          body: 'A RemodelaUSA conecta proprietários a construtoras independentes para reformas, reparos, pintura, concreto e serviços relacionados na região de Kansas City (Missouri e Kansas). Somos uma plataforma de indicação, não uma construtora: todo o trabalho é executado por construtoras independentes com suas próprias licenças e seguros.',
         },
         {
           heading: 'Orçamentos para proprietários',
@@ -170,11 +170,11 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
         },
         {
           heading: 'Comissão da construtora',
-          body: 'O cadastro da construtora é grátis. Ao se cadastrar, a construtora aceita pagar uma comissão (atualmente 8%) sobre o valor total de qualquer trabalho fechado por meio de um lead da RemodelaUSA, pagável ao assinar o contrato com o cliente. Não reportar trabalhos fechados constitui violação destes termos.',
+          body: 'O cadastro da construtora é grátis e o primeiro lead é grátis. Para continuar recebendo leads, a construtora paga uma assinatura (atualmente US$ 150/mês). O primeiro mês de assinatura não tem comissão; a partir do segundo mês, a construtora aceita pagar uma comissão (atualmente 8%) sobre o valor total de qualquer trabalho fechado por meio de um lead da RemodelaUSA, pagável ao assinar o contrato com o cliente. Não reportar trabalhos fechados constitui violação destes termos.',
         },
         {
           heading: 'Verificação e qualidade',
-          body: 'Verificamos licenças, seguros e antecedentes das construtoras com nosso melhor esforço, mas a verificação não garante a qualidade da obra. Discordâncias sobre qualidade devem ser resolvidas diretamente com a construtora, que concede garantias por escrito.',
+          body: 'Nossa equipe revisa os perfis das construtoras antes de receberem solicitações. Essa revisão não é uma verificação de licenças, seguros nem antecedentes, e não garante a qualidade da obra. Discordâncias sobre qualidade devem ser resolvidas diretamente com a construtora, que concede garantias por escrito.',
         },
         {
           heading: 'Limitação de responsabilidade',

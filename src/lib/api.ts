@@ -224,6 +224,13 @@ export const contractorApi = {
       method: 'POST',
       body: JSON.stringify({ data, name }),
     }),
+  // Inicia el checkout de membresía del propio contratista
+  // (POST /api/billing/membership/self). Responde { url } con Stripe
+  // Checkout, o { ok, demo: true } en modo demo (sin llaves de Stripe).
+  startMembershipCheckout: (token: string) =>
+    contractorRequest<{ url?: string; ok?: boolean; demo?: boolean }>(token, '/api/billing/membership/self', {
+      method: 'POST',
+    }),
 };
 
 // Token de administración (panel /admin)

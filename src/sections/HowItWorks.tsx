@@ -18,12 +18,12 @@ const T = {
       {
         icon: 'Users',
         title: 'Get matched with verified pros',
-        description: 'We send your request to up to 4 licensed, verified contractors in your area. They contact you within 24 hours with free quotes.',
+        description: 'We send your request to up to 4 contractors reviewed by our team in your area. They contact you within 24 hours with free quotes.',
       },
       {
         icon: 'BadgeCheck',
         title: 'Hire with confidence',
-        description: 'Compare quotes, check reviews and photos, and choose the pro you trust. Free for homeowners — contractors only pay when they sign the job.',
+        description: 'Compare quotes, check reviews and photos, and choose the pro you trust. Free for homeowners — contractors start with a free lead, then a $150/month membership.',
       },
     ],
     cta: 'Start my project',
@@ -41,12 +41,12 @@ const T = {
       {
         icon: 'Users',
         title: 'Recibe pros verificados',
-        description: 'Enviamos tu solicitud a hasta 4 contratistas con licencia y verificados de tu zona. Te contactan en menos de 24 horas con cotizaciones gratis.',
+        description: 'Enviamos tu solicitud a hasta 4 contratistas revisados por nuestro equipo de tu zona. Te contactan en menos de 24 horas con cotizaciones gratis.',
       },
       {
         icon: 'BadgeCheck',
         title: 'Contrata con confianza',
-        description: 'Compara cotizaciones, reseñas y fotos, y elige al profesional de tu confianza. Gratis para ti — el contratista solo paga cuando firma el trabajo.',
+        description: 'Compara cotizaciones, reseñas y fotos, y elige al profesional de tu confianza. Gratis para ti — el contratista empieza con un lead gratis y luego una membresía de $150/mes.',
       },
     ],
     cta: 'Empezar mi proyecto',
@@ -64,12 +64,12 @@ const T = {
       {
         icon: 'Users',
         title: 'Receba profissionais verificados',
-        description: 'Enviamos sua solicitação para até 4 construtoras licenciadas e verificadas da sua região. Elas entram em contato em menos de 24 horas com orçamentos grátis.',
+        description: 'Enviamos sua solicitação para até 4 construtoras revisadas pela nossa equipe da sua região. Elas entram em contato em menos de 24 horas com orçamentos grátis.',
       },
       {
         icon: 'BadgeCheck',
         title: 'Contrate com confiança',
-        description: 'Compare orçamentos, avaliações e fotos, e escolha o profissional de sua confiança. Grátis para você — a construtora só paga quando fecha o trabalho.',
+        description: 'Compare orçamentos, avaliações e fotos, e escolha o profissional de sua confiança. Grátis para você — a construtora começa com um lead grátis e depois uma assinatura de US$ 150/mês.',
       },
     ],
     cta: 'Começar meu projeto',

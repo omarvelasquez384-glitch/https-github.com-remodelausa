@@ -181,6 +181,25 @@ export default function Portal() {
     setPassword('');
   };
 
+  // Checkout de membresía del propio contratista: abre Stripe Checkout
+  // o, en modo demo, activa 30 días y recarga el perfil.
+  const [checkoutState, setCheckoutState] = useState<'idle' | 'loading' | 'error'>('idle');
+  const checkoutMembership = async () => {
+    setCheckoutState('loading');
+    try {
+      const r = await contractorApi.startMembershipCheckout(window.localStorage.getItem(TOKEN_KEY) ?? token);
+      if (r.url) {
+        window.location.href = r.url;
+        return;
+      }
+      // Modo demo: la membresía ya quedó activa; recargar el perfil.
+      await loadProfile(window.localStorage.getItem(TOKEN_KEY) ?? token);
+      setCheckoutState('idle');
+    } catch {
+      setCheckoutState('error');
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -428,7 +447,18 @@ export default function Portal() {
                         )}
                       </div>
                       {!active && !freeLeft && (
-                        <a href="mailto:hola@remodelausa.com?subject=Membership%20activation" className="btn-primary rounded text-center whitespace-nowrap">Activar membresía</a>
+                        <div className="flex flex-col items-stretch gap-2">
+                          <button
+                            onClick={checkoutMembership}
+                            disabled={checkoutState === 'loading'}
+                            className="btn-primary rounded text-center whitespace-nowrap disabled:opacity-60"
+                          >
+                            {checkoutState === 'loading' ? 'Abriendo pago…' : 'Activar membresía · $150/mes'}
+                          </button>
+                          {checkoutState === 'error' && (
+                            <p className="text-xs text-red-400 text-center">No se pudo abrir el pago. Inténtalo de nuevo.</p>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
