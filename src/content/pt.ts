@@ -4,7 +4,7 @@ export const ptContent: SiteContent = {
   site: {
     title: "RemodelaUSA — Construtoras de Reforma nos Estados Unidos",
     description:
-      "Encontre construtoras verificadas para reformas, banheiros, cozinhas, pintura, concreto e reparos em todo os Estados Unidos. Orçamentos grátis em 24 horas.",
+      "Encontre construtoras revisadas pela nossa equipe para reformas, banheiros, cozinhas, pintura, concreto e reparos na região de Kansas City. Orçamentos grátis em 24 horas.",
     language: "pt",
     keywords:
       "reforma, construtoras, banheiros, cozinhas, pintura, concreto, reparos, Estados Unidos, orçamento grátis",
@@ -15,7 +15,7 @@ export const ptContent: SiteContent = {
   navigation: {
     brandName: "RemodelaUSA",
     brandSubname: "lar renovado",
-    tagline: "Construtoras verificadas em todo os EUA",
+    tagline: "Construtoras revisadas pela nossa equipe",
     navLinks: [
       { name: "Início", href: "#hero", icon: "Home" },
       {
@@ -50,7 +50,7 @@ export const ptContent: SiteContent = {
   preloader: {
     brandName: "RemodelaUSA",
     brandSubname: "lar renovado",
-    yearText: "Em todo os EUA",
+    yearText: "Região de Kansas City",
   },
 
   hero: {
@@ -58,12 +58,8 @@ export const ptContent: SiteContent = {
     mainTitle: "Sua casa merece\nas melhores mãos",
     ctaButtonText: "Encontre sua construtora",
     ctaTarget: "#contact",
-    stats: [
-      { value: 12500, suffix: "+", label: "Projetos concluídos" },
-      { value: 3800, suffix: "+", label: "Construtoras verificadas" },
-      { value: 50, suffix: "", label: "Estados cobertos" },
-    ],
-    decorativeText: "Reformas em todo os EUA",
+    stats: [], // Sem números inventados: ainda não há projetos nem construtoras suficientes para mostrar estatísticas.
+    decorativeText: "Reformas em Kansas City",
     backgroundImage: "/images/hero-banner.png",
   },
 
@@ -158,7 +154,7 @@ export const ptContent: SiteContent = {
         icon: "Sparkles",
         title: "Construtoras verificadas",
         description:
-          "Toda construtora passa por verificação de licença, seguro e antecedentes antes de receber solicitações.",
+          "Todo perfil de construtora é revisado pela nossa equipe antes de receber solicitações.",
       },
       {
         icon: "Clock",
@@ -221,7 +217,7 @@ export const ptContent: SiteContent = {
     subtitle: "Mais trabalhos, menos esforço",
     mainTitle: "Faça seu negócio crescer conosco",
     introText:
-      "Os proprietários publicam seus projetos grátis. Você recebe as solicitações da sua região, faz o orçamento, fecha o trabalho e só então paga uma comissão. Sem mensalidades, sem risco.",
+      "Os proprietários publicam seus projetos grátis. Você recebe as solicitações da sua região, faz o orçamento e fecha o trabalho. Seu primeiro lead é grátis; depois, a assinatura é de US$ 150/mês — primeiro mês sem comissão e, a partir do segundo, só 8% dos trabalhos fechados.",
     timeline: [
       { year: "Passo 1", event: "Crie seu perfil" },
       { year: "Passo 2", event: "Receba solicitações" },
@@ -238,7 +234,7 @@ export const ptContent: SiteContent = {
           title: "Solicitações de clientes prontos para contratar",
           description:
             "Cada solicitação vem com fotos, orçamento estimado e data desejada de início. Você fala direto com o proprietário, sem intermediários tirando sua margem.",
-          highlight: "Até 15 solicitações por mês na sua região",
+          highlight: "Solicitações de clientes na sua região — sem limite mensal",
         },
       },
       {
@@ -249,8 +245,8 @@ export const ptContent: SiteContent = {
         content: {
           title: "Destaque-se com o selo de verificado",
           description:
-            "Verificamos sua licença, seguro e antecedentes. Seu perfil verificado aparece primeiro nas buscas e gera confiança desde o primeiro contato.",
-          highlight: "Perfis verificados fecham 3× mais trabalhos",
+            "Nossa equipe revisa seu perfil antes de você receber solicitações. Seu perfil verificado aparece primeiro nas buscas e gera confiança desde o primeiro contato.",
+          highlight: "Perfis verificados aparecem primeiro nas buscas",
         },
       },
       {
@@ -259,10 +255,10 @@ export const ptContent: SiteContent = {
         icon: "BookOpen",
         image: "/images/museum-tab3.png",
         content: {
-          title: "Pague apenas quando fechar o trabalho",
+          title: "Primeiro lead grátis, depois taxa fixa",
           description:
-            "Criar seu perfil é grátis. Você só paga uma comissão de 8% sobre os trabalhos fechados pela plataforma. Se não fechar, não paga nada.",
-          highlight: "0% de comissão se não fechar",
+            "Criar seu perfil é grátis e seu primeiro lead é grátis. Para continuar recebendo leads, a assinatura é de US$ 150/mês — primeiro mês sem comissão e, a partir do segundo, só 8% dos trabalhos fechados pela plataforma.",
+          highlight: "8% apenas de trabalhos fechados a partir do 2.º mês",
         },
       },
     ],
@@ -343,13 +339,11 @@ export const ptContent: SiteContent = {
     storyTitle: "Conectamos lares a mãos especializadas",
     storyParagraphs: [
       "A RemodelaUSA nasceu de uma ideia simples: encontrar uma construtora confiável não deveria ser uma loteria. Os proprietários merecem preços claros, trabalhos garantidos e tranquilidade em cada projeto.",
-      "Hoje somos o ponto de encontro entre milhares de famílias e construtoras verificadas nos 50 estados. Nós fazemos a conexão; as construtoras fecham mais trabalhos e você transforma sua casa.",
+      "Hoje conectamos proprietários a construtoras revisadas pela nossa equipe na região de Kansas City (Missouri e Kansas). Nós fazemos a conexão; as construtoras fecham mais trabalhos e você transforma sua casa.",
     ],
     storyTimeline: [
-      { value: "12.500+", label: "Projetos" },
-      { value: "3.800+", label: "Construtoras" },
-      { value: "50", label: "Estados" },
-      { value: "4.8/5", label: "Satisfação" },
+      { value: "1", label: "Construtora verificada" },
+      { value: "KC metro", label: "Área de atendimento" },
     ],
     storyQuote: {
       prefix: "Compromisso",
@@ -371,14 +365,8 @@ export const ptContent: SiteContent = {
       {
         icon: "MapPin",
         label: "Cobertura",
-        value: "Todo os Estados Unidos",
-        subtext: "50 estados e mais de 3.800 construtoras",
-      },
-      {
-        icon: "Phone",
-        label: "Telefone",
-        value: "+1 (800) 555-0199",
-        subtext: "Seg–Sáb, 8:00 – 18:00",
+        value: "Região de Kansas City",
+        subtext: "Missouri e Kansas",
       },
       {
         icon: "Mail",
@@ -427,7 +415,7 @@ export const ptContent: SiteContent = {
     brandName: "RemodelaUSA",
     tagline: "Seu lar, renovado",
     description:
-      "O marketplace que conecta proprietários a construtoras verificadas em todo os Estados Unidos.",
+      "O marketplace que conecta proprietários a construtoras revisadas pela nossa equipe na região de Kansas City.",
     socialLinks: [
       { icon: "Instagram", label: "Instagram", href: "#" },
       { icon: "Facebook", label: "Facebook", href: "#" },
@@ -462,8 +450,7 @@ export const ptContent: SiteContent = {
       },
     ],
     contactItems: [
-      { icon: "MapPin", text: "Todo os Estados Unidos" },
-      { icon: "Phone", text: "+1 (800) 555-0199" },
+      { icon: "MapPin", text: "Região de Kansas City" },
       { icon: "Mail", text: "ola@remodelausa.com" },
     ],
     newsletterLabel: "Receba dicas de reforma",

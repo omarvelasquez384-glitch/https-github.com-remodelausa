@@ -4,7 +4,7 @@ export const esContent: SiteContent = {
   site: {
     title: "RemodelaUSA — Contratistas de Remodelación en Estados Unidos",
     description:
-      "Encuentra contratistas verificados para remodelaciones, baños, cocinas, pintura, concreto y reparaciones en todo Estados Unidos. Cotizaciones gratis en 24 horas.",
+      "Encuentra contratistas revisados por nuestro equipo para remodelaciones, baños, cocinas, pintura, concreto y reparaciones en el área de Kansas City. Cotizaciones gratis en 24 horas.",
     language: "es",
     keywords:
       "remodelación, contratistas, baños, cocinas, pintura, concreto, reparaciones, Estados Unidos, cotización gratis",
@@ -15,7 +15,7 @@ export const esContent: SiteContent = {
   navigation: {
     brandName: "RemodelaUSA",
     brandSubname: "hogar renovado",
-    tagline: "Contratistas verificados en todo EE. UU.",
+    tagline: "Contratistas revisados por nuestro equipo",
     navLinks: [
       { name: "Inicio", href: "#hero", icon: "Home" },
       {
@@ -50,7 +50,7 @@ export const esContent: SiteContent = {
   preloader: {
     brandName: "RemodelaUSA",
     brandSubname: "hogar renovado",
-    yearText: "En todo EE. UU.",
+    yearText: "Área de Kansas City",
   },
 
   hero: {
@@ -58,12 +58,8 @@ export const esContent: SiteContent = {
     mainTitle: "Tu hogar merece\nlas mejores manos",
     ctaButtonText: "Encuentra tu contratista",
     ctaTarget: "#contact",
-    stats: [
-      { value: 12500, suffix: "+", label: "Proyectos completados" },
-      { value: 3800, suffix: "+", label: "Contratistas verificados" },
-      { value: 50, suffix: "", label: "Estados cubiertos" },
-    ],
-    decorativeText: "Remodelación en todo EE. UU.",
+    stats: [], // Sin cifras inventadas: no hay proyectos ni contratistas suficientes para mostrar estadísticas.
+    decorativeText: "Remodelación en Kansas City",
     backgroundImage: "/images/hero-banner.png",
   },
 
@@ -158,7 +154,7 @@ export const esContent: SiteContent = {
         icon: "Sparkles",
         title: "Contratistas verificados",
         description:
-          "Cada contratista pasa por revisión de licencia, seguro y antecedentes antes de recibir solicitudes.",
+          "Cada perfil de contratista es revisado por nuestro equipo antes de recibir solicitudes.",
       },
       {
         icon: "Clock",
@@ -221,7 +217,7 @@ export const esContent: SiteContent = {
     subtitle: "Más trabajos, menos esfuerzo",
     mainTitle: "Crece tu negocio con nosotros",
     introText:
-      "Los dueños de casa publican sus proyectos gratis. Tú recibes las solicitudes de tu zona, cotizas, firmas el trabajo y solo entonces pagas una comisión. Sin mensualidades, sin riesgo.",
+      "Los dueños de casa publican sus proyectos gratis. Tú recibes las solicitudes de tu zona, cotizas y firmas el trabajo. Tu primer lead es gratis; después, la membresía es de $150/mes — primer mes sin comisión y desde el segundo solo 8% de los trabajos que firmes.",
     timeline: [
       { year: "Paso 1", event: "Crea tu perfil" },
       { year: "Paso 2", event: "Recibe solicitudes" },
@@ -238,7 +234,7 @@ export const esContent: SiteContent = {
           title: "Solicitudes de clientes listos para contratar",
           description:
             "Cada solicitud viene con fotos, presupuesto estimado y fecha deseada de inicio. Hablas directo con el dueño de la casa, sin intermediarios que se queden con tu margen.",
-          highlight: "Hasta 15 solicitudes al mes en tu zona",
+          highlight: "Solicitudes de clientes en tu zona — sin tope mensual",
         },
       },
       {
@@ -249,8 +245,8 @@ export const esContent: SiteContent = {
         content: {
           title: "Destaca con la insignia de verificado",
           description:
-            "Verificamos tu licencia, seguro y antecedentes. Tu perfil verificado aparece primero en las búsquedas y genera confianza desde el primer contacto.",
-          highlight: "Los perfiles verificados firman 3× más trabajos",
+            "Nuestro equipo revisa tu perfil antes de que recibas solicitudes. Tu perfil verificado aparece primero en las búsquedas y genera confianza desde el primer contacto.",
+          highlight: "Los perfiles verificados aparecen primero en las búsquedas",
         },
       },
       {
@@ -259,10 +255,10 @@ export const esContent: SiteContent = {
         icon: "BookOpen",
         image: "/images/museum-tab3.png",
         content: {
-          title: "Pagas solo cuando firmas el trabajo",
+          title: "Primer lead gratis, luego tarifa fija",
           description:
-            "Registrar tu perfil es gratis. Solo pagas una comisión del 8% sobre trabajos firmados a través de la plataforma. Si no firmas, no pagas nada.",
-          highlight: "0% de comisión si no firmas",
+            "Registrar tu perfil es gratis y tu primer lead es gratis. Para seguir recibiendo leads, la membresía es de $150/mes — primer mes sin comisión y desde el segundo solo 8% de los trabajos que firmes a través de la plataforma.",
+          highlight: "8% solo de trabajos firmados desde el 2.º mes",
         },
       },
     ],
@@ -343,13 +339,11 @@ export const esContent: SiteContent = {
     storyTitle: "Conectamos hogares con manos expertas",
     storyParagraphs: [
       "RemodelaUSA nació con una idea simple: encontrar un contratista confiable no debería ser una lotería. Los dueños de casa merecen precios claros, trabajos garantizados y tranquilidad en cada proyecto.",
-      "Hoy somos el punto de encuentro entre miles de familias y contratistas verificados en los 50 estados. Nosotros hacemos la conexión; los contratistas firman más trabajos y tú transformas tu hogar.",
+      "Hoy conectamos dueños de casa con contratistas revisados por nuestro equipo en el área de Kansas City (Missouri y Kansas). Nosotros hacemos la conexión; los contratistas firman más trabajos y tú transformas tu hogar.",
     ],
     storyTimeline: [
-      { value: "12,500+", label: "Proyectos" },
-      { value: "3,800+", label: "Contratistas" },
-      { value: "50", label: "Estados" },
-      { value: "4.8/5", label: "Satisfacción" },
+      { value: "1", label: "Contratista verificado" },
+      { value: "KC metro", label: "Zona de servicio" },
     ],
     storyQuote: {
       prefix: "Compromiso",
@@ -371,14 +365,8 @@ export const esContent: SiteContent = {
       {
         icon: "MapPin",
         label: "Cobertura",
-        value: "Todo Estados Unidos",
-        subtext: "50 estados y más de 3,800 contratistas",
-      },
-      {
-        icon: "Phone",
-        label: "Teléfono",
-        value: "+1 (800) 555-0199",
-        subtext: "Lun–Sáb de 8:00 AM a 6:00 PM",
+        value: "Área de Kansas City",
+        subtext: "Missouri y Kansas",
       },
       {
         icon: "Mail",
@@ -427,7 +415,7 @@ export const esContent: SiteContent = {
     brandName: "RemodelaUSA",
     tagline: "Tu hogar, renovado",
     description:
-      "El marketplace que conecta dueños de casa con contratistas verificados en todo Estados Unidos.",
+      "El marketplace que conecta dueños de casa con contratistas revisados por nuestro equipo en el área de Kansas City.",
     socialLinks: [
       { icon: "Instagram", label: "Instagram", href: "#" },
       { icon: "Facebook", label: "Facebook", href: "#" },
@@ -462,8 +450,7 @@ export const esContent: SiteContent = {
       },
     ],
     contactItems: [
-      { icon: "MapPin", text: "Todo Estados Unidos" },
-      { icon: "Phone", text: "+1 (800) 555-0199" },
+      { icon: "MapPin", text: "Área de Kansas City" },
       { icon: "Mail", text: "hola@remodelausa.com" },
     ],
     newsletterLabel: "Recibe consejos de remodelación",

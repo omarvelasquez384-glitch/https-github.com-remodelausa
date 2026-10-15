@@ -4,7 +4,7 @@ export const enContent: SiteContent = {
   site: {
     title: "RemodelaUSA — Home Remodeling Contractors Across the United States",
     description:
-      "Find verified contractors for remodels, bathrooms, kitchens, painting, concrete, and repairs anywhere in the United States. Free quotes within 24 hours.",
+      "Find contractors reviewed by our team for remodels, bathrooms, kitchens, painting, concrete, and repairs in the Kansas City area. Free quotes within 24 hours.",
     language: "en",
     keywords:
       "remodeling, contractors, bathrooms, kitchens, painting, concrete, repairs, United States, free quote",
@@ -15,7 +15,7 @@ export const enContent: SiteContent = {
   navigation: {
     brandName: "RemodelaUSA",
     brandSubname: "home renewed",
-    tagline: "Verified contractors across the U.S.",
+    tagline: "Contractors reviewed by our team",
     navLinks: [
       { name: "Home", href: "#hero", icon: "Home" },
       {
@@ -50,7 +50,7 @@ export const enContent: SiteContent = {
   preloader: {
     brandName: "RemodelaUSA",
     brandSubname: "home renewed",
-    yearText: "Across the U.S.",
+    yearText: "Kansas City area",
   },
 
   hero: {
@@ -58,12 +58,8 @@ export const enContent: SiteContent = {
     mainTitle: "Your home deserves\nthe best hands",
     ctaButtonText: "Find your contractor",
     ctaTarget: "#contact",
-    stats: [
-      { value: 12500, suffix: "+", label: "Projects completed" },
-      { value: 3800, suffix: "+", label: "Verified contractors" },
-      { value: 50, suffix: "", label: "States covered" },
-    ],
-    decorativeText: "Remodeling across the U.S.",
+    stats: [], // Sin cifras inventadas: no hay proyectos ni contratistas suficientes para mostrar estadísticas.
+    decorativeText: "Remodeling in Kansas City",
     backgroundImage: "/images/hero-banner.png",
   },
 
@@ -158,7 +154,7 @@ export const enContent: SiteContent = {
         icon: "Sparkles",
         title: "Verified contractors",
         description:
-          "Every contractor goes through license, insurance, and background checks before receiving requests.",
+          "Every contractor profile is reviewed by our team before receiving requests.",
       },
       {
         icon: "Clock",
@@ -221,7 +217,7 @@ export const enContent: SiteContent = {
     subtitle: "More jobs, less effort",
     mainTitle: "Grow your business with us",
     introText:
-      "Homeowners post their projects for free. You receive requests from your area, send quotes, sign the job, and only then pay a commission. No monthly fees, no risk.",
+      "Homeowners post their projects for free. You receive requests from your area, send quotes and sign the job. Your first lead is free; after that, membership is $150/month — first month with no commission, then 8% only on jobs you sign from the second month.",
     timeline: [
       { year: "Step 1", event: "Create your profile" },
       { year: "Step 2", event: "Receive requests" },
@@ -238,7 +234,7 @@ export const enContent: SiteContent = {
           title: "Requests from clients ready to hire",
           description:
             "Every request comes with photos, an estimated budget, and a desired start date. You talk directly to the homeowner — no middlemen taking your margin.",
-          highlight: "Up to 15 requests per month in your area",
+          highlight: "Client requests in your area — no monthly cap",
         },
       },
       {
@@ -249,8 +245,8 @@ export const enContent: SiteContent = {
         content: {
           title: "Stand out with the verified badge",
           description:
-            "We verify your license, insurance, and background. Your verified profile ranks first in searches and builds trust from the first contact.",
-          highlight: "Verified profiles sign 3× more jobs",
+            "Our team reviews your profile before you receive requests. Your verified profile ranks first in searches and builds trust from the first contact.",
+          highlight: "Verified profiles rank first in searches",
         },
       },
       {
@@ -259,10 +255,10 @@ export const enContent: SiteContent = {
         icon: "BookOpen",
         image: "/images/museum-tab3.png",
         content: {
-          title: "Pay only when you sign the job",
+          title: "First lead free, then flat membership",
           description:
-            "Creating your profile is free. You only pay an 8% commission on jobs signed through the platform. If you don't sign, you don't pay.",
-          highlight: "0% commission if you don't sign",
+            "Creating your profile is free and your first lead is free. To keep receiving leads, membership is $150/month — first month with no commission, then 8% only on jobs you sign through the platform.",
+          highlight: "8% only on signed jobs from month 2",
         },
       },
     ],
@@ -343,13 +339,11 @@ export const enContent: SiteContent = {
     storyTitle: "We connect homes with expert hands",
     storyParagraphs: [
       "RemodelaUSA was born from a simple idea: finding a trustworthy contractor shouldn't be a gamble. Homeowners deserve clear prices, guaranteed work, and peace of mind on every project.",
-      "Today we are the meeting point between thousands of families and verified contractors in all 50 states. We make the connection; contractors sign more jobs, and you transform your home.",
+      "Today we connect homeowners with contractors reviewed by our team in the Kansas City area (Missouri & Kansas). We make the connection; contractors sign more jobs, and you transform your home.",
     ],
     storyTimeline: [
-      { value: "12,500+", label: "Projects" },
-      { value: "3,800+", label: "Contractors" },
-      { value: "50", label: "States" },
-      { value: "4.8/5", label: "Satisfaction" },
+      { value: "1", label: "Verified contractor" },
+      { value: "KC metro", label: "Service area" },
     ],
     storyQuote: {
       prefix: "Commitment",
@@ -371,14 +365,8 @@ export const enContent: SiteContent = {
       {
         icon: "MapPin",
         label: "Coverage",
-        value: "All United States",
-        subtext: "50 states and over 3,800 contractors",
-      },
-      {
-        icon: "Phone",
-        label: "Phone",
-        value: "+1 (800) 555-0199",
-        subtext: "Mon–Sat, 8:00 AM – 6:00 PM",
+        value: "Kansas City area",
+        subtext: "Missouri & Kansas",
       },
       {
         icon: "Mail",
@@ -427,7 +415,7 @@ export const enContent: SiteContent = {
     brandName: "RemodelaUSA",
     tagline: "Your home, renewed",
     description:
-      "The marketplace that connects homeowners with verified contractors across the United States.",
+      "The marketplace that connects homeowners with contractors reviewed by our team in the Kansas City area.",
     socialLinks: [
       { icon: "Instagram", label: "Instagram", href: "#" },
       { icon: "Facebook", label: "Facebook", href: "#" },
@@ -462,8 +450,7 @@ export const enContent: SiteContent = {
       },
     ],
     contactItems: [
-      { icon: "MapPin", text: "All United States" },
-      { icon: "Phone", text: "+1 (800) 555-0199" },
+      { icon: "MapPin", text: "Kansas City area" },
       { icon: "Mail", text: "hello@remodelausa.com" },
     ],
     newsletterLabel: "Get remodeling tips",
