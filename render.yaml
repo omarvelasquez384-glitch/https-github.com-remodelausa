@@ -22,6 +22,8 @@ services:
         sync: false # opcional: correos reales
       - key: STRIPE_SECRET_KEY
         sync: false # opcional: cobro real de comisiones
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false # opcional: verifica la firma del webhook de Stripe (/api/billing/webhook)
     disk:
       name: remodelausa-data
       mountPath: /var/data/remodelausa

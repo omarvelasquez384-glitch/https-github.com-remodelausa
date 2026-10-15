@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  db, getSetting, setSetting, trackEvent,
+  db, getSetting, setSetting, trackEvent, recordPayment,
   normalizeProjectType, normalizeTrade,
   hashPassword, verifyPassword, createSession, resolveSession, destroySession,
   membershipActive, grantMembership, commissionApplies,
@@ -48,8 +48,165 @@ function adminToken() {
   return process.env.ADMIN_TOKEN || getSetting('admin_token') || 'remodelausa-admin';
 }
 
+// Verifica la firma de un evento de Stripe (HMAC-SHA256 sobre
+// `${timestamp}.${cuerpo crudo}` con STRIPE_WEBHOOK_SECRET). Sin SDK de
+// Stripe en el proyecto: la verificación se hace a mano con node:crypto.
+function verifyStripeSignature(rawBody, signature, secret) {
+  try {
+    if (!signature || !secret) return false;
+    const parts = Object.fromEntries(
+      String(signature).split(',').map((pair) => {
+        const [k, v] = pair.split('=');
+        return [k, v];
+      }),
+    );
+    if (!parts.t || !parts.v1) return false;
+    // Tolerancia de 5 minutos contra ataques de repetición
+    if (Math.abs(Date.now() / 1000 - Number(parts.t)) > 300) return false;
+    const expected = crypto
+      .createHmac('sha256', secret)
+      .update(`${parts.t}.${rawBody}`)
+      .digest('hex');
+    return (
+      Buffer.from(parts.v1).length === Buffer.from(expected).length &&
+      crypto.timingSafeEqual(Buffer.from(parts.v1), Buffer.from(expected))
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function createApiApp() {
   const app = express();
+
+  // ============ WEBHOOK DE STRIPE (cobro real) ============================
+  // Debe registrarse ANTES de express.json: la verificación de firma
+  // necesita el cuerpo CRUDO. Sin STRIPE_SECRET_KEY / STRIPE_WEBHOOK_SECRET
+  // el sitio sigue en modo demo y el webhook responde 503 (no rompe nada).
+  // Eventos que otorga la membresía automáticamente:
+  //   checkout.session.completed → membresía 30 días (+ guarda ids Stripe)
+  //   invoice.paid (subscription_cycle) → renueva 30 días
+  //   invoice.payment_failed → membresía cancelada/suspendida
+  // Idempotencia: cada evento se registra en `payments` por stripe_event_id;
+  // un reintento de Stripe no vuelve a otorgar días ni a duplicar el pago.
+  app.post('/api/billing/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+    const secret = process.env.STRIPE_SECRET_KEY;
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    if (!secret || !webhookSecret) {
+      console.warn('Stripe webhook ignored: STRIPE_SECRET_KEY / STRIPE_WEBHOOK_SECRET not configured (demo mode)');
+      return res.status(503).json({ error: 'stripe not configured' });
+    }
+    const rawBody = req.body.toString('utf8');
+    if (!verifyStripeSignature(rawBody, String(req.headers['stripe-signature'] ?? ''), webhookSecret)) {
+      return res.status(400).json({ error: 'invalid signature' });
+    }
+    let event;
+    try {
+      event = JSON.parse(rawBody);
+    } catch {
+      return res.status(400).json({ error: 'invalid json' });
+    }
+    const eventId = String(event.id ?? '');
+    if (eventId && db.prepare('SELECT id FROM payments WHERE stripe_event_id = ?').get(eventId)) {
+      return res.json({ received: true, duplicate: true });
+    }
+    try {
+      if (event.type === 'checkout.session.completed') {
+        const session = event.data?.object ?? {};
+        const contractorId = Number(session.metadata?.contractor_id) || 0;
+        const leadId = Number(session.metadata?.lead_id) || 0;
+        if (session.mode === 'subscription' && contractorId) {
+          // Guarda los ids de Stripe para que invoice.paid pueda renovar
+          db.prepare('UPDATE contractors SET stripe_customer_id = ?, stripe_subscription_id = ? WHERE id = ?')
+            .run(String(session.customer ?? ''), String(session.subscription ?? ''), contractorId);
+          const updated = grantMembership(contractorId, 30);
+          if (updated) {
+            recordPayment({
+              contractor_id: contractorId,
+              stripe_event_id: eventId,
+              stripe_session_id: session.id,
+              stripe_subscription_id: session.subscription,
+              type: 'membership',
+              amount_cents: session.amount_total ?? 0,
+              currency: session.currency ?? 'usd',
+              status: 'paid',
+            });
+            trackEvent('membership_paid', { contractor_id: contractorId, amount_cents: session.amount_total ?? 0 });
+            const signup = membershipSignupEmail({ contractor: updated, expiresAt: updated.membership_expires_at, price: Number(getSetting('membership_price', '150')) || 150 });
+            queueEmail(updated.email, signup.subject, signup.body);
+          }
+        } else if (leadId) {
+          // Comisión de un lead firmado (checkout de pago único del admin)
+          const lead = db.prepare('SELECT * FROM leads WHERE id = ?').get(leadId);
+          const assignment = lead
+            ? db.prepare('SELECT contractor_id FROM assignments WHERE lead_id = ? ORDER BY created_at ASC LIMIT 1').get(leadId)
+            : null;
+          recordPayment({
+            contractor_id: assignment?.contractor_id ?? 0,
+            stripe_event_id: eventId,
+            stripe_session_id: session.id,
+            type: 'commission',
+            amount_cents: session.amount_total ?? 0,
+            currency: session.currency ?? 'usd',
+            status: 'paid',
+            lead_id: leadId,
+          });
+          trackEvent('commission_paid', { lead_id: leadId, amount_cents: session.amount_total ?? 0 });
+        }
+      } else if (event.type === 'invoice.paid') {
+        const invoice = event.data?.object ?? {};
+        // La primera factura (subscription_create) ya la cubre
+        // checkout.session.completed; solo renovamos en ciclos siguientes.
+        if (invoice.billing_reason === 'subscription_cycle') {
+          const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id ?? '';
+          const contractor = subscriptionId
+            ? db.prepare('SELECT * FROM contractors WHERE stripe_subscription_id = ?').get(subscriptionId)
+            : null;
+          if (contractor) {
+            grantMembership(contractor.id, 30);
+            recordPayment({
+              contractor_id: contractor.id,
+              stripe_event_id: eventId,
+              stripe_subscription_id: subscriptionId,
+              type: 'membership',
+              amount_cents: invoice.amount_paid ?? 0,
+              currency: invoice.currency ?? 'usd',
+              status: 'paid',
+            });
+            trackEvent('membership_renewed', { contractor_id: contractor.id });
+          } else {
+            console.warn('Stripe invoice.paid without matching contractor (subscription %s)', subscriptionId);
+          }
+        }
+      } else if (event.type === 'invoice.payment_failed') {
+        const invoice = event.data?.object ?? {};
+        const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id ?? '';
+        const contractor = subscriptionId
+          ? db.prepare('SELECT * FROM contractors WHERE stripe_subscription_id = ?').get(subscriptionId)
+          : null;
+        if (contractor) {
+          db.prepare("UPDATE contractors SET membership_status = 'canceled', membership_expires_at = ? WHERE id = ?")
+            .run(new Date().toISOString(), contractor.id);
+          recordPayment({
+            contractor_id: contractor.id,
+            stripe_event_id: eventId,
+            stripe_subscription_id: subscriptionId,
+            type: 'membership',
+            amount_cents: invoice.amount_due ?? 0,
+            currency: invoice.currency ?? 'usd',
+            status: 'failed',
+          });
+          trackEvent('membership_payment_failed', { contractor_id: contractor.id });
+        }
+      }
+      // Otros eventos se ignoran (no son errores).
+    } catch (err) {
+      console.error('Stripe webhook handler error:', err?.message ?? err);
+      return res.status(500).json({ error: 'webhook handler failed' });
+    }
+    res.json({ received: true });
+  });
+
   app.use(express.json({ limit: '6mb' })); // las fotos van en base64
 
   // ---- Rate limiting en memoria (anti fuerza bruta / spam) ----
@@ -721,6 +878,56 @@ export function createApiApp() {
     res.json({ ok: true });
   });
 
+  // ============ CHECKOUT PÚBLICO DE MEMBRESÍA (portal del contratista) ====
+  // POST /api/billing/membership/self  (contratista logueado, SIN requireAdmin)
+  // El propio contratista inicia su suscripción de $150/mes con Stripe
+  // Checkout. Sin STRIPE_SECRET_KEY funciona en modo demo como el endpoint
+  // de admin (activa 30 días sin cobrar) y lo deja claro en la respuesta.
+  app.post('/api/billing/membership/self', requireContractor, async (req, res) => {
+    const contractorId = req.contractor.id;
+    const contractor = db.prepare('SELECT * FROM contractors WHERE id = ?').get(contractorId);
+    if (!contractor) return res.status(404).json({ error: 'not found' });
+
+    const price = Number(getSetting('membership_price', '150')) || 150;
+    const secret = process.env.STRIPE_SECRET_KEY;
+
+    if (!secret) {
+      const updated = grantMembership(contractorId, 30);
+      trackEvent('membership_demo_activated', { contractor_id: contractorId, price, self: true });
+      const signup = membershipSignupEmail({ contractor, expiresAt: updated.membership_expires_at, price });
+      queueEmail(contractor.email, signup.subject, signup.body);
+      return res.json({ ok: true, demo: true, membership: updated });
+    }
+
+    try {
+      const origin = req.headers.origin || process.env.PUBLIC_URL || 'http://localhost:7100';
+      const body = new URLSearchParams({
+        mode: 'subscription',
+        success_url: `${origin}/portal?membership=ok`,
+        cancel_url: `${origin}/portal?membership=cancel`,
+        'line_items[0][price_data][currency]': 'usd',
+        'line_items[0][price_data][unit_amount]': String(price * 100),
+        'line_items[0][price_data][recurring][interval]': 'month',
+        'line_items[0][price_data][product_data][name]': 'RemodelaUSA membership — 30 days of leads',
+        'line_items[0][quantity]': '1',
+        'metadata[contractor_id]': String(contractorId),
+        'subscription_data[metadata][contractor_id]': String(contractorId),
+        customer_email: contractor.email,
+      });
+      const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+      const data = await r.json();
+      if (!r.ok) return res.status(502).json({ error: data.error?.message ?? 'stripe error' });
+      trackEvent('membership_checkout_created', { contractor_id: contractorId, price, self: true });
+      res.json({ url: data.url });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // ==================== MEMBRESÍA MENSUAL ($150/mes) ========================
   // Modelo híbrido: 1er lead gratis → membresía $150/mes → +8% desde el 2.º mes.
   // POST /api/billing/membership/:contractorId  (solo admin)
@@ -755,6 +962,7 @@ export function createApiApp() {
         'line_items[0][price_data][product_data][name]': 'RemodelaUSA membership — 30 days of leads',
         'line_items[0][quantity]': '1',
         'metadata[contractor_id]': String(contractorId),
+        'subscription_data[metadata][contractor_id]': String(contractorId),
         customer_email: contractor.email,
       });
       const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
@@ -764,8 +972,8 @@ export function createApiApp() {
       });
       const data = await r.json();
       if (!r.ok) return res.status(502).json({ error: data.error?.message ?? 'stripe error' });
-      // Cuando el contratista pague, Stripe dispara el webhook (si está
-      // configurado) o tú confirmas en el panel; por ahora dejamos el enlace.
+      // Cuando el contratista pague, el webhook POST /api/billing/webhook
+      // otorga la membresía automáticamente (ver arriba).
       trackEvent('membership_checkout_created', { contractor_id: contractorId, price });
       res.json({ url: data.url });
     } catch (err) {

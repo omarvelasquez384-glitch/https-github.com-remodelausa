@@ -93,6 +93,24 @@ db.exec(`
     created_at TEXT DEFAULT (datetime('now'))
   );
 
+  -- Pagos confirmados por el webhook de Stripe (membresías y comisiones).
+  -- Un pago = una fila; stripe_event_id único para idempotencia (reintentos
+  -- de Stripe no duplican el registro ni la membresía).
+  CREATE TABLE IF NOT EXISTS payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    contractor_id INTEGER NOT NULL,
+    stripe_event_id TEXT DEFAULT '',
+    stripe_session_id TEXT DEFAULT '',
+    stripe_subscription_id TEXT DEFAULT '',
+    type TEXT DEFAULT 'membership', -- membership | commission
+    amount_cents INTEGER DEFAULT 0,
+    currency TEXT DEFAULT 'usd',
+    status TEXT DEFAULT 'paid', -- paid | failed | refunded
+    lead_id INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+  CREATE UNIQUE INDEX IF NOT EXISTS payments_stripe_event_idx ON payments (stripe_event_id) WHERE stripe_event_id != '';
+
   CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
@@ -149,6 +167,32 @@ export function setSetting(key, value) {
 
 export function trackEvent(type, payload = {}) {
   db.prepare('INSERT INTO events (type, payload) VALUES (?, ?)').run(type, JSON.stringify(payload));
+}
+
+// Registra un pago confirmado por Stripe. Idempotente por stripe_event_id:
+// si el evento ya se registró (reintento de Stripe), devuelve la fila
+// existente y NO duplica. Devuelve { row, duplicate }.
+export function recordPayment(payment) {
+  const eventId = String(payment.stripe_event_id ?? '');
+  if (eventId) {
+    const existing = db.prepare('SELECT * FROM payments WHERE stripe_event_id = ?').get(eventId);
+    if (existing) return { row: existing, duplicate: true };
+  }
+  const info = db.prepare(`
+    INSERT INTO payments (contractor_id, stripe_event_id, stripe_session_id, stripe_subscription_id, type, amount_cents, currency, status, lead_id)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    Number(payment.contractor_id) || 0,
+    eventId,
+    String(payment.stripe_session_id ?? ''),
+    String(payment.stripe_subscription_id ?? ''),
+    String(payment.type ?? 'membership'),
+    Math.max(0, Number(payment.amount_cents) || 0),
+    String(payment.currency ?? 'usd'),
+    String(payment.status ?? 'paid'),
+    Number(payment.lead_id) || 0,
+  );
+  return { row: db.prepare('SELECT * FROM payments WHERE id = ?').get(Number(info.lastInsertRowid)), duplicate: false };
 }
 
 // Normalización robusta: minúsculas + quita tildes (baño → banho → bano)
