@@ -25,7 +25,7 @@ const T = {
     save: 'Save profile', saving: 'Saving…', saved: 'Profile saved. It now shows in the public directory.',
     uploadLogo: 'Upload logo', uploadPhoto: 'Add project photo', uploading: 'Uploading…',
     photoLimit: 'Up to 8 project photos.', removePhoto: 'Remove',
-    status: 'Account status', statusPending: 'Pending verification — your profile is not public yet.',
+    status: 'Account status', statusPending: 'Pending profile review — your profile is not public yet.',
     statusActive: 'Active — your profile is visible in the directory.',
     viewPublic: 'View my public profile',
     noLeads: 'No client requests assigned to you yet. They arrive here automatically when a homeowner near you asks for a quote.',
@@ -45,7 +45,7 @@ const T = {
     save: 'Guardar perfil', saving: 'Guardando…', saved: 'Perfil guardado. Ya se muestra en el directorio público.',
     uploadLogo: 'Subir logo', uploadPhoto: 'Agregar foto de proyecto', uploading: 'Subiendo…',
     photoLimit: 'Hasta 8 fotos de proyectos.', removePhoto: 'Quitar',
-    status: 'Estado de la cuenta', statusPending: 'Pendiente de verificación — tu perfil aún no es público.',
+    status: 'Estado de la cuenta', statusPending: 'Pendiente de revisión de perfil — tu perfil aún no es público.',
     statusActive: 'Activo — tu perfil es visible en el directorio.',
     viewPublic: 'Ver mi perfil público',
     noLeads: 'Aún no tienes solicitudes de clientes. Llegan aquí automáticamente cuando un dueño de casa cerca de ti pide una cotización.',
@@ -65,7 +65,7 @@ const T = {
     save: 'Salvar perfil', saving: 'Salvando…', saved: 'Perfil salvo. Ele já aparece no diretório público.',
     uploadLogo: 'Enviar logo', uploadPhoto: 'Adicionar foto de projeto', uploading: 'Enviando…',
     photoLimit: 'Até 8 fotos de projetos.', removePhoto: 'Remover',
-    status: 'Status da conta', statusPending: 'Pendente de verificação — seu perfil ainda não é público.',
+    status: 'Status da conta', statusPending: 'Pendente de revisão de perfil — seu perfil ainda não é público.',
     statusActive: 'Ativo — seu perfil está visível no diretório.',
     viewPublic: 'Ver meu perfil público',
     noLeads: 'Você ainda não tem solicitações de clientes. Elas chegam aqui automaticamente quando um proprietário da sua região pede um orçamento.',
@@ -179,6 +179,25 @@ export default function Portal() {
     setToken('');
     setEmail('');
     setPassword('');
+  };
+
+  // Checkout de membresía del propio contratista: abre Stripe Checkout
+  // o, en modo demo, activa 30 días y recarga el perfil.
+  const [checkoutState, setCheckoutState] = useState<'idle' | 'loading' | 'error'>('idle');
+  const checkoutMembership = async () => {
+    setCheckoutState('loading');
+    try {
+      const r = await contractorApi.startMembershipCheckout(window.localStorage.getItem(TOKEN_KEY) ?? token);
+      if (r.url) {
+        window.location.href = r.url;
+        return;
+      }
+      // Modo demo: la membresía ya quedó activa; recargar el perfil.
+      await loadProfile(window.localStorage.getItem(TOKEN_KEY) ?? token);
+      setCheckoutState('idle');
+    } catch {
+      setCheckoutState('error');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -428,7 +447,18 @@ export default function Portal() {
                         )}
                       </div>
                       {!active && !freeLeft && (
-                        <a href="mailto:hola@remodelausa.com?subject=Membership%20activation" className="btn-primary rounded text-center whitespace-nowrap">Activar membresía</a>
+                        <div className="flex flex-col items-stretch gap-2">
+                          <button
+                            onClick={checkoutMembership}
+                            disabled={checkoutState === 'loading'}
+                            className="btn-primary rounded text-center whitespace-nowrap disabled:opacity-60"
+                          >
+                            {checkoutState === 'loading' ? 'Abriendo pago…' : 'Activar membresía · $150/mes'}
+                          </button>
+                          {checkoutState === 'error' && (
+                            <p className="text-xs text-red-400 text-center">No se pudo abrir el pago. Inténtalo de nuevo.</p>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -529,7 +559,7 @@ export default function Portal() {
                   <div className="bg-white/5 border border-white/10 rounded-lg p-6 space-y-5">
                     <div className="grid md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm text-white/80 mb-2" htmlFor="p-name">{ui.verified === 'Verified' ? 'Full name' : 'Nombre completo'}</label>
+                        <label className="block text-sm text-white/80 mb-2" htmlFor="p-name">{ui.verified === 'Profile reviewed' ? 'Full name' : 'Nombre completo'}</label>
                         <input id="p-name" name="name" value={form.name ?? ''} onChange={handleChange} className={inputClass} />
                       </div>
                       <div>

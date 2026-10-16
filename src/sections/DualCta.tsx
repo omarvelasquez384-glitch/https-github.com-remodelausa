@@ -9,7 +9,7 @@ const T = {
   en: {
     subtitle: 'FOR HOMEOWNERS & CONTRACTORS',
     homeownerTitle: 'Ready to remodel your home?',
-    homeownerText: 'Get up to 4 free quotes from verified contractors in your area within 24 hours.',
+    homeownerText: 'Get up to 4 free quotes from contractors with reviewed profiles in your area. They reply directly.',
     homeownerCta: 'Get my free quotes',
     contractorTitle: 'Are you a contractor?',
     contractorText: 'Join our network and receive client requests in your area. Your first lead is free — then $150/month: first month with no commission, 8% only on jobs you sign after that.',
@@ -18,7 +18,7 @@ const T = {
   es: {
     subtitle: 'PARA DUEÑOS DE CASA Y CONTRATISTAS',
     homeownerTitle: '¿Listo para remodelar tu hogar?',
-    homeownerText: 'Recibe hasta 4 cotizaciones gratis de contratistas verificados de tu zona en menos de 24 horas.',
+    homeownerText: 'Recibe hasta 4 cotizaciones gratis de contratistas con perfil revisado de tu zona. Responden directo.',
     homeownerCta: 'Cotizar gratis',
     contractorTitle: '¿Eres contratista?',
     contractorText: 'Únete a la red y recibe solicitudes de clientes en tu zona. Tu primer lead es gratis — luego $150/mes: primer mes sin comisión y 8% solo de los trabajos que firmes después.',
@@ -27,7 +27,7 @@ const T = {
   pt: {
     subtitle: 'PARA PROPRIETÁRIOS E CONSTRUTORAS',
     homeownerTitle: 'Pronto para reformar sua casa?',
-    homeownerText: 'Receba até 4 orçamentos grátis de construtoras verificadas da sua região em menos de 24 horas.',
+    homeownerText: 'Receba até 4 orçamentos grátis de construtoras com perfil revisado da sua região. Elas respondem direto.',
     homeownerCta: 'Pedir orçamento grátis',
     contractorTitle: 'Você é uma construtora?',
     contractorText: 'Junte-se à rede e receba solicitações de clientes da sua região. Seu primeiro lead é grátis — depois US$ 150/mês: primeiro mês sem comissão e 8% apenas dos trabalhos fechados depois disso.',

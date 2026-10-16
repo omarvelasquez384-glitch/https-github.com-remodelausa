@@ -31,14 +31,6 @@ function saveLocation(loc: UserLocation): void {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(loc));
 }
 
-// Número determinista de contratistas por estado (simulado, estable por nombre)
-export function getContractorCount(state: string): number {
-  let hash = 0;
-  for (let i = 0; i < state.length; i++) {
-    hash = (hash * 31 + state.charCodeAt(i)) % 997;
-  }
-  return 25 + (hash % 96); // 25–120
-}
 
 interface NominatimAddress {
   city?: string;
@@ -96,7 +88,7 @@ const STRINGS = {
     updateLocation: 'Update',
     contractorsIn: (city: string, state: string) =>
       city && state ? `Contractors available in ${city}, ${state}` : state ? `Contractors available in ${state}` : 'Contractors available in your area',
-    count: (n: number) => `${n} verified contractors`,
+    count: (n: number) => `${n} contractor${n === 1 ? '' : 's'} with reviewed profile${n === 1 ? '' : 's'}`,
     online: 'Online',
     offline: 'Offline — quotes will load when you reconnect',
     errorDenied: 'Location permission denied. You can enable it in your browser settings.',
@@ -109,7 +101,7 @@ const STRINGS = {
     updateLocation: 'Actualizar',
     contractorsIn: (city: string, state: string) =>
       city && state ? `Contratistas disponibles en ${city}, ${state}` : state ? `Contratistas disponibles en ${state}` : 'Contratistas disponibles en tu zona',
-    count: (n: number) => `${n} contratistas verificados`,
+    count: (n: number) => `${n} contratista${n === 1 ? '' : 's'} con perfil revisado`,
     online: 'En línea',
     offline: 'Sin conexión — las cotizaciones cargarán al reconectarte',
     errorDenied: 'Permiso de ubicación denegado. Puedes activarlo en la configuración de tu navegador.',
@@ -122,7 +114,7 @@ const STRINGS = {
     updateLocation: 'Atualizar',
     contractorsIn: (city: string, state: string) =>
       city && state ? `Construtoras disponíveis em ${city}, ${state}` : state ? `Construtoras disponíveis em ${state}` : 'Construtoras disponíveis na sua região',
-    count: (n: number) => `${n} construtoras verificadas`,
+    count: (n: number) => `${n} construtora${n === 1 ? '' : 's'} com perfil revisado`,
     online: 'Online',
     offline: 'Offline — os orçamentos carregarão quando você reconectar',
     errorDenied: 'Permissão de localização negada. Você pode ativá-la nas configurações do navegador.',
@@ -135,6 +127,19 @@ export function LocationBar() {
   const lang = getLanguage() as Lang;
   const t = STRINGS[lang] ?? STRINGS.en;
   const [location, setLocation] = useState<UserLocation | null>(getStoredLocation());
+  // Conteo REAL de contratistas activos en el estado del usuario (endpoint
+  // público /api/directory). Antes era un número simulado por hash (25–120).
+  const [realCount, setRealCount] = useState<number | null>(null);
+  useEffect(() => {
+    if (!location?.state) { setRealCount(null); return; }
+    let cancelled = false;
+    setRealCount(null);
+    fetch(`/api/directory?state=${encodeURIComponent(location.state)}`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((rows) => { if (!cancelled) setRealCount(Array.isArray(rows) ? rows.length : null); })
+      .catch(() => { if (!cancelled) setRealCount(null); });
+    return () => { cancelled = true; };
+  }, [location?.state]);
   const [status, setStatus] = useState<'idle' | 'detecting' | 'error-denied' | 'error-unavailable' | 'error-geocode'>('idle');
   const [online, setOnline] = useState<boolean>(navigator.onLine);
 
@@ -177,9 +182,11 @@ export function LocationBar() {
             <span className="text-sm text-white/85">
               {t.contractorsIn(location.city, location.state)}
             </span>
-            <span className="text-sm text-gold-400 font-medium">
-              {t.count(getContractorCount(location.state || location.display))}
-            </span>
+            {realCount !== null && (
+              <span className="text-sm text-gold-400 font-medium">
+                {t.count(realCount)}
+              </span>
+            )}
             <button
               onClick={handleDetect}
               disabled={status === 'detecting'}

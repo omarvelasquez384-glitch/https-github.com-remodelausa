@@ -33,7 +33,7 @@ export const LEAD_STATUS_LABELS: Record<Lang, Record<string, string>> = {
 
 export const UI_LABELS = {
   en: {
-    verified: 'Verified', years: (n: number) => `${n} yrs experience`,
+    verified: 'Profile reviewed', years: (n: number) => `${n} yrs experience`,
     jobsDone: (n: number) => `${n} jobs completed`, viewProfile: 'View profile',
     requestQuote: 'Request a free quote', call: 'Call', email: 'Email',
     website: 'Website', license: 'License', services: 'Services',
@@ -44,7 +44,7 @@ export const UI_LABELS = {
     basedIn: 'Based in',
   },
   es: {
-    verified: 'Verificado', years: (n: number) => `${n} años de experiencia`,
+    verified: 'Perfil revisado', years: (n: number) => `${n} años de experiencia`,
     jobsDone: (n: number) => `${n} trabajos realizados`, viewProfile: 'Ver perfil',
     requestQuote: 'Solicitar cotización gratis', call: 'Llamar', email: 'Correo',
     website: 'Sitio web', license: 'Licencia', services: 'Servicios',
@@ -55,7 +55,7 @@ export const UI_LABELS = {
     basedIn: 'Ubicación',
   },
   pt: {
-    verified: 'Verificado', years: (n: number) => `${n} anos de experiência`,
+    verified: 'Perfil revisado', years: (n: number) => `${n} anos de experiência`,
     jobsDone: (n: number) => `${n} projetos concluídos`, viewProfile: 'Ver perfil',
     requestQuote: 'Solicitar orçamento grátis', call: 'Ligar', email: 'E-mail',
     website: 'Site', license: 'Licença', services: 'Serviços',

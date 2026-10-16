@@ -4,7 +4,7 @@ export const ptContent: SiteContent = {
   site: {
     title: "RemodelaUSA — Construtoras de Reforma nos Estados Unidos",
     description:
-      "Encontre construtoras verificadas para reformas, banheiros, cozinhas, pintura, concreto e reparos em todo os Estados Unidos. Orçamentos grátis em 24 horas.",
+      "Encontre construtoras revisadas pela nossa equipe para reformas, banheiros, cozinhas, pintura, concreto e reparos na região de Kansas City. Orçamentos grátis e sem compromisso.",
     language: "pt",
     keywords:
       "reforma, construtoras, banheiros, cozinhas, pintura, concreto, reparos, Estados Unidos, orçamento grátis",
@@ -15,7 +15,7 @@ export const ptContent: SiteContent = {
   navigation: {
     brandName: "RemodelaUSA",
     brandSubname: "lar renovado",
-    tagline: "Construtoras verificadas em todo os EUA",
+    tagline: "Construtoras revisadas pela nossa equipe",
     navLinks: [
       { name: "Início", href: "#hero", icon: "Home" },
       {
@@ -50,7 +50,7 @@ export const ptContent: SiteContent = {
   preloader: {
     brandName: "RemodelaUSA",
     brandSubname: "lar renovado",
-    yearText: "Em todo os EUA",
+    yearText: "Região de Kansas City",
   },
 
   hero: {
@@ -58,12 +58,8 @@ export const ptContent: SiteContent = {
     mainTitle: "Sua casa merece\nas melhores mãos",
     ctaButtonText: "Encontre sua construtora",
     ctaTarget: "#contact",
-    stats: [
-      { value: 12500, suffix: "+", label: "Projetos concluídos" },
-      { value: 3800, suffix: "+", label: "Construtoras verificadas" },
-      { value: 50, suffix: "", label: "Estados cobertos" },
-    ],
-    decorativeText: "Reformas em todo os EUA",
+    stats: [], // Sem números inventados: ainda não há projetos nem construtoras suficientes para mostrar estatísticas.
+    decorativeText: "Reformas em Kansas City",
     backgroundImage: "/images/hero-banner.png",
   },
 
@@ -86,7 +82,7 @@ export const ptContent: SiteContent = {
           "Inclui: chuveiro tipo chuva, dupla cuba, azulejo de porcelana, instalação de banheira e ventilação melhorada.",
         alcohol: "$4.500",
         temperature: "2–3 sem",
-        aging: "1 ano",
+        aging: "",
       },
       {
         id: "cocinas",
@@ -102,7 +98,7 @@ export const ptContent: SiteContent = {
           "Inclui: armários, bancada de quartzo, instalação elétrica e de gás, piso novo e revestimento de azulejo.",
         alcohol: "$12.000",
         temperature: "4–6 sem",
-        aging: "1 ano",
+        aging: "",
       },
       {
         id: "pintura",
@@ -118,7 +114,7 @@ export const ptContent: SiteContent = {
           "Inclui: reparo de paredes, lixamento, massa corrida, duas demãos de tinta premium e limpeza completa.",
         alcohol: "$1.200",
         temperature: "3–5 dias",
-        aging: "2 anos",
+        aging: "",
       },
       {
         id: "concreto",
@@ -134,7 +130,7 @@ export const ptContent: SiteContent = {
           "Inclui: escavação, forma, armação de aço, concretagem, acabamento estampado e selagem protetora.",
         alcohol: "$3.800",
         temperature: "1–2 sem",
-        aging: "5 anos",
+        aging: "",
       },
       {
         id: "remodelacion",
@@ -150,27 +146,27 @@ export const ptContent: SiteContent = {
           "Inclui: projeto arquitetônico, alvarás, mão de obra completa, supervisão de obra e acabamentos de luxo.",
         alcohol: "$25.000",
         temperature: "8–12 sem",
-        aging: "1 ano",
+        aging: "",
       },
     ],
     features: [
       {
         icon: "Sparkles",
-        title: "Construtoras verificadas",
+        title: "Perfis revisados",
         description:
-          "Toda construtora passa por verificação de licença, seguro e antecedentes antes de receber solicitações.",
+          "Todo perfil de construtora é revisado pela nossa equipe antes de receber solicitações.",
       },
       {
         icon: "Clock",
-        title: "Orçamento em 24 horas",
+        title: "Orçamento grátis, sem compromisso",
         description:
-          "Publique seu projeto grátis e receba até 4 orçamentos de construtoras da sua região em menos de um dia.",
+          "Publique seu projeto grátis e receba até 4 orçamentos de construtoras com perfil revisado da sua região. As construtoras respondem direto — o prazo depende de cada construtora.",
       },
       {
         icon: "Thermometer",
         title: "Preços transparentes",
         description:
-          "Compare propostas lado a lado com preços claros, garantias por escrito e avaliações reais de clientes.",
+          "Compare propostas lado a lado com preços claros e avaliações de clientes. Os termos de garantia são acordados direto com sua construtora.",
       },
     ],
     quote: {
@@ -221,7 +217,7 @@ export const ptContent: SiteContent = {
     subtitle: "Mais trabalhos, menos esforço",
     mainTitle: "Faça seu negócio crescer conosco",
     introText:
-      "Os proprietários publicam seus projetos grátis. Você recebe as solicitações da sua região, faz o orçamento, fecha o trabalho e só então paga uma comissão. Sem mensalidades, sem risco.",
+      "Os proprietários publicam seus projetos grátis. Você recebe as solicitações da sua região, faz o orçamento e fecha o trabalho. Seu primeiro lead é grátis; depois, a assinatura é de US$ 150/mês — primeiro mês sem comissão e, a partir do segundo, só 8% dos trabalhos fechados.",
     timeline: [
       { year: "Passo 1", event: "Crie seu perfil" },
       { year: "Passo 2", event: "Receba solicitações" },
@@ -238,19 +234,19 @@ export const ptContent: SiteContent = {
           title: "Solicitações de clientes prontos para contratar",
           description:
             "Cada solicitação vem com fotos, orçamento estimado e data desejada de início. Você fala direto com o proprietário, sem intermediários tirando sua margem.",
-          highlight: "Até 15 solicitações por mês na sua região",
+          highlight: "Solicitações de clientes na sua região — sem limite mensal",
         },
       },
       {
         id: "verificacion",
-        name: "Perfil verificado",
+        name: "Perfil revisado",
         icon: "Award",
         image: "/images/museum-tab2.png",
         content: {
-          title: "Destaque-se com o selo de verificado",
+          title: "Destaque-se com o selo de perfil revisado",
           description:
-            "Verificamos sua licença, seguro e antecedentes. Seu perfil verificado aparece primeiro nas buscas e gera confiança desde o primeiro contato.",
-          highlight: "Perfis verificados fecham 3× mais trabalhos",
+            "Nossa equipe revisa seu perfil antes de você receber solicitações. Seu perfil revisado aparece primeiro nas buscas e gera confiança desde o primeiro contato.",
+          highlight: "Perfis revisados aparecem primeiro nas buscas",
         },
       },
       {
@@ -259,10 +255,10 @@ export const ptContent: SiteContent = {
         icon: "BookOpen",
         image: "/images/museum-tab3.png",
         content: {
-          title: "Pague apenas quando fechar o trabalho",
+          title: "Primeiro lead grátis, depois taxa fixa",
           description:
-            "Criar seu perfil é grátis. Você só paga uma comissão de 8% sobre os trabalhos fechados pela plataforma. Se não fechar, não paga nada.",
-          highlight: "0% de comissão se não fechar",
+            "Criar seu perfil é grátis e seu primeiro lead é grátis. Para continuar recebendo leads, a assinatura é de US$ 150/mês — primeiro mês sem comissão e, a partir do segundo, só 8% dos trabalhos fechados pela plataforma.",
+          highlight: "8% apenas de trabalhos fechados a partir do 2.º mês",
         },
       },
     ],
@@ -276,7 +272,7 @@ export const ptContent: SiteContent = {
       text: "Dobrei meus projetos em seis meses. As solicitações chegam direto no meu celular e eu decido quais orçar.",
       attribution: "Carlos R., Construtor geral, Miami, FL",
     },
-    founderPhotoAlt: "Construtora verificada da RemodelaUSA",
+    founderPhotoAlt: "Construtora da RemodelaUSA",
     founderPhoto: "/images/photo-retro.png",
   },
 
@@ -342,14 +338,12 @@ export const ptContent: SiteContent = {
     storySubtitle: "O marketplace do lar",
     storyTitle: "Conectamos lares a mãos especializadas",
     storyParagraphs: [
-      "A RemodelaUSA nasceu de uma ideia simples: encontrar uma construtora confiável não deveria ser uma loteria. Os proprietários merecem preços claros, trabalhos garantidos e tranquilidade em cada projeto.",
-      "Hoje somos o ponto de encontro entre milhares de famílias e construtoras verificadas nos 50 estados. Nós fazemos a conexão; as construtoras fecham mais trabalhos e você transforma sua casa.",
+      "A RemodelaUSA nasceu de uma ideia simples: encontrar uma construtora confiável não deveria ser uma loteria. Os proprietários merecem preços claros, comunicação honesta e tranquilidade em cada projeto.",
+      "Hoje conectamos proprietários a construtoras revisadas pela nossa equipe na região de Kansas City (Missouri e Kansas). Nós fazemos a conexão; as construtoras fecham mais trabalhos e você transforma sua casa.",
     ],
     storyTimeline: [
-      { value: "12.500+", label: "Projetos" },
-      { value: "3.800+", label: "Construtoras" },
-      { value: "50", label: "Estados" },
-      { value: "4.8/5", label: "Satisfação" },
+      { value: "1", label: "Construtora com perfil revisado" },
+      { value: "KC metro", label: "Área de atendimento" },
     ],
     storyQuote: {
       prefix: "Compromisso",
@@ -365,32 +359,26 @@ export const ptContent: SiteContent = {
     subtitle: "Sem compromisso",
     mainTitle: "Encontre sua construtora hoje",
     introText:
-      "Conte-nos sobre seu projeto e receba até 4 orçamentos de construtoras verificadas na sua região. É grátis e sem compromisso.",
+      "Conte-nos sobre seu projeto e receba até 4 orçamentos de construtoras com perfil revisado na sua região. É grátis e sem compromisso.",
     contactInfoTitle: "Prefere falar conosco?",
     contactInfo: [
       {
         icon: "MapPin",
         label: "Cobertura",
-        value: "Todo os Estados Unidos",
-        subtext: "50 estados e mais de 3.800 construtoras",
-      },
-      {
-        icon: "Phone",
-        label: "Telefone",
-        value: "+1 (800) 555-0199",
-        subtext: "Seg–Sáb, 8:00 – 18:00",
+        value: "Região de Kansas City",
+        subtext: "Missouri e Kansas",
       },
       {
         icon: "Mail",
         label: "E-mail",
         value: "ola@remodelausa.com",
-        subtext: "Respondemos em menos de 24 horas",
+        subtext: "Respondemos o quanto antes",
       },
       {
         icon: "Clock",
         label: "Orçamentos",
-        value: "Em 24 horas",
-        subtext: "Até 4 propostas de construtoras",
+        value: "De construtoras",
+        subtext: "Até 4 propostas, enviadas direto",
       },
     ],
     form: {
@@ -415,7 +403,7 @@ export const ptContent: SiteContent = {
       submitText: "Receber orçamentos grátis",
       submittingText: "Enviando...",
       successMessage:
-        "Pronto! Recebemos sua solicitação. Entraremos em contato em menos de 24 horas.",
+        "Pronto! Recebemos sua solicitação. As construtoras atribuídas entrarão em contato direto sobre o seu projeto.",
       errorMessage: "Ocorreu um problema ao enviar. Tente novamente.",
     },
     privacyNotice:
@@ -427,7 +415,7 @@ export const ptContent: SiteContent = {
     brandName: "RemodelaUSA",
     tagline: "Seu lar, renovado",
     description:
-      "O marketplace que conecta proprietários a construtoras verificadas em todo os Estados Unidos.",
+      "O marketplace que conecta proprietários a construtoras revisadas pela nossa equipe na região de Kansas City.",
     socialLinks: [
       { icon: "Instagram", label: "Instagram", href: "#" },
       { icon: "Facebook", label: "Facebook", href: "#" },
@@ -462,8 +450,7 @@ export const ptContent: SiteContent = {
       },
     ],
     contactItems: [
-      { icon: "MapPin", text: "Todo os Estados Unidos" },
-      { icon: "Phone", text: "+1 (800) 555-0199" },
+      { icon: "MapPin", text: "Região de Kansas City" },
       { icon: "Mail", text: "ola@remodelausa.com" },
     ],
     newsletterLabel: "Receba dicas de reforma",

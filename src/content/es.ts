@@ -4,7 +4,7 @@ export const esContent: SiteContent = {
   site: {
     title: "RemodelaUSA — Contratistas de Remodelación en Estados Unidos",
     description:
-      "Encuentra contratistas verificados para remodelaciones, baños, cocinas, pintura, concreto y reparaciones en todo Estados Unidos. Cotizaciones gratis en 24 horas.",
+      "Encuentra contratistas revisados por nuestro equipo para remodelaciones, baños, cocinas, pintura, concreto y reparaciones en el área de Kansas City. Cotizaciones gratis y sin compromiso.",
     language: "es",
     keywords:
       "remodelación, contratistas, baños, cocinas, pintura, concreto, reparaciones, Estados Unidos, cotización gratis",
@@ -15,7 +15,7 @@ export const esContent: SiteContent = {
   navigation: {
     brandName: "RemodelaUSA",
     brandSubname: "hogar renovado",
-    tagline: "Contratistas verificados en todo EE. UU.",
+    tagline: "Contratistas revisados por nuestro equipo",
     navLinks: [
       { name: "Inicio", href: "#hero", icon: "Home" },
       {
@@ -50,7 +50,7 @@ export const esContent: SiteContent = {
   preloader: {
     brandName: "RemodelaUSA",
     brandSubname: "hogar renovado",
-    yearText: "En todo EE. UU.",
+    yearText: "Área de Kansas City",
   },
 
   hero: {
@@ -58,12 +58,8 @@ export const esContent: SiteContent = {
     mainTitle: "Tu hogar merece\nlas mejores manos",
     ctaButtonText: "Encuentra tu contratista",
     ctaTarget: "#contact",
-    stats: [
-      { value: 12500, suffix: "+", label: "Proyectos completados" },
-      { value: 3800, suffix: "+", label: "Contratistas verificados" },
-      { value: 50, suffix: "", label: "Estados cubiertos" },
-    ],
-    decorativeText: "Remodelación en todo EE. UU.",
+    stats: [], // Sin cifras inventadas: no hay proyectos ni contratistas suficientes para mostrar estadísticas.
+    decorativeText: "Remodelación en Kansas City",
     backgroundImage: "/images/hero-banner.png",
   },
 
@@ -86,7 +82,7 @@ export const esContent: SiteContent = {
           "Incluye: regadera tipo lluvia, doble lavabo, azulejo de porcelana, instalación de tina y ventilación mejorada.",
         alcohol: "$4,500",
         temperature: "2–3 sem",
-        aging: "1 año",
+        aging: "",
       },
       {
         id: "cocinas",
@@ -102,7 +98,7 @@ export const esContent: SiteContent = {
           "Incluye: gabinetes, cubierta de cuarzo, instalación eléctrica y de gas, piso nuevo y backsplash de azulejo.",
         alcohol: "$12,000",
         temperature: "4–6 sem",
-        aging: "1 año",
+        aging: "",
       },
       {
         id: "pintura",
@@ -118,7 +114,7 @@ export const esContent: SiteContent = {
           "Incluye: reparación de muros, lijado, masilla, dos capas de pintura premium y limpieza completa al finalizar.",
         alcohol: "$1,200",
         temperature: "3–5 días",
-        aging: "2 años",
+        aging: "",
       },
       {
         id: "concreto",
@@ -134,7 +130,7 @@ export const esContent: SiteContent = {
           "Incluye: excavación, encofrado, refuerzo de acero, colado, acabado estampado y sellado protector.",
         alcohol: "$3,800",
         temperature: "1–2 sem",
-        aging: "5 años",
+        aging: "",
       },
       {
         id: "remodelacion",
@@ -150,27 +146,27 @@ export const esContent: SiteContent = {
           "Incluye: diseño arquitectónico, permisos, mano de obra completa, supervisión de obra y acabados de lujo.",
         alcohol: "$25,000",
         temperature: "8–12 sem",
-        aging: "1 año",
+        aging: "",
       },
     ],
     features: [
       {
         icon: "Sparkles",
-        title: "Contratistas verificados",
+        title: "Perfiles revisados",
         description:
-          "Cada contratista pasa por revisión de licencia, seguro y antecedentes antes de recibir solicitudes.",
+          "Cada perfil de contratista es revisado por nuestro equipo antes de recibir solicitudes.",
       },
       {
         icon: "Clock",
-        title: "Cotización en 24 horas",
+        title: "Cotización gratis, sin compromiso",
         description:
-          "Publica tu proyecto gratis y recibe hasta 4 cotizaciones de contratistas de tu zona en menos de un día.",
+          "Publica tu proyecto gratis y recibe hasta 4 cotizaciones de contratistas con perfil revisado de tu zona. Los contratistas responden directo — el tiempo depende de cada contratista.",
       },
       {
         icon: "Thermometer",
         title: "Precios transparentes",
         description:
-          "Compara propuestas lado a lado con precios claros, garantías por escrito y opiniones reales de clientes.",
+          "Compara propuestas lado a lado con precios claros y opiniones de clientes. Los términos de garantía se acuerdan directo con tu contratista.",
       },
     ],
     quote: {
@@ -221,7 +217,7 @@ export const esContent: SiteContent = {
     subtitle: "Más trabajos, menos esfuerzo",
     mainTitle: "Crece tu negocio con nosotros",
     introText:
-      "Los dueños de casa publican sus proyectos gratis. Tú recibes las solicitudes de tu zona, cotizas, firmas el trabajo y solo entonces pagas una comisión. Sin mensualidades, sin riesgo.",
+      "Los dueños de casa publican sus proyectos gratis. Tú recibes las solicitudes de tu zona, cotizas y firmas el trabajo. Tu primer lead es gratis; después, la membresía es de $150/mes — primer mes sin comisión y desde el segundo solo 8% de los trabajos que firmes.",
     timeline: [
       { year: "Paso 1", event: "Crea tu perfil" },
       { year: "Paso 2", event: "Recibe solicitudes" },
@@ -238,19 +234,19 @@ export const esContent: SiteContent = {
           title: "Solicitudes de clientes listos para contratar",
           description:
             "Cada solicitud viene con fotos, presupuesto estimado y fecha deseada de inicio. Hablas directo con el dueño de la casa, sin intermediarios que se queden con tu margen.",
-          highlight: "Hasta 15 solicitudes al mes en tu zona",
+          highlight: "Solicitudes de clientes en tu zona — sin tope mensual",
         },
       },
       {
         id: "verificacion",
-        name: "Perfil verificado",
+        name: "Perfil revisado",
         icon: "Award",
         image: "/images/museum-tab2.png",
         content: {
-          title: "Destaca con la insignia de verificado",
+          title: "Destaca con la insignia de perfil revisado",
           description:
-            "Verificamos tu licencia, seguro y antecedentes. Tu perfil verificado aparece primero en las búsquedas y genera confianza desde el primer contacto.",
-          highlight: "Los perfiles verificados firman 3× más trabajos",
+            "Nuestro equipo revisa tu perfil antes de que recibas solicitudes. Tu perfil revisado aparece primero en las búsquedas y genera confianza desde el primer contacto.",
+          highlight: "Los perfiles revisados aparecen primero en las búsquedas",
         },
       },
       {
@@ -259,10 +255,10 @@ export const esContent: SiteContent = {
         icon: "BookOpen",
         image: "/images/museum-tab3.png",
         content: {
-          title: "Pagas solo cuando firmas el trabajo",
+          title: "Primer lead gratis, luego tarifa fija",
           description:
-            "Registrar tu perfil es gratis. Solo pagas una comisión del 8% sobre trabajos firmados a través de la plataforma. Si no firmas, no pagas nada.",
-          highlight: "0% de comisión si no firmas",
+            "Registrar tu perfil es gratis y tu primer lead es gratis. Para seguir recibiendo leads, la membresía es de $150/mes — primer mes sin comisión y desde el segundo solo 8% de los trabajos que firmes a través de la plataforma.",
+          highlight: "8% solo de trabajos firmados desde el 2.º mes",
         },
       },
     ],
@@ -276,7 +272,7 @@ export const esContent: SiteContent = {
       text: "Dupliqué mis proyectos en seis meses. Las solicitudes llegan directo a mi teléfono y decido cuáles cotizar.",
       attribution: "Carlos R., Contratista general, Miami, FL",
     },
-    founderPhotoAlt: "Contratista verificado de RemodelaUSA",
+    founderPhotoAlt: "Contratista de RemodelaUSA",
     founderPhoto: "/images/photo-retro.png",
   },
 
@@ -342,14 +338,12 @@ export const esContent: SiteContent = {
     storySubtitle: "El marketplace del hogar",
     storyTitle: "Conectamos hogares con manos expertas",
     storyParagraphs: [
-      "RemodelaUSA nació con una idea simple: encontrar un contratista confiable no debería ser una lotería. Los dueños de casa merecen precios claros, trabajos garantizados y tranquilidad en cada proyecto.",
-      "Hoy somos el punto de encuentro entre miles de familias y contratistas verificados en los 50 estados. Nosotros hacemos la conexión; los contratistas firman más trabajos y tú transformas tu hogar.",
+      "RemodelaUSA nació con una idea simple: encontrar un contratista confiable no debería ser una lotería. Los dueños de casa merecen precios claros, comunicación honesta y tranquilidad en cada proyecto.",
+      "Hoy conectamos dueños de casa con contratistas revisados por nuestro equipo en el área de Kansas City (Missouri y Kansas). Nosotros hacemos la conexión; los contratistas firman más trabajos y tú transformas tu hogar.",
     ],
     storyTimeline: [
-      { value: "12,500+", label: "Proyectos" },
-      { value: "3,800+", label: "Contratistas" },
-      { value: "50", label: "Estados" },
-      { value: "4.8/5", label: "Satisfacción" },
+      { value: "1", label: "Contratista con perfil revisado" },
+      { value: "KC metro", label: "Zona de servicio" },
     ],
     storyQuote: {
       prefix: "Compromiso",
@@ -365,32 +359,26 @@ export const esContent: SiteContent = {
     subtitle: "Sin compromiso",
     mainTitle: "Encuentra tu contratista hoy",
     introText:
-      "Cuéntanos sobre tu proyecto y recibe hasta 4 cotizaciones de contratistas verificados en tu área. Es gratis y no te compromete a nada.",
+      "Cuéntanos sobre tu proyecto y recibe hasta 4 cotizaciones de contratistas con perfil revisado en tu área. Es gratis y no te compromete a nada.",
     contactInfoTitle: "¿Prefieres hablar con nosotros?",
     contactInfo: [
       {
         icon: "MapPin",
         label: "Cobertura",
-        value: "Todo Estados Unidos",
-        subtext: "50 estados y más de 3,800 contratistas",
-      },
-      {
-        icon: "Phone",
-        label: "Teléfono",
-        value: "+1 (800) 555-0199",
-        subtext: "Lun–Sáb de 8:00 AM a 6:00 PM",
+        value: "Área de Kansas City",
+        subtext: "Missouri y Kansas",
       },
       {
         icon: "Mail",
         label: "Correo",
         value: "hola@remodelausa.com",
-        subtext: "Respondemos en menos de 24 horas",
+        subtext: "Respondemos lo antes posible",
       },
       {
         icon: "Clock",
         label: "Cotizaciones",
-        value: "En 24 horas",
-        subtext: "Hasta 4 propuestas de contratistas",
+        value: "De contratistas",
+        subtext: "Hasta 4 propuestas, enviadas directo",
       },
     ],
     form: {
@@ -415,7 +403,7 @@ export const esContent: SiteContent = {
       submitText: "Recibir cotizaciones gratis",
       submittingText: "Enviando...",
       successMessage:
-        "¡Listo! Recibimos tu solicitud. Te contactaremos en menos de 24 horas.",
+        "¡Listo! Recibimos tu solicitud. Los contratistas asignados te contactarán directo sobre tu proyecto.",
       errorMessage: "Hubo un problema al enviar. Intenta de nuevo.",
     },
     privacyNotice:
@@ -427,7 +415,7 @@ export const esContent: SiteContent = {
     brandName: "RemodelaUSA",
     tagline: "Tu hogar, renovado",
     description:
-      "El marketplace que conecta dueños de casa con contratistas verificados en todo Estados Unidos.",
+      "El marketplace que conecta dueños de casa con contratistas revisados por nuestro equipo en el área de Kansas City.",
     socialLinks: [
       { icon: "Instagram", label: "Instagram", href: "#" },
       { icon: "Facebook", label: "Facebook", href: "#" },
@@ -462,8 +450,7 @@ export const esContent: SiteContent = {
       },
     ],
     contactItems: [
-      { icon: "MapPin", text: "Todo Estados Unidos" },
-      { icon: "Phone", text: "+1 (800) 555-0199" },
+      { icon: "MapPin", text: "Área de Kansas City" },
       { icon: "Mail", text: "hola@remodelausa.com" },
     ],
     newsletterLabel: "Recibe consejos de remodelación",

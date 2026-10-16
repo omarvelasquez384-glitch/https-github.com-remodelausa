@@ -214,6 +214,13 @@ export function Footer() {
                 </a>
               </span>
             ))}
+            {/* Baja visible (TCPA/CAN-SPAM): revocar consentimiento y darse de baja */}
+            <span>
+              <span className="hidden md:inline">|</span>
+              <a href="/opt-out" className="hover:text-gold-400 transition-colors ml-2 md:ml-0">
+                {getLanguage() === 'es' ? 'Darse de baja' : getLanguage() === 'pt' ? 'Cancelar' : 'Opt out'}
+              </a>
+            </span>
             {footerConfig.icpText && (
               <>
                 <span className="hidden md:inline">|</span>

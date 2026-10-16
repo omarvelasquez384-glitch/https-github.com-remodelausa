@@ -93,6 +93,24 @@ db.exec(`
     created_at TEXT DEFAULT (datetime('now'))
   );
 
+  -- Pagos confirmados por el webhook de Stripe (membresías y comisiones).
+  -- Un pago = una fila; stripe_event_id único para idempotencia (reintentos
+  -- de Stripe no duplican el registro ni la membresía).
+  CREATE TABLE IF NOT EXISTS payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    contractor_id INTEGER NOT NULL,
+    stripe_event_id TEXT DEFAULT '',
+    stripe_session_id TEXT DEFAULT '',
+    stripe_subscription_id TEXT DEFAULT '',
+    type TEXT DEFAULT 'membership', -- membership | commission
+    amount_cents INTEGER DEFAULT 0,
+    currency TEXT DEFAULT 'usd',
+    status TEXT DEFAULT 'paid', -- paid | failed | refunded
+    lead_id INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+  CREATE UNIQUE INDEX IF NOT EXISTS payments_stripe_event_idx ON payments (stripe_event_id) WHERE stripe_event_id != '';
+
   CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
@@ -131,6 +149,75 @@ function addLeadCol(name, ddl) {
 }
 addLeadCol('tcpa_consent', 'tcpa_consent INTEGER DEFAULT 0');
 addLeadCol('tcpa_consent_at', "tcpa_consent_at TEXT DEFAULT ''");
+// TCPA (v2): texto EXACTO aceptado + versión + IP, y revocación si la hay.
+addLeadCol('tcpa_consent_text', "tcpa_consent_text TEXT DEFAULT ''");
+addLeadCol('tcpa_consent_version', "tcpa_consent_version TEXT DEFAULT ''");
+addLeadCol('tcpa_consent_ip', "tcpa_consent_ip TEXT DEFAULT ''");
+addLeadCol('tcpa_revoked_at', "tcpa_revoked_at TEXT DEFAULT ''");
+addLeadCol('tcpa_revoked_via', "tcpa_revoked_via TEXT DEFAULT ''");
+
+// CAN-SPAM: bajas de correo (supresión) y revocaciones de consentimiento.
+// Una baja aquí SUPRIME futuros envíos a ese correo (ver mailer.js).
+db.exec(`
+  CREATE TABLE IF NOT EXISTS email_unsubscribes (
+    email TEXT PRIMARY KEY,
+    unsubscribed_at TEXT DEFAULT (datetime('now')),
+    ip TEXT DEFAULT '',
+    source TEXT DEFAULT ''
+  );
+  CREATE TABLE IF NOT EXISTS consent_revocations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT DEFAULT '',
+    phone TEXT DEFAULT '',
+    channel TEXT DEFAULT 'all',
+    revoked_at TEXT DEFAULT (datetime('now')),
+    ip TEXT DEFAULT '',
+    source TEXT DEFAULT ''
+  );
+`);
+
+// CAN-SPAM: marca de supresión en la bandeja de salida (auditoría: el
+// correo se registró pero NO se envió porque el destinatario se dio de baja).
+const outboxCols = db.prepare('PRAGMA table_info(outbox)').all().map((c) => c.name);
+if (!outboxCols.includes('suppressed')) {
+  try { db.exec('ALTER TABLE outbox ADD COLUMN suppressed INTEGER DEFAULT 0'); } catch { /* ya existe */ }
+}
+
+export function isEmailUnsubscribed(email) {
+  const e = String(email ?? '').trim().toLowerCase();
+  if (!e) return false;
+  return !!db.prepare('SELECT email FROM email_unsubscribes WHERE email = ?').get(e);
+}
+
+export function recordUnsubscribe(email, { ip = '', source = '' } = {}) {
+  const e = String(email ?? '').trim().toLowerCase();
+  if (!e) return null;
+  db.prepare(`INSERT INTO email_unsubscribes (email, ip, source) VALUES (?, ?, ?)
+    ON CONFLICT(email) DO UPDATE SET unsubscribed_at = datetime('now'), ip = excluded.ip, source = excluded.source`)
+    .run(e, String(ip).slice(0, 60), String(source).slice(0, 60));
+  return db.prepare('SELECT * FROM email_unsubscribes WHERE email = ?').get(e);
+}
+
+// Registra una revocación de consentimiento TCPA (STOP / página /opt-out):
+// guarda el registro, marca los leads de ese email/teléfono como revocados
+// y da de baja el correo para no enviarle más emails comerciales.
+export function recordConsentRevocation({ email = '', phone = '', channel = 'all', ip = '', source = '' }) {
+  const e = String(email ?? '').trim().toLowerCase();
+  const p = String(phone ?? '').trim();
+  const now = new Date().toISOString();
+  db.prepare('INSERT INTO consent_revocations (email, phone, channel, revoked_at, ip, source) VALUES (?, ?, ?, ?, ?, ?)')
+    .run(e, p, String(channel).slice(0, 40), now, String(ip).slice(0, 60), String(source).slice(0, 60));
+  if (e) {
+    db.prepare("UPDATE leads SET tcpa_revoked_at = ?, tcpa_revoked_via = ? WHERE lower(email) = ? AND (tcpa_revoked_at IS NULL OR tcpa_revoked_at = '')")
+      .run(now, String(source).slice(0, 60), e);
+    recordUnsubscribe(e, { ip, source: `tcpa-revoke:${source}` });
+  }
+  if (p) {
+    db.prepare("UPDATE leads SET tcpa_revoked_at = ?, tcpa_revoked_via = ? WHERE phone = ? AND (tcpa_revoked_at IS NULL OR tcpa_revoked_at = '')")
+      .run(now, String(source).slice(0, 60), p);
+  }
+  return { revoked_at: now };
+}
 
 // Ajustes por defecto
 const defaults = { commission_rate: '8', avg_ticket: '10000', admin_token: '', membership_price: '150' };
@@ -149,6 +236,32 @@ export function setSetting(key, value) {
 
 export function trackEvent(type, payload = {}) {
   db.prepare('INSERT INTO events (type, payload) VALUES (?, ?)').run(type, JSON.stringify(payload));
+}
+
+// Registra un pago confirmado por Stripe. Idempotente por stripe_event_id:
+// si el evento ya se registró (reintento de Stripe), devuelve la fila
+// existente y NO duplica. Devuelve { row, duplicate }.
+export function recordPayment(payment) {
+  const eventId = String(payment.stripe_event_id ?? '');
+  if (eventId) {
+    const existing = db.prepare('SELECT * FROM payments WHERE stripe_event_id = ?').get(eventId);
+    if (existing) return { row: existing, duplicate: true };
+  }
+  const info = db.prepare(`
+    INSERT INTO payments (contractor_id, stripe_event_id, stripe_session_id, stripe_subscription_id, type, amount_cents, currency, status, lead_id)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    Number(payment.contractor_id) || 0,
+    eventId,
+    String(payment.stripe_session_id ?? ''),
+    String(payment.stripe_subscription_id ?? ''),
+    String(payment.type ?? 'membership'),
+    Math.max(0, Number(payment.amount_cents) || 0),
+    String(payment.currency ?? 'usd'),
+    String(payment.status ?? 'paid'),
+    Number(payment.lead_id) || 0,
+  );
+  return { row: db.prepare('SELECT * FROM payments WHERE id = ?').get(Number(info.lastInsertRowid)), duplicate: false };
 }
 
 // Normalización robusta: minúsculas + quita tildes (baño → banho → bano)

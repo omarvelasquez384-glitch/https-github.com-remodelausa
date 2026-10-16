@@ -20,7 +20,7 @@ const STRINGS = {
   en: {
     title: 'RemodelaUSA — Admin',
     tokenPrompt: 'Enter your admin token',
-    tokenHint: 'Default: remodelausa-admin (change it in Settings)',
+    tokenHint: 'No default token. Set ADMIN_TOKEN in Render and rotate it if it was ever shared.',
     enter: 'Enter',
     wrongToken: 'Invalid token. Try again.',
     tabs: { overview: 'Overview', leads: 'Leads', contractors: 'Contractors', outbox: 'Outbox', settings: 'Settings' },
@@ -31,7 +31,7 @@ const STRINGS = {
     signedJobs: 'Signed jobs',
     projectedCommissions: 'Commissions earned',
     activeContractors: 'Active contractors',
-    verifiedContractors: 'Verified',
+    verifiedContractors: 'Reviewed profiles',
     byStatus: 'Pipeline by status',
     status: { new: 'New', contacted: 'Contacted', quoted: 'Quoted', signed: 'Signed', lost: 'Lost' },
     leadsTable: {
@@ -43,7 +43,7 @@ const STRINGS = {
     },
     contractorsTable: {
       noContractors: 'No contractors registered yet.',
-      verify: 'Verify', unverify: 'Unverify', activate: 'Activate', suspend: 'Suspend',
+      verify: 'Mark reviewed', unverify: 'Remove review mark', activate: 'Activate', suspend: 'Suspend',
     },
     outboxEmpty: 'No emails queued yet.',
     settings: {
@@ -61,7 +61,7 @@ const STRINGS = {
   es: {
     title: 'RemodelaUSA — Administración',
     tokenPrompt: 'Introduce tu token de administrador',
-    tokenHint: 'Por defecto: remodelausa-admin (cámbialo en Ajustes)',
+    tokenHint: 'Sin token por defecto. Configura ADMIN_TOKEN en Render y rótalo si alguna vez se compartió.',
     enter: 'Entrar',
     wrongToken: 'Token inválido. Inténtalo de nuevo.',
     tabs: { overview: 'Resumen', leads: 'Leads', contractors: 'Contratistas', outbox: 'Correos', settings: 'Ajustes' },
@@ -72,7 +72,7 @@ const STRINGS = {
     signedJobs: 'Trabajos firmados',
     projectedCommissions: 'Comisiones ganadas',
     activeContractors: 'Contratistas activos',
-    verifiedContractors: 'Verificados',
+    verifiedContractors: 'Perfiles revisados',
     byStatus: 'Embudo por estado',
     status: { new: 'Nuevo', contacted: 'Contactado', quoted: 'Cotizado', signed: 'Firmado', lost: 'Perdido' },
     leadsTable: {
@@ -84,7 +84,7 @@ const STRINGS = {
     },
     contractorsTable: {
       noContractors: 'Aún no hay contratistas registrados.',
-      verify: 'Verificar', unverify: 'Quitar verif.', activate: 'Activar', suspend: 'Suspender',
+      verify: 'Marcar revisado', unverify: 'Quitar marca', activate: 'Activar', suspend: 'Suspender',
     },
     outboxEmpty: 'Aún no hay correos en la bandeja.',
     settings: {
@@ -102,7 +102,7 @@ const STRINGS = {
   pt: {
     title: 'RemodelaUSA — Administração',
     tokenPrompt: 'Digite seu token de administrador',
-    tokenHint: 'Padrão: remodelausa-admin (altere em Ajustes)',
+    tokenHint: 'Sem token padrão. Configure ADMIN_TOKEN no Render e troque-o se ele já foi compartilhado.',
     enter: 'Entrar',
     wrongToken: 'Token inválido. Tente novamente.',
     tabs: { overview: 'Resumo', leads: 'Leads', contractors: 'Construtoras', outbox: 'E-mails', settings: 'Ajustes' },
@@ -113,7 +113,7 @@ const STRINGS = {
     signedJobs: 'Trabalhos fechados',
     projectedCommissions: 'Comissões ganhas',
     activeContractors: 'Construtoras ativas',
-    verifiedContractors: 'Verificadas',
+    verifiedContractors: 'Perfis revisados',
     byStatus: 'Funil por status',
     status: { new: 'Novo', contacted: 'Contatado', quoted: 'Orçado', signed: 'Fechado', lost: 'Perdido' },
     leadsTable: {
@@ -125,7 +125,7 @@ const STRINGS = {
     },
     contractorsTable: {
       noContractors: 'Ainda não há construtoras registradas.',
-      verify: 'Verificar', unverify: 'Remover verif.', activate: 'Ativar', suspend: 'Suspender',
+      verify: 'Marcar revisado', unverify: 'Remover marca', activate: 'Ativar', suspend: 'Suspender',
     },
     outboxEmpty: 'Ainda não há e-mails na bandeja.',
     settings: {
@@ -166,7 +166,7 @@ export default function Admin() {
   const [leads, setLeads] = useState<LeadRecord[]>([]);
   const [contractors, setContractors] = useState<ContractorRecord[]>([]);
   const [outbox, setOutbox] = useState<{ id: number; to_email: string; subject: string; body: string; sent: number; created_at: string }[]>([]);
-  const [settingsInfo, setSettingsInfo] = useState<{ commission_rate: string; avg_ticket: string; admin_token: string; resend: boolean; stripe: boolean } | null>(null);
+  const [settingsInfo, setSettingsInfo] = useState<{ commission_rate: string; avg_ticket: string; admin_configured: boolean; resend: boolean; stripe: boolean } | null>(null);
   const [settingsForm, setSettingsForm] = useState({ commission_rate: '8', avg_ticket: '10000', membership_price: '150', admin_token: '' });
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [leadFilter, setLeadFilter] = useState('');

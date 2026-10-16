@@ -24,14 +24,14 @@ export const SEO_SERVICES: SeoService[] = [
     duration: { en: '2–3 weeks', es: '2–3 semanas', pt: '2–3 semanas' },
     name: { en: 'Bathroom Remodeling', es: 'Remodelación de Baños', pt: 'Reforma de Banheiros' },
     intro: {
-      en: (s) => `Find verified bathroom remodeling contractors in ${s}. Compare up to 4 free quotes within 24 hours and hire with a written warranty.`,
-      es: (s) => `Encuentra contratistas verificados para remodelar baños en ${s}. Compara hasta 4 cotizaciones gratis en 24 horas y contrata con garantía por escrito.`,
-      pt: (s) => `Encontre construtoras verificadas para reformar banheiros em ${s}. Compare até 4 orçamentos grátis em 24 horas e contrate com garantia por escrito.`,
+      en: (s) => `Find bathroom remodeling contractors with reviewed profiles in ${s}. Compare up to 4 free quotes and ask each contractor about the warranty terms they offer.`,
+      es: (s) => `Encuentra contratistas con perfil revisado para remodelar baños en ${s}. Compara hasta 4 cotizaciones gratis y pregunta a cada contratista por los términos de garantía que ofrece.`,
+      pt: (s) => `Encontre construtoras com perfil revisado para reformar banheiros em ${s}. Compare até 4 orçamentos grátis e pergunte a cada construtora sobre os termos de garantia que ela oferece.`,
     },
     includes: {
-      en: ['Demolition and debris removal', 'Plumbing and fixture upgrades', 'Porcelain or ceramic tile', 'Lighting and ventilation', 'Written 1-year warranty'],
-      es: ['Demolición y retiro de escombro', 'Plomería y nuevos accesorios', 'Azulejo de porcelana o cerámica', 'Iluminación y ventilación', 'Garantía por escrito de 1 año'],
-      pt: ['Demolição e remoção de entulho', 'Encanamento e novos acessórios', 'Azulejo de porcelana ou cerâmica', 'Iluminação e ventilação', 'Garantia por escrito de 1 ano'],
+      en: ['Demolition and debris removal', 'Plumbing and fixture upgrades', 'Porcelain or ceramic tile', 'Lighting and ventilation', 'Warranty terms agreed directly with your contractor'],
+      es: ['Demolición y retiro de escombro', 'Plomería y nuevos accesorios', 'Azulejo de porcelana o cerámica', 'Iluminación y ventilación', 'Términos de garantía acordados directo con tu contratista'],
+      pt: ['Demolição e remoção de entulho', 'Encanamento e novos acessórios', 'Azulejo de porcelana ou cerâmica', 'Iluminação e ventilação', 'Termos de garantia acordados direto com sua construtora'],
     },
     faq: {
       en: [
@@ -55,27 +55,27 @@ export const SEO_SERVICES: SeoService[] = [
     duration: { en: '4–6 weeks', es: '4–6 semanas', pt: '4–6 semanas' },
     name: { en: 'Kitchen Remodeling', es: 'Remodelación de Cocinas', pt: 'Reforma de Cozinhas' },
     intro: {
-      en: (s) => `Connect with verified kitchen remodeling contractors in ${s}. Custom cabinets, quartz countertops, and islands — free quotes in 24 hours.`,
-      es: (s) => `Conecta con contratistas verificados para remodelar cocinas en ${s}. Gabinetes a medida, cubiertas de cuarzo e islas — cotizaciones gratis en 24 horas.`,
-      pt: (s) => `Conecte-se a construtoras verificadas para reformar cozinhas em ${s}. Armários sob medida, bancadas de quartzo e ilhas — orçamentos grátis em 24 horas.`,
+      en: (s) => `Connect with kitchen remodeling contractors with reviewed profiles in ${s}. Custom cabinets, quartz countertops, and islands — free quotes. Assigned contractors reply directly.`,
+      es: (s) => `Conecta con contratistas con perfil revisado para remodelar cocinas en ${s}. Gabinetes a medida, cubiertas de cuarzo e islas — cotizaciones gratis. Los contratistas asignados responden directo.`,
+      pt: (s) => `Conecte-se a construtoras com perfil revisado para reformar cozinhas em ${s}. Armários sob medida, bancadas de quartzo e ilhas — orçamentos grátis. As construtoras atribuídas respondem direto.`,
     },
     includes: {
-      en: ['Custom or semi-custom cabinets', 'Quartz or granite countertops', 'Electrical and gas upgrades', 'New flooring and backsplash', 'Written 1-year warranty'],
-      es: ['Gabinetes a medida o semi-medida', 'Cubiertas de cuarzo o granito', 'Actualización eléctrica y de gas', 'Piso nuevo y backsplash', 'Garantía por escrito de 1 año'],
-      pt: ['Armários sob medida ou semi-medida', 'Bancadas de quartzo ou granito', 'Atualização elétrica e de gás', 'Piso novo e revestimento', 'Garantia por escrito de 1 ano'],
+      en: ['Custom or semi-custom cabinets', 'Quartz or granite countertops', 'Electrical and gas upgrades', 'New flooring and backsplash', 'Warranty terms agreed directly with your contractor'],
+      es: ['Gabinetes a medida o semi-medida', 'Cubiertas de cuarzo o granito', 'Actualización eléctrica y de gas', 'Piso nuevo y backsplash', 'Términos de garantía acordados directo con tu contratista'],
+      pt: ['Armários sob medida ou semi-medida', 'Bancadas de quartzo ou granito', 'Atualização elétrica e de gás', 'Piso novo e revestimento', 'Termos de garantia acordados direto com sua construtora'],
     },
     faq: {
       en: [
         { q: 'What is the average kitchen remodel cost?', a: 'Most kitchen remodels range from $12,000 for a standard update to $45,000+ for a full custom renovation with premium materials.' },
-        { q: 'Do contractors handle permits?', a: 'Yes. Verified contractors manage permits and inspections required for electrical, gas, and structural work.' },
+        { q: 'Do contractors handle permits?', a: 'Yes. Assigned contractors manage permits and inspections required for electrical, gas, and structural work.' },
       ],
       es: [
         { q: '¿Cuál es el costo promedio de remodelar una cocina?', a: 'La mayoría de las remodelaciones van de $12,000 por una actualización estándar a más de $45,000 por una renovación completa con materiales premium.' },
-        { q: '¿Los contratistas tramitan los permisos?', a: 'Sí. Los contratistas verificados gestionan los permisos e inspecciones requeridos para trabajos eléctricos, de gas y estructurales.' },
+        { q: '¿Los contratistas tramitan los permisos?', a: 'Sí. Los contratistas asignados gestionan los permisos e inspecciones requeridos para trabajos eléctricos, de gas y estructurales.' },
       ],
       pt: [
         { q: 'Qual o custo médio de reformar uma cozinha?', a: 'A maioria das reformas vai de $12.000 por uma atualização padrão a mais de $45.000 por uma renovação completa com materiais premium.' },
-        { q: 'As construtoras cuidam dos alvarás?', a: 'Sim. As construtoras verificadas cuidam dos alvarás e inspeções exigidos para trabalhos elétricos, de gás e estruturais.' },
+        { q: 'As construtoras cuidam dos alvarás?', a: 'Sim. As construtoras atribuídas cuidam dos alvarás e inspeções exigidos para trabalhos elétricos, de gás e estruturais.' },
       ],
     },
   },
@@ -86,27 +86,27 @@ export const SEO_SERVICES: SeoService[] = [
     duration: { en: '3–5 days', es: '3–5 días', pt: '3–5 dias' },
     name: { en: 'House Painting', es: 'Pintura de Casas', pt: 'Pintura de Casas' },
     intro: {
-      en: (s) => `Hire verified interior and exterior painters in ${s}. Premium paint, surface prep, and a flawless finish — free quotes in 24 hours.`,
-      es: (s) => `Contrata pintores verificados de interiores y exteriores en ${s}. Pintura premium, preparación de superficies y acabado impecable — cotizaciones gratis en 24 horas.`,
-      pt: (s) => `Contrate pintores verificados de interiores e exteriores em ${s}. Tinta premium, preparação de superfícies e acabamento impecável — orçamentos grátis em 24 horas.`,
+      en: (s) => `Hire interior and exterior painters with reviewed profiles in ${s}. Premium paint, surface prep, and a flawless finish — free quotes. Assigned contractors reply directly.`,
+      es: (s) => `Contrata pintores con perfil revisado de interiores y exteriores en ${s}. Pintura premium, preparación de superficies y acabado impecable — cotizaciones gratis. Los contratistas asignados responden directo.`,
+      pt: (s) => `Contrate pintores com perfil revisado de interiores e exteriores em ${s}. Tinta premium, preparação de superfícies e acabamento impecável — orçamentos grátis. As construtoras atribuídas respondem direto.`,
     },
     includes: {
-      en: ['Wall repair, sanding and patching', 'Two coats of premium paint', 'Ceilings, trim and doors', 'Furniture and floor protection', 'Written 2-year warranty'],
-      es: ['Reparación, lijado y masilla de muros', 'Dos capas de pintura premium', 'Techos, molduras y puertas', 'Protección de muebles y pisos', 'Garantía por escrito de 2 años'],
-      pt: ['Reparo, lixamento e massa de paredes', 'Duas demãos de tinta premium', 'Tetos, rodapés e portas', 'Proteção de móveis e pisos', 'Garantia por escrito de 2 anos'],
+      en: ['Wall repair, sanding and patching', 'Two coats of premium paint', 'Ceilings, trim and doors', 'Furniture and floor protection', 'Warranty terms agreed directly with your contractor'],
+      es: ['Reparación, lijado y masilla de muros', 'Dos capas de pintura premium', 'Techos, molduras y puertas', 'Protección de muebles y pisos', 'Términos de garantía acordados directo con tu contratista'],
+      pt: ['Reparo, lixamento e massa de paredes', 'Duas demãos de tinta premium', 'Tetos, rodapés e portas', 'Proteção de móveis e pisos', 'Termos de garantia acordados direto com sua construtora'],
     },
     faq: {
       en: [
         { q: 'How much does it cost to paint a house?', a: 'Interior painting typically runs $1,200–3,500 and exterior $2,500–6,000 depending on size, prep work, and paint quality.' },
-        { q: 'What paint brands do contractors use?', a: 'Verified contractors use premium brands like Sherwin-Williams, Benjamin Moore, or Behr with manufacturer warranties.' },
+        { q: 'What paint brands do contractors use?', a: 'Contractors use premium brands like Sherwin-Williams, Benjamin Moore, or Behr with manufacturer warranties.' },
       ],
       es: [
         { q: '¿Cuánto cuesta pintar una casa?', a: 'La pintura interior suele costar de $1,200 a $3,500 y la exterior de $2,500 a $6,000 según el tamaño, la preparación y la calidad de la pintura.' },
-        { q: '¿Qué marcas de pintura usan los contratistas?', a: 'Los contratistas verificados usan marcas premium como Sherwin-Williams, Benjamin Moore o Behr con garantía del fabricante.' },
+        { q: '¿Qué marcas de pintura usan los contratistas?', a: 'Los contratistas usan marcas premium como Sherwin-Williams, Benjamin Moore o Behr con garantía del fabricante.' },
       ],
       pt: [
         { q: 'Quanto custa pintar uma casa?', a: 'A pintura interna costuma custar de $1.200 a $3.500 e a externa de $2.500 a $6.000 conforme o tamanho, a preparação e a qualidade da tinta.' },
-        { q: 'Quais marcas de tinta as construtoras usam?', a: 'As construtoras verificadas usam marcas premium como Sherwin-Williams, Benjamin Moore ou Behr com garantia do fabricante.' },
+        { q: 'Quais marcas de tinta as construtoras usam?', a: 'As construtoras usam marcas premium como Sherwin-Williams, Benjamin Moore ou Behr com garantia do fabricante.' },
       ],
     },
   },
@@ -117,14 +117,14 @@ export const SEO_SERVICES: SeoService[] = [
     duration: { en: '1–2 weeks', es: '1–2 semanas', pt: '1–2 semanas' },
     name: { en: 'Concrete Contractors', es: 'Concreto y Estampado', pt: 'Concreto Estampado' },
     intro: {
-      en: (s) => `Find verified concrete contractors in ${s} for driveways, patios, and stamped concrete. Free quotes from local pros in 24 hours.`,
-      es: (s) => `Encuentra contratistas verificados de concreto en ${s} para driveways, patios y concreto estampado. Cotizaciones gratis de profesionales locales en 24 horas.`,
-      pt: (s) => `Encontre construtoras verificadas de concreto em ${s} para garagens, pátios e concreto estampado. Orçamentos grátis de profissionais locais em 24 horas.`,
+      en: (s) => `Find concrete contractors with reviewed profiles in ${s} for driveways, patios, and stamped concrete. Free quotes from local pros. They reply directly.`,
+      es: (s) => `Encuentra contratistas con perfil revisado de concreto en ${s} para driveways, patios y concreto estampado. Cotizaciones gratis de profesionales locales. Responden directo.`,
+      pt: (s) => `Encontre construtoras com perfil revisado de concreto em ${s} para garagens, pátios e concreto estampado. Orçamentos grátis de profissionais locais. Eles respondem direto.`,
     },
     includes: {
-      en: ['Excavation and grading', 'Steel reinforcement', 'Pouring and finishing', 'Stamped, stained or broom finish', 'Written 5-year warranty'],
-      es: ['Excavación y nivelación', 'Refuerzo de acero', 'Colado y acabado', 'Estampado, teñido o escobillado', 'Garantía por escrito de 5 años'],
-      pt: ['Escavação e nivelamento', 'Armação de aço', 'Concretagem e acabamento', 'Estampado, tingido ou escovado', 'Garantia por escrito de 5 anos'],
+      en: ['Excavation and grading', 'Steel reinforcement', 'Pouring and finishing', 'Stamped, stained or broom finish', 'Warranty terms agreed directly with your contractor'],
+      es: ['Excavación y nivelación', 'Refuerzo de acero', 'Colado y acabado', 'Estampado, teñido o escobillado', 'Términos de garantía acordados directo con tu contratista'],
+      pt: ['Escavação e nivelamento', 'Armação de aço', 'Concretagem e acabamento', 'Estampado, tingido ou escovado', 'Termos de garantia acordados direto com sua construtora'],
     },
     faq: {
       en: [
@@ -148,14 +148,14 @@ export const SEO_SERVICES: SeoService[] = [
     duration: { en: '8–12 weeks', es: '8–12 semanas', pt: '8–12 semanas' },
     name: { en: 'Full Home Remodeling', es: 'Remodelación Completa', pt: 'Reforma Completa' },
     intro: {
-      en: (s) => `Get free quotes from verified whole-home remodeling contractors in ${s}. Additions, second stories, and complete transformations with permits handled.`,
-      es: (s) => `Recibe cotizaciones gratis de contratistas verificados para remodelación completa en ${s}. Ampliaciones, segundos pisos y transformaciones completas con permisos incluidos.`,
-      pt: (s) => `Receba orçamentos grátis de construtoras verificadas para reforma completa em ${s}. Ampliações, segundo pavimento e transformações completas com alvarás incluídos.`,
+      en: (s) => `Get free quotes from whole-home remodeling contractors with reviewed profiles in ${s}. Additions, second stories, and complete transformations with permits handled.`,
+      es: (s) => `Recibe cotizaciones gratis de contratistas con perfil revisado para remodelación completa en ${s}. Ampliaciones, segundos pisos y transformaciones completas con permisos incluidos.`,
+      pt: (s) => `Receba orçamentos grátis de construtoras com perfil revisado para reforma completa em ${s}. Ampliações, segundo pavimento e transformações completas com alvarás incluídos.`,
     },
     includes: {
-      en: ['Architectural design and plans', 'Permits and inspections handled', 'Full labor and project management', 'Kitchens, baths, floors and paint', 'Written 1-year warranty'],
-      es: ['Diseño arquitectónico y planos', 'Permisos e inspecciones incluidos', 'Mano de obra completa y supervisión', 'Cocinas, baños, pisos y pintura', 'Garantía por escrito de 1 año'],
-      pt: ['Projeto arquitetônico e plantas', 'Alvarás e inspeções incluídos', 'Mão de obra completa e supervisão', 'Cozinhas, banheiros, pisos e pintura', 'Garantia por escrito de 1 ano'],
+      en: ['Architectural design and plans', 'Permits and inspections handled', 'Full labor and project management', 'Kitchens, baths, floors and paint', 'Warranty terms agreed directly with your contractor'],
+      es: ['Diseño arquitectónico y planos', 'Permisos e inspecciones incluidos', 'Mano de obra completa y supervisión', 'Cocinas, baños, pisos y pintura', 'Términos de garantía acordados directo con tu contratista'],
+      pt: ['Projeto arquitetônico e plantas', 'Alvarás e inspeções incluídos', 'Mão de obra completa e supervisão', 'Cozinhas, banheiros, pisos e pintura', 'Termos de garantia acordados direto com sua construtora'],
     },
     faq: {
       en: [
@@ -176,8 +176,8 @@ export const SEO_SERVICES: SeoService[] = [
 
 export const SEO_STRINGS = {
   en: {
-    freeQuotes: 'Free quotes in 24 hours',
-    verified: 'verified contractors',
+    freeQuotes: 'Free quotes, no obligation',
+    verified: 'contractors with reviewed profiles',
     ctaTitle: 'Get your free quote in',
     ctaButton: 'Request free quotes',
     calcButton: 'Calculate my budget',
@@ -188,11 +188,11 @@ export const SEO_STRINGS = {
     breadcrumb: 'Home',
     relatedStates: (service: string) => `${service} in other states`,
     relatedServices: (state: string) => `Other services in ${state}`,
-    directoryCta: 'See verified contractors in the directory',
+    directoryCta: 'See contractors with reviewed profiles in the directory',
   },
   es: {
-    freeQuotes: 'Cotizaciones gratis en 24 horas',
-    verified: 'contratistas verificados',
+    freeQuotes: 'Cotizaciones gratis, sin compromiso',
+    verified: 'contratistas con perfil revisado',
     ctaTitle: 'Recibe tu cotización gratis en',
     ctaButton: 'Pedir cotizaciones gratis',
     calcButton: 'Calcular mi presupuesto',
@@ -203,11 +203,11 @@ export const SEO_STRINGS = {
     breadcrumb: 'Inicio',
     relatedStates: (service: string) => `${service} en otros estados`,
     relatedServices: (state: string) => `Otros servicios en ${state}`,
-    directoryCta: 'Ver contratistas verificados en el directorio',
+    directoryCta: 'Ver contratistas con perfil revisado en el directorio',
   },
   pt: {
-    freeQuotes: 'Orçamentos grátis em 24 horas',
-    verified: 'construtoras verificadas',
+    freeQuotes: 'Orçamentos grátis, sem compromisso',
+    verified: 'construtoras com perfil revisado',
     ctaTitle: 'Receba seu orçamento grátis em',
     ctaButton: 'Pedir orçamentos grátis',
     calcButton: 'Calcular meu orçamento',
@@ -218,6 +218,6 @@ export const SEO_STRINGS = {
     breadcrumb: 'Início',
     relatedStates: (service: string) => `${service} em outros estados`,
     relatedServices: (state: string) => `Outros serviços em ${state}`,
-    directoryCta: 'Ver construtoras verificadas no diretório',
+    directoryCta: 'Ver construtoras com perfil revisado no diretório',
   },
 } as const;
