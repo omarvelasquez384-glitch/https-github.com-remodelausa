@@ -56,9 +56,9 @@ const INTENTS: Intent[] = [
       pt: ['como funciona', 'processo', 'passos', 'começar', 'começar', 'orçamento', 'orçar'],
     },
     answer: {
-      en: 'It takes less than a minute: 1) Tell us about your project in the free quote form. 2) Within 24 hours you receive up to 4 proposals from verified contractors in your area. 3) Compare prices, reviews, and warranties. 4) Hire with confidence — the work is guaranteed in writing.',
-      es: 'Toma menos de un minuto: 1) Cuéntanos tu proyecto en el formulario de cotización gratis. 2) En 24 horas recibes hasta 4 propuestas de contratistas verificados de tu zona. 3) Compara precios, opiniones y garantías. 4) Contrata con confianza: el trabajo va garantizado por escrito.',
-      pt: 'Leva menos de um minuto: 1) Conte seu projeto no formulário de orçamento grátis. 2) Em 24 horas você recebe até 4 propostas de construtoras verificadas da sua região. 3) Compare preços, avaliações e garantias. 4) Contrate com confiança: o trabalho tem garantia por escrito.',
+      en: 'It takes less than a minute: 1) Tell us about your project in the free quote form. 2) You receive up to 4 proposals from contractors with reviewed profiles in your area — they reply directly. 3) Compare prices and reviews. 4) Agree on price, schedule, and warranty terms directly with the contractor you choose.',
+      es: 'Toma menos de un minuto: 1) Cuéntanos tu proyecto en el formulario de cotización gratis. 2) Recibes hasta 4 propuestas de contratistas con perfil revisado de tu zona — responden directo. 3) Compara precios y opiniones. 4) Acuerda precio, calendario y términos de garantía directo con el contratista que elijas.',
+      pt: 'Leva menos de um minuto: 1) Conte seu projeto no formulário de orçamento grátis. 2) Você recebe até 4 propostas de construtoras com perfil revisado da sua região — elas respondem direto. 3) Compare preços e avaliações. 4) Acorde preço, prazo e termos de garantia direto com a construtora que você escolher.',
     },
     cta: { label: { en: 'Request a free quote', es: 'Pedir cotización gratis', pt: 'Pedir orçamento grátis' }, href: '#contact' },
   },
@@ -94,9 +94,9 @@ const INTENTS: Intent[] = [
       pt: ['garantia', 'protegido', 'seguro'],
     },
     answer: {
-      en: 'Every project includes a written warranty: 1 year on bathrooms, kitchens, and full remodels; 2 years on painting; 5 years on concrete. Plus, contractors carry their own insurance for your peace of mind.',
-      es: 'Cada proyecto incluye garantía por escrito: 1 año en baños, cocinas y remodelaciones; 2 años en pintura; 5 años en concreto. Además, los contratistas cuentan con su propio seguro para tu tranquilidad.',
-      pt: 'Cada projeto inclui garantia por escrito: 1 ano em banheiros, cozinhas e reformas; 2 anos em pintura; 5 anos em concreto. Além disso, as construtoras possuem seu próprio seguro para sua tranquilidade.',
+      en: 'RemodelaUSA does not set or guarantee warranty terms. Ask each contractor for the warranty they offer in writing before you sign, and confirm price, schedule, and scope in the written proposal.',
+      es: 'RemodelaUSA no fija ni garantiza términos de garantía. Pide a cada contratista la garantía que ofrece por escrito antes de firmar, y confirma precio, calendario y alcance en la propuesta por escrito.',
+      pt: 'A RemodelaUSA não define nem garante termos de garantia. Peça a cada construtora a garantia que ela oferece por escrito antes de assinar, e confirme preço, prazo e escopo na proposta por escrito.',
     },
   },
   {
@@ -118,9 +118,9 @@ const INTENTS: Intent[] = [
       pt: ['contato', 'humano', 'agente', 'telefone', 'e-mail', 'email', 'falar', 'ligar'],
     },
     answer: {
-      en: 'You can reach our team at hello@remodelausa.com — we reply within 24 hours. You can also send your project details through the free quote form below.',
-      es: 'Puedes contactar a nuestro equipo en hola@remodelausa.com — respondemos en menos de 24 horas. También puedes enviar los detalles de tu proyecto en el formulario de cotización gratis.',
-      pt: 'Você pode falar com nossa equipe pelo ola@remodelausa.com — respondemos em menos de 24 horas. Você também pode enviar os detalhes do seu projeto no formulário de orçamento grátis.',
+      en: 'You can reach our team at hello@remodelausa.com — we reply as soon as possible. You can also send your project details through the free quote form below.',
+      es: 'Puedes contactar a nuestro equipo en hola@remodelausa.com — respondemos lo antes posible. También puedes enviar los detalles de tu proyecto en el formulario de cotización gratis.',
+      pt: 'Você pode falar com nossa equipe pelo ola@remodelausa.com — respondemos o quanto antes. Você também pode enviar os detalhes do seu projeto no formulário de orçamento grátis.',
     },
     cta: { label: { en: 'Open contact form', es: 'Abrir formulario', pt: 'Abrir formulário' }, href: '#contact' },
   },
@@ -134,7 +134,7 @@ const UI_STRINGS = {
     placeholder: 'Type your question...',
     send: 'Send',
     thinking: 'Kimi is typing...',
-    fallback: 'I can help with prices, services, coverage in your state, warranties, timelines, and contractor registration. Try one of the quick questions below, or request a free quote.',
+    fallback: 'I can help with prices, services, coverage in your state, warranty terms, timelines, and contractor registration. Try one of the quick questions below, or request a free quote.',
     quick: ['How much does a bathroom cost?', 'How does it work?', 'Do you cover my area?', 'I\'m a contractor'],
     online: 'Online',
     offline: 'Offline',
@@ -154,7 +154,7 @@ const UI_STRINGS = {
     placeholder: 'Escribe tu pregunta...',
     send: 'Enviar',
     thinking: 'Kimi está escribiendo...',
-    fallback: 'Puedo ayudarte con precios, servicios, cobertura en tu estado, garantías, tiempos y registro de contratistas. Prueba una pregunta rápida o pide una cotización gratis.',
+    fallback: 'Puedo ayudarte con precios, servicios, cobertura en tu estado, términos de garantía, tiempos y registro de contratistas. Prueba una pregunta rápida o pide una cotización gratis.',
     quick: ['¿Cuánto cuesta un baño?', '¿Cómo funciona?', '¿Tienen cobertura en mi zona?', 'Soy contratista'],
     online: 'En línea',
     offline: 'Sin conexión',
@@ -174,7 +174,7 @@ const UI_STRINGS = {
     placeholder: 'Digite sua pergunta...',
     send: 'Enviar',
     thinking: 'Kimi está digitando...',
-    fallback: 'Posso ajudar com preços, serviços, cobertura no seu estado, garantias, prazos e cadastro de construtoras. Experimente uma pergunta rápida ou peça um orçamento grátis.',
+    fallback: 'Posso ajudar com preços, serviços, cobertura no seu estado, termos de garantia, prazos e cadastro de construtoras. Experimente uma pergunta rápida ou peça um orçamento grátis.',
     quick: ['Quanto custa um banheiro?', 'Como funciona?', 'Vocês cobrem minha região?', 'Sou construtora'],
     online: 'Online',
     offline: 'Offline',
@@ -244,8 +244,8 @@ async function askKimi(question: string, lang: Lang, apiKey: string, model: stri
           role: 'system',
           content:
             `You are Kimi, the virtual assistant of RemodelaUSA, a marketplace connecting homeowners with remodeling contractors reviewed by our team in the Kansas City area (Missouri & Kansas). ` +
-            `Services: bathrooms, kitchens, painting, concrete, full remodels, repairs. Quotes are free and arrive within 24 hours (up to 4 proposals). ` +
-            `Contractors: first lead free, then $150/month membership; first month with no commission, then 8% only on signed jobs. Warranties: 1 year (bathroom/kitchen/remodel), 2 years (painting), 5 years (concrete). ` +
+            `Services: bathrooms, kitchens, painting, concrete, full remodels, repairs. Quotes are free (up to 4 proposals); assigned contractors reply directly. ` +
+            `Contractors: first lead free, then $150/month membership; first month with no commission, then 8% only on signed jobs. RemodelaUSA does not set or guarantee warranty terms: warranty terms are agreed directly between homeowner and contractor. ` +
             `Contact: hello@remodelausa.com. Answer briefly and warmly in ${langName}. If you don't know something, invite the user to the free quote form. Never invent specific prices beyond the ranges: painting from $1,200, bathroom from $4,500, kitchen from $12,000, concrete from $3,800, full remodel from $25,000.`,
         },
         { role: 'user', content: question },
