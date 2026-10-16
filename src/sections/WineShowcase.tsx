@@ -5,9 +5,9 @@ import { getLanguage, type Lang } from '../i18n';
 
 // Textos fijos de esta sección por idioma
 const STRINGS = {
-  en: { from: 'From', timeframe: 'Timeline', warranty: 'Warranty', cta: 'Get a free quote for this service' },
-  es: { from: 'Desde', timeframe: 'Plazo', warranty: 'Garantía', cta: 'Cotizar este servicio gratis' },
-  pt: { from: 'A partir', timeframe: 'Prazo', warranty: 'Garantia', cta: 'Orçar este serviço grátis' },
+  en: { from: 'From', timeframe: 'Timeline', cta: 'Get a free quote for this service' },
+  es: { from: 'Desde', timeframe: 'Plazo', cta: 'Cotizar este servicio gratis' },
+  pt: { from: 'A partir', timeframe: 'Prazo', cta: 'Orçar este serviço grátis' },
 } as const;
 
 // Icon lookup map for dynamic icon resolution from config strings
@@ -120,11 +120,6 @@ export function WineShowcase() {
               <div>
                 <div className="font-serif text-2xl text-gold-500">{wine.temperature}</div>
                 <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">{t.timeframe}</div>
-              </div>
-              <div className="w-px bg-white/10" />
-              <div>
-                <div className="font-serif text-2xl text-gold-500">{wine.aging}</div>
-                <div className="text-[11px] text-white/50 uppercase tracking-wider mt-1">{t.warranty}</div>
               </div>
             </div>
 

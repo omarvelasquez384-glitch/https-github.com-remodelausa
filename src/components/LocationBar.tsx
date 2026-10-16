@@ -88,7 +88,7 @@ const STRINGS = {
     updateLocation: 'Update',
     contractorsIn: (city: string, state: string) =>
       city && state ? `Contractors available in ${city}, ${state}` : state ? `Contractors available in ${state}` : 'Contractors available in your area',
-    count: (n: number) => `${n} verified contractor${n === 1 ? '' : 's'}`,
+    count: (n: number) => `${n} contractor${n === 1 ? '' : 's'} with reviewed profile${n === 1 ? '' : 's'}`,
     online: 'Online',
     offline: 'Offline — quotes will load when you reconnect',
     errorDenied: 'Location permission denied. You can enable it in your browser settings.',
@@ -101,7 +101,7 @@ const STRINGS = {
     updateLocation: 'Actualizar',
     contractorsIn: (city: string, state: string) =>
       city && state ? `Contratistas disponibles en ${city}, ${state}` : state ? `Contratistas disponibles en ${state}` : 'Contratistas disponibles en tu zona',
-    count: (n: number) => `${n} contratista${n === 1 ? '' : 's'} verificado${n === 1 ? '' : 's'}`,
+    count: (n: number) => `${n} contratista${n === 1 ? '' : 's'} con perfil revisado`,
     online: 'En línea',
     offline: 'Sin conexión — las cotizaciones cargarán al reconectarte',
     errorDenied: 'Permiso de ubicación denegado. Puedes activarlo en la configuración de tu navegador.',
@@ -114,7 +114,7 @@ const STRINGS = {
     updateLocation: 'Atualizar',
     contractorsIn: (city: string, state: string) =>
       city && state ? `Construtoras disponíveis em ${city}, ${state}` : state ? `Construtoras disponíveis em ${state}` : 'Construtoras disponíveis na sua região',
-    count: (n: number) => `${n} construtora${n === 1 ? '' : 's'} verificada${n === 1 ? '' : 's'}`,
+    count: (n: number) => `${n} construtora${n === 1 ? '' : 's'} com perfil revisado`,
     online: 'Online',
     offline: 'Offline — os orçamentos carregarão quando você reconectar',
     errorDenied: 'Permissão de localização negada. Você pode ativá-la nas configurações do navegador.',

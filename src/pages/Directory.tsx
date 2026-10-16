@@ -10,19 +10,19 @@ import { TRADE_LABELS, UI_LABELS } from '../lib/labels';
 
 const T = {
   en: {
-    title: 'Find a verified contractor', subtitle: 'DIRECTORY',
+    title: 'Find a contractor with a reviewed profile', subtitle: 'DIRECTORY',
     intro: 'Browse contractors reviewed by our team in the Kansas City area. Compare experience, reviews and photos, and contact them directly — free for homeowners.',
     filterState: 'State', filterTrade: 'Specialty', allStates: 'All states', allTrades: 'All specialties',
     contractorsFound: (n: number) => `${n} contractor${n === 1 ? '' : 's'} available`,
   },
   es: {
-    title: 'Encuentra un contratista verificado', subtitle: 'DIRECTORIO',
+    title: 'Encuentra un contratista con perfil revisado', subtitle: 'DIRECTORIO',
     intro: 'Explora contratistas revisados por nuestro equipo en el área de Kansas City. Compara experiencia, reseñas y fotos, y contáctalos directo — gratis para dueños de casa.',
     filterState: 'Estado', filterTrade: 'Especialidad', allStates: 'Todos los estados', allTrades: 'Todas las especialidades',
     contractorsFound: (n: number) => `${n} contratista${n === 1 ? '' : 's'} disponible${n === 1 ? '' : 's'}`,
   },
   pt: {
-    title: 'Encontre uma construtora verificada', subtitle: 'DIRETÓRIO',
+    title: 'Encontre uma construtora com perfil revisado', subtitle: 'DIRETÓRIO',
     intro: 'Navegue por construtoras revisadas pela nossa equipe na região de Kansas City. Compare experiência, avaliações e fotos, e contate direto — grátis para proprietários.',
     filterState: 'Estado', filterTrade: 'Especialidade', allStates: 'Todos os estados', allTrades: 'Todas as especialidades',
     contractorsFound: (n: number) => `${n} construtora${n === 1 ? '' : 's'} disponíve${n === 1 ? 'l' : 'is'}`,
