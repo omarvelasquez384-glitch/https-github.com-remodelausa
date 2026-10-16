@@ -10,7 +10,9 @@ import {
   normalizeProjectType, normalizeTrade,
   hashPassword, verifyPassword, createSession, resolveSession, destroySession,
   membershipActive, grantMembership, commissionApplies,
+  recordUnsubscribe, recordConsentRevocation,
 } from './db.js';
+import { resolveConsentText } from './consent.js';
 import { queueEmail, leadNotificationEmail, contractorWelcomeEmail, freeLeadEmail, membershipSignupEmail, resendOutboxEmail } from './mailer.js';
 
 const VALID_LEAD_STATUS = ['new', 'contacted', 'quoted', 'signed', 'lost'];
@@ -44,8 +46,18 @@ function safeJson(text, fallback) {
   }
 }
 
+// Token de admin: FAIL CLOSED. Solo vale ADMIN_TOKEN (entorno) o el setting
+// `admin_token` guardado en la BD. NO hay fallback a ninguna clave conocida:
+// si no hay token configurado, el admin NO funciona (503, error claro).
+// El token anterior ('remodelausa-admin') ya no sirve: el dueño debe ROTARLO
+// en Render (ver PR). Nunca se devuelve el valor real por la API.
 function adminToken() {
-  return process.env.ADMIN_TOKEN || getSetting('admin_token') || 'remodelausa-admin';
+  const token = process.env.ADMIN_TOKEN || getSetting('admin_token') || '';
+  return token || null;
+}
+
+function adminConfigured() {
+  return adminToken() !== null;
 }
 
 // Verifica la firma de un evento de Stripe (HMAC-SHA256 sobre
@@ -238,8 +250,11 @@ export function createApiApp() {
 
   // ---- Auth simple para rutas de administración ----
   const requireAdmin = (req, res, next) => {
+    if (!adminConfigured()) {
+      return res.status(503).json({ error: 'admin not configured: set ADMIN_TOKEN (see .env.example) and rotate any previously shared token' });
+    }
     const token = req.headers['x-admin-token'];
-    if (token !== adminToken()) {
+    if (!token || token !== adminToken()) {
       return res.status(401).json({ error: 'unauthorized' });
     }
     next();
@@ -304,6 +319,49 @@ export function createApiApp() {
     res.json({ ok: true });
   });
 
+  // ============ REVOCACIÓN DE CONSENTIMIENTO (TCPA) Y BAJAS (CAN-SPAM) ====
+  // POST /api/consent/revoke — público: el dueño de casa retira su
+  // consentimiento para llamadas/textos (equivale a responder STOP).
+  // Guarda la revocación, marca sus leads como revocados y da de baja su
+  // correo. Visible en la página /opt-out y enlazado desde los formularios.
+  app.post('/api/consent/revoke', rateLimit('revoke', 10, 10 * 60 * 1000), (req, res) => {
+    const b = req.body ?? {};
+    const email = String(b.email ?? '').trim();
+    const phone = String(b.phone ?? '').trim();
+    if (!email && !phone) return res.status(400).json({ error: 'email or phone required' });
+    const ip = String(req.ip ?? req.socket?.remoteAddress ?? '').slice(0, 60);
+    const result = recordConsentRevocation({
+      email, phone,
+      channel: String(b.channel ?? 'all').slice(0, 40),
+      ip, source: 'opt-out-page',
+    });
+    trackEvent('consent_revoked', { email: email ? 'provided' : '', phone: phone ? 'provided' : '' });
+    res.json({ ok: true, revoked_at: result.revoked_at });
+  });
+
+  // POST /api/unsubscribe — baja de correo (CAN-SPAM). Acepta JSON
+  // { email } y el formato de un clic de los clientes de correo
+  // (List-Unsubscribe-Post: List-Unsubscribe=One-Click).
+  app.post('/api/unsubscribe', rateLimit('unsubscribe', 10, 10 * 60 * 1000), (req, res) => {
+    const email = String(req.body?.email ?? req.query?.email ?? '').trim();
+    if (!email) return res.status(400).json({ error: 'email required' });
+    const ip = String(req.ip ?? req.socket?.remoteAddress ?? '').slice(0, 60);
+    recordUnsubscribe(email, { ip, source: 'unsubscribe-endpoint' });
+    trackEvent('email_unsubscribed', { email: 'provided' });
+    res.json({ ok: true });
+  });
+
+  // GET /api/unsubscribe?email= — el enlace de baja de cada correo.
+  // Da de baja y redirige a la página de confirmación.
+  app.get('/api/unsubscribe', (req, res) => {
+    const email = String(req.query.email ?? '').trim();
+    if (email) {
+      const ip = String(req.ip ?? req.socket?.remoteAddress ?? '').slice(0, 60);
+      recordUnsubscribe(email, { ip, source: 'unsubscribe-link' });
+    }
+    res.redirect(`/unsubscribe?email=${encodeURIComponent(email)}&done=1`);
+  });
+
   // ============================ LEADS =====================================
   app.post('/api/leads', rateLimit('leads', 10, 10 * 60 * 1000), (req, res) => {
     const b = req.body ?? {};
@@ -315,9 +373,15 @@ export function createApiApp() {
     // Si el dueño envía con sesión iniciada, ligamos la solicitud a su cuenta
     const session = resolveSession(String(req.headers['x-homeowner-token'] ?? req.headers['x-session-token'] ?? ''));
     const homeownerId = session?.user_type === 'homeowner' ? session.user_id : 0;
+    // TCPA: guardamos el TEXTO EXACTO aceptado + versión + fecha/hora + IP.
+    const consentGiven = Boolean(b.tcpa_consent);
+    const consentResolved = consentGiven
+      ? resolveConsentText(String(b.lang ?? 'en').slice(0, 5), b.tcpa_consent_text, b.tcpa_consent_version)
+      : { text: '', version: '' };
+    const consentIp = consentGiven ? String(req.ip ?? req.socket?.remoteAddress ?? '').slice(0, 60) : '';
     const info = db.prepare(`
-      INSERT INTO leads (name, email, phone, project_type, start_date, message, state, city, lang, source, homeowner_id, tcpa_consent, tcpa_consent_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO leads (name, email, phone, project_type, start_date, message, state, city, lang, source, homeowner_id, tcpa_consent, tcpa_consent_at, tcpa_consent_text, tcpa_consent_version, tcpa_consent_ip)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       String(b.name).slice(0, 120),
       String(b.email).slice(0, 160),
@@ -330,8 +394,11 @@ export function createApiApp() {
       String(b.lang ?? 'en').slice(0, 5),
       String(b.source ?? 'website').slice(0, 40),
       homeownerId,
-      b.tcpa_consent ? 1 : 0,
-      b.tcpa_consent ? new Date().toISOString() : '',
+      consentGiven ? 1 : 0,
+      consentGiven ? new Date().toISOString() : '',
+      consentResolved.text,
+      consentResolved.version,
+      consentIp,
     );
 
     const leadId = Number(info.lastInsertRowid);
@@ -358,8 +425,9 @@ export function createApiApp() {
 
       if (wasFreeLead) {
         // Aviso especial: este fue gratis; el siguiente requiere membresía.
+        // Es PUBLICIDAD → lleva marca de publicidad y respeta bajas.
         const free = freeLeadEmail({ contractor });
-        queueEmail(contractor.email, free.subject, free.body);
+        queueEmail(contractor.email, free.subject, free.body, { commercial: true });
       }
     }
 
@@ -507,7 +575,7 @@ export function createApiApp() {
   });
 
   // ==================== DIRECTORIO PÚBLICO DE CONTRATISTAS ==================
-  // Solo perfiles activos; los verificados aparecen primero.
+  // Solo perfiles activos; los de perfil revisado aparecen primero.
   app.get('/api/directory', (req, res) => {
     const state = String(req.query.state ?? '').toLowerCase().trim();
     const trade = normalizeTrade(req.query.trade);
@@ -591,7 +659,7 @@ export function createApiApp() {
   // de acceso legado del correo de bienvenida — antes solo aceptaba el legado
   // y los contratistas que entraban con contraseña no podían subir fotos.
   app.post('/api/upload', (req, res) => {
-    const adminOk = req.headers['x-admin-token'] === adminToken();
+    const adminOk = adminConfigured() && req.headers['x-admin-token'] === adminToken();
     const token = String(req.headers['x-contractor-token'] ?? '');
     let ownerId = null;
     if (token) {
@@ -861,7 +929,8 @@ export function createApiApp() {
       commission_rate: getSetting('commission_rate', '8'),
       avg_ticket: getSetting('avg_ticket', '10000'),
       membership_price: getSetting('membership_price', '150'),
-      admin_token: adminToken(),
+      // NUNCA se devuelve el token real: solo si hay uno configurado.
+      admin_configured: adminConfigured(),
       resend: Boolean(process.env.RESEND_API_KEY),
       stripe: Boolean(process.env.STRIPE_SECRET_KEY),
     });
