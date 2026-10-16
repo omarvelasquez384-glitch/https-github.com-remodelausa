@@ -32,7 +32,7 @@ export const ptContent: SiteContent = {
       },
       { name: "Projetos", href: "#winery", icon: "BookOpen" },
       { name: "Calculadora", href: "#calculadora", icon: "Calculator" },
-      { name: "Construtoras", href: "#museum", icon: "Users" },
+      { name: "Construtoras", href: "/contractors", icon: "Users" },
       { name: "Diretório", href: "/contractors", icon: "HardHat" },
       { name: "Avaliações", href: "#news", icon: "Newspaper" },
       { name: "Contato", href: "#contact", icon: "Mail" },
