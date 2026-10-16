@@ -39,15 +39,15 @@ const STRINGS = {
     passwordMismatch: 'Passwords do not match.',
     consentBefore: 'I agree to the',
     consentLink: 'Terms of Use',
-    consentAfter: 'and I consent to be contacted by phone, text or email by RemodelaUSA and up to 4 partner contractors about my project. Consent is not a condition of purchase.',
+    consentAfter: 'and I consent to RemodelaUSA sharing my name, phone, email and project details with up to 4 assigned contractors, who may call or text me about my project (message/data rates may apply). Consent is not a condition of purchase. I can revoke this consent at any time by replying STOP to any text, emailing hello@remodelausa.com, or using the opt-out page at /opt-out.',
     consentRequired: 'Please accept the contact consent to submit your request.',
     termsAfter: 'including the commission on jobs signed through RemodelaUSA.',
     termsRequired: 'You must accept the Terms of Use to register.',
     successHomeowner: (matched: number) =>
       matched > 0
-        ? `Done! Your request was received and sent to ${matched} verified contractor(s) in your area. You'll hear back within 24 hours.`
-        : 'Done! We received your request. Our team is assigning verified contractors in your area — you\'ll hear back within 24 hours.',
-    successContractor: 'Welcome aboard! We received your registration. We\'ll verify your license and notify you by email when your profile goes live.',
+        ? `Done! Your request was received and sent to ${matched} contractor(s) with reviewed profiles in your area. They will contact you directly about your project.`
+        : 'Done! We received your request. Our team is assigning contractors with reviewed profiles in your area — they will contact you directly about your project.',
+    successContractor: 'Welcome aboard! We received your registration. Our team will review your profile (not a license/insurance verification) and notify you by email when your profile goes live.',
     trackCta: 'Track your request',
     accountCta: 'Create a free account to manage your requests',
     portalCta: 'Open your contractor portal to complete your profile and upload photos',
@@ -78,15 +78,15 @@ const STRINGS = {
     passwordMismatch: 'Las contraseñas no coinciden.',
     consentBefore: 'Acepto los',
     consentLink: 'Términos de Uso',
-    consentAfter: 'y consiento ser contactado por teléfono, mensaje de texto o correo por RemodelaUSA y hasta 4 contratistas asociados sobre mi proyecto. El consentimiento no es condición de compra.',
+    consentAfter: 'y consiento que RemodelaUSA comparta mi nombre, teléfono, correo y detalles del proyecto con hasta 4 contratistas asignados, quienes podrán llamarme o enviarme mensajes de texto sobre mi proyecto (pueden aplicar tarifas de mensajes/datos). El consentimiento no es condición de compra. Puedo revocar este consentimiento en cualquier momento respondiendo STOP a cualquier mensaje de texto, escribiendo a hola@remodelausa.com o usando la página de baja en /opt-out.',
     consentRequired: 'Por favor acepta el consentimiento de contacto para enviar tu solicitud.',
     termsAfter: 'incluida la comisión por trabajos firmados a través de RemodelaUSA.',
     termsRequired: 'Debes aceptar los Términos de Uso para registrarte.',
     successHomeowner: (matched: number) =>
       matched > 0
-        ? `¡Listo! Recibimos tu solicitud y ya se envió a ${matched} contratista(s) verificado(s) de tu zona. Te contactarán en menos de 24 horas.`
-        : '¡Listo! Recibimos tu solicitud. Nuestro equipo está asignando contratistas verificados en tu zona — te contactarán en menos de 24 horas.',
-    successContractor: '¡Bienvenido! Recibimos tu registro. Verificaremos tu licencia y te avisaremos por correo cuando tu perfil quede activo.',
+        ? `¡Listo! Recibimos tu solicitud y ya se envió a ${matched} contratista(s) con perfil revisado de tu zona. Te contactarán directo sobre tu proyecto.`
+        : '¡Listo! Recibimos tu solicitud. Nuestro equipo está asignando contratistas con perfil revisado en tu zona — te contactarán directo sobre tu proyecto.',
+    successContractor: '¡Bienvenido! Recibimos tu registro. Nuestro equipo revisará tu perfil (no es una verificación de licencia ni seguro) y te avisaremos por correo cuando tu perfil quede activo.',
     trackCta: 'Sigue tu solicitud',
     accountCta: 'Crea una cuenta gratis para administrar tus solicitudes',
     portalCta: 'Abre tu portal de contratista para completar tu perfil y subir fotos',
@@ -117,15 +117,15 @@ const STRINGS = {
     passwordMismatch: 'As senhas não coincidem.',
     consentBefore: 'Aceito os',
     consentLink: 'Termos de Uso',
-    consentAfter: 'e consinto ser contatado por telefone, mensagem de texto ou e-mail pela RemodelaUSA e até 4 construtoras parceiras sobre o meu projeto. O consentimento não é condição de compra.',
+    consentAfter: 'e consinto que a RemodelaUSA compartilhe meu nome, telefone, e-mail e detalhes do projeto com até 4 construtoras atribuídas, que poderão me ligar ou enviar mensagens de texto sobre o meu projeto (podem aplicar-se tarifas de mensagens/dados). O consentimento não é condição de compra. Posso revogar este consentimento a qualquer momento respondendo STOP a qualquer mensagem de texto, escrevendo para ola@remodelausa.com ou usando a página de cancelamento em /opt-out.',
     consentRequired: 'Aceite o consentimento de contato para enviar sua solicitação.',
     termsAfter: 'incluída a comissão por trabalhos fechados pela RemodelaUSA.',
     termsRequired: 'Você deve aceitar os Termos de Uso para se cadastrar.',
     successHomeowner: (matched: number) =>
       matched > 0
-        ? `Pronto! Recebemos sua solicitação e já a enviamos para ${matched} construtora(s) verificada(s) da sua região. Elas entrarão em contato em menos de 24 horas.`
-        : 'Pronto! Recebemos sua solicitação. Nossa equipe está atribuindo construtoras verificadas na sua região — elas entrarão em contato em menos de 24 horas.',
-    successContractor: 'Bem-vindo! Recebemos seu cadastro. Verificaremos sua licença e avisaremos por e-mail quando seu perfil ficar ativo.',
+        ? `Pronto! Recebemos sua solicitação e já a enviamos para ${matched} construtora(s) com perfil revisado da sua região. Elas entrarão em contato direto sobre o seu projeto.`
+        : 'Pronto! Recebemos sua solicitação. Nossa equipe está atribuindo construtoras com perfil revisado na sua região — elas entrarão em contato direto sobre o seu projeto.',
+    successContractor: 'Bem-vindo! Recebemos seu cadastro. Nossa equipe revisará seu perfil (não é uma verificação de licença nem seguro) e avisará por e-mail quando seu perfil ficar ativo.',
     trackCta: 'Acompanhar solicitação',
     accountCta: 'Crie uma conta grátis para gerenciar suas solicitações',
     portalCta: 'Abra o portal da construtora para completar seu perfil e enviar fotos',
@@ -289,6 +289,8 @@ export function ContactForm() {
           lang,
           source: 'website',
           tcpa_consent: consent,
+          tcpa_consent_text: `${t.consentBefore} ${t.consentLink} ${t.consentAfter}`,
+          tcpa_consent_version: 'tcpa-v2-2026-10-15',
         });
         setStatus('success');
         setStatusMessage(t.successHomeowner(result.matched));

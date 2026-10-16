@@ -17,9 +17,13 @@ services:
       - key: PUBLIC_URL
         sync: false # pon aquí tu URL real, ej. https://remodelausa.com
       - key: ADMIN_TOKEN
-        generateValue: true # token aleatorio para /admin; cámbialo tras el primer acceso
+        generateValue: true # token aleatorio SOLO en la primera creación; si ya existe un valor, RÓTALO a mano en el dashboard (la clave vieja 'remodelausa-admin' ya no funciona: fail closed)
       - key: RESEND_API_KEY
         sync: false # opcional: correos reales
+      - key: FROM_EMAIL
+        sync: false # remitente verificado en Resend (CAN-SPAM), p. ej. hello@remodelausa.com
+      - key: OWNER_POSTAL_ADDRESS
+        sync: false # dirección postal física del dueño (CAN-SPAM: pie de cada correo)
       - key: STRIPE_SECRET_KEY
         sync: false # opcional: cobro real de comisiones
       - key: STRIPE_WEBHOOK_SECRET

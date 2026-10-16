@@ -8,6 +8,7 @@ import ContractorProfile from './pages/ContractorProfile'
 import Portal from './pages/Portal'
 import Track from './pages/Track'
 import Account from './pages/Account'
+import OptOut from './pages/OptOut'
 
 export default function App() {
   return (
@@ -21,6 +22,8 @@ export default function App() {
       <Route path="/portal" element={<Portal />} />
       <Route path="/track" element={<Track />} />
       <Route path="/account" element={<Account />} />
+      <Route path="/opt-out" element={<OptOut />} />
+      <Route path="/unsubscribe" element={<OptOut />} />
       <Route path="*" element={<Home />} />
     </Routes>
   )
