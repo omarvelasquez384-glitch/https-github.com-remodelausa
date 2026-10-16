@@ -17,8 +17,8 @@ const T = {
       },
       {
         icon: 'Users',
-        title: 'Get matched with verified pros',
-        description: 'We send your request to up to 4 contractors reviewed by our team in your area. They contact you within 24 hours with free quotes.',
+        title: 'Get matched with reviewed pros',
+        description: 'We send your request to up to 4 contractors reviewed by our team in your area. They contact you directly with free quotes.',
       },
       {
         icon: 'BadgeCheck',
@@ -40,8 +40,8 @@ const T = {
       },
       {
         icon: 'Users',
-        title: 'Recibe pros verificados',
-        description: 'Enviamos tu solicitud a hasta 4 contratistas revisados por nuestro equipo de tu zona. Te contactan en menos de 24 horas con cotizaciones gratis.',
+        title: 'Recibe pros con perfil revisado',
+        description: 'Enviamos tu solicitud a hasta 4 contratistas revisados por nuestro equipo de tu zona. Te contactan directo con cotizaciones gratis.',
       },
       {
         icon: 'BadgeCheck',
@@ -63,8 +63,8 @@ const T = {
       },
       {
         icon: 'Users',
-        title: 'Receba profissionais verificados',
-        description: 'Enviamos sua solicitação para até 4 construtoras revisadas pela nossa equipe da sua região. Elas entram em contato em menos de 24 horas com orçamentos grátis.',
+        title: 'Receba profissionais com perfil revisado',
+        description: 'Enviamos sua solicitação para até 4 construtoras revisadas pela nossa equipe da sua região. Elas entram em contato direto com orçamentos grátis.',
       },
       {
         icon: 'BadgeCheck',

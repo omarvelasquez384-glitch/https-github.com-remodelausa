@@ -25,7 +25,7 @@ const T = {
     save: 'Save profile', saving: 'Saving…', saved: 'Profile saved. It now shows in the public directory.',
     uploadLogo: 'Upload logo', uploadPhoto: 'Add project photo', uploading: 'Uploading…',
     photoLimit: 'Up to 8 project photos.', removePhoto: 'Remove',
-    status: 'Account status', statusPending: 'Pending verification — your profile is not public yet.',
+    status: 'Account status', statusPending: 'Pending profile review — your profile is not public yet.',
     statusActive: 'Active — your profile is visible in the directory.',
     viewPublic: 'View my public profile',
     noLeads: 'No client requests assigned to you yet. They arrive here automatically when a homeowner near you asks for a quote.',
@@ -45,7 +45,7 @@ const T = {
     save: 'Guardar perfil', saving: 'Guardando…', saved: 'Perfil guardado. Ya se muestra en el directorio público.',
     uploadLogo: 'Subir logo', uploadPhoto: 'Agregar foto de proyecto', uploading: 'Subiendo…',
     photoLimit: 'Hasta 8 fotos de proyectos.', removePhoto: 'Quitar',
-    status: 'Estado de la cuenta', statusPending: 'Pendiente de verificación — tu perfil aún no es público.',
+    status: 'Estado de la cuenta', statusPending: 'Pendiente de revisión de perfil — tu perfil aún no es público.',
     statusActive: 'Activo — tu perfil es visible en el directorio.',
     viewPublic: 'Ver mi perfil público',
     noLeads: 'Aún no tienes solicitudes de clientes. Llegan aquí automáticamente cuando un dueño de casa cerca de ti pide una cotización.',
@@ -65,7 +65,7 @@ const T = {
     save: 'Salvar perfil', saving: 'Salvando…', saved: 'Perfil salvo. Ele já aparece no diretório público.',
     uploadLogo: 'Enviar logo', uploadPhoto: 'Adicionar foto de projeto', uploading: 'Enviando…',
     photoLimit: 'Até 8 fotos de projetos.', removePhoto: 'Remover',
-    status: 'Status da conta', statusPending: 'Pendente de verificação — seu perfil ainda não é público.',
+    status: 'Status da conta', statusPending: 'Pendente de revisão de perfil — seu perfil ainda não é público.',
     statusActive: 'Ativo — seu perfil está visível no diretório.',
     viewPublic: 'Ver meu perfil público',
     noLeads: 'Você ainda não tem solicitações de clientes. Elas chegam aqui automaticamente quando um proprietário da sua região pede um orçamento.',
@@ -559,7 +559,7 @@ export default function Portal() {
                   <div className="bg-white/5 border border-white/10 rounded-lg p-6 space-y-5">
                     <div className="grid md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm text-white/80 mb-2" htmlFor="p-name">{ui.verified === 'Verified' ? 'Full name' : 'Nombre completo'}</label>
+                        <label className="block text-sm text-white/80 mb-2" htmlFor="p-name">{ui.verified === 'Profile reviewed' ? 'Full name' : 'Nombre completo'}</label>
                         <input id="p-name" name="name" value={form.name ?? ''} onChange={handleChange} className={inputClass} />
                       </div>
                       <div>
