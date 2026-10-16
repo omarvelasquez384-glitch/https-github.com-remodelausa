@@ -149,6 +149,75 @@ function addLeadCol(name, ddl) {
 }
 addLeadCol('tcpa_consent', 'tcpa_consent INTEGER DEFAULT 0');
 addLeadCol('tcpa_consent_at', "tcpa_consent_at TEXT DEFAULT ''");
+// TCPA (v2): texto EXACTO aceptado + versión + IP, y revocación si la hay.
+addLeadCol('tcpa_consent_text', "tcpa_consent_text TEXT DEFAULT ''");
+addLeadCol('tcpa_consent_version', "tcpa_consent_version TEXT DEFAULT ''");
+addLeadCol('tcpa_consent_ip', "tcpa_consent_ip TEXT DEFAULT ''");
+addLeadCol('tcpa_revoked_at', "tcpa_revoked_at TEXT DEFAULT ''");
+addLeadCol('tcpa_revoked_via', "tcpa_revoked_via TEXT DEFAULT ''");
+
+// CAN-SPAM: bajas de correo (supresión) y revocaciones de consentimiento.
+// Una baja aquí SUPRIME futuros envíos a ese correo (ver mailer.js).
+db.exec(`
+  CREATE TABLE IF NOT EXISTS email_unsubscribes (
+    email TEXT PRIMARY KEY,
+    unsubscribed_at TEXT DEFAULT (datetime('now')),
+    ip TEXT DEFAULT '',
+    source TEXT DEFAULT ''
+  );
+  CREATE TABLE IF NOT EXISTS consent_revocations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT DEFAULT '',
+    phone TEXT DEFAULT '',
+    channel TEXT DEFAULT 'all',
+    revoked_at TEXT DEFAULT (datetime('now')),
+    ip TEXT DEFAULT '',
+    source TEXT DEFAULT ''
+  );
+`);
+
+// CAN-SPAM: marca de supresión en la bandeja de salida (auditoría: el
+// correo se registró pero NO se envió porque el destinatario se dio de baja).
+const outboxCols = db.prepare('PRAGMA table_info(outbox)').all().map((c) => c.name);
+if (!outboxCols.includes('suppressed')) {
+  try { db.exec('ALTER TABLE outbox ADD COLUMN suppressed INTEGER DEFAULT 0'); } catch { /* ya existe */ }
+}
+
+export function isEmailUnsubscribed(email) {
+  const e = String(email ?? '').trim().toLowerCase();
+  if (!e) return false;
+  return !!db.prepare('SELECT email FROM email_unsubscribes WHERE email = ?').get(e);
+}
+
+export function recordUnsubscribe(email, { ip = '', source = '' } = {}) {
+  const e = String(email ?? '').trim().toLowerCase();
+  if (!e) return null;
+  db.prepare(`INSERT INTO email_unsubscribes (email, ip, source) VALUES (?, ?, ?)
+    ON CONFLICT(email) DO UPDATE SET unsubscribed_at = datetime('now'), ip = excluded.ip, source = excluded.source`)
+    .run(e, String(ip).slice(0, 60), String(source).slice(0, 60));
+  return db.prepare('SELECT * FROM email_unsubscribes WHERE email = ?').get(e);
+}
+
+// Registra una revocación de consentimiento TCPA (STOP / página /opt-out):
+// guarda el registro, marca los leads de ese email/teléfono como revocados
+// y da de baja el correo para no enviarle más emails comerciales.
+export function recordConsentRevocation({ email = '', phone = '', channel = 'all', ip = '', source = '' }) {
+  const e = String(email ?? '').trim().toLowerCase();
+  const p = String(phone ?? '').trim();
+  const now = new Date().toISOString();
+  db.prepare('INSERT INTO consent_revocations (email, phone, channel, revoked_at, ip, source) VALUES (?, ?, ?, ?, ?, ?)')
+    .run(e, p, String(channel).slice(0, 40), now, String(ip).slice(0, 60), String(source).slice(0, 60));
+  if (e) {
+    db.prepare("UPDATE leads SET tcpa_revoked_at = ?, tcpa_revoked_via = ? WHERE lower(email) = ? AND (tcpa_revoked_at IS NULL OR tcpa_revoked_at = '')")
+      .run(now, String(source).slice(0, 60), e);
+    recordUnsubscribe(e, { ip, source: `tcpa-revoke:${source}` });
+  }
+  if (p) {
+    db.prepare("UPDATE leads SET tcpa_revoked_at = ?, tcpa_revoked_via = ? WHERE phone = ? AND (tcpa_revoked_at IS NULL OR tcpa_revoked_at = '')")
+      .run(now, String(source).slice(0, 60), p);
+  }
+  return { revoked_at: now };
+}
 
 // Ajustes por defecto
 const defaults = { commission_rate: '8', avg_ticket: '10000', admin_token: '', membership_price: '150' };
