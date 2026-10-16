@@ -32,7 +32,7 @@ export const enContent: SiteContent = {
       },
       { name: "Projects", href: "#winery", icon: "BookOpen" },
       { name: "Calculator", href: "#calculadora", icon: "Calculator" },
-      { name: "Contractors", href: "#museum", icon: "Users" },
+      { name: "Contractors", href: "/contractors", icon: "Users" },
       { name: "Directory", href: "/contractors", icon: "HardHat" },
       { name: "Reviews", href: "#news", icon: "Newspaper" },
       { name: "Contact", href: "#contact", icon: "Mail" },

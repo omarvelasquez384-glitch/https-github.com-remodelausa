@@ -18,6 +18,7 @@ const STRINGS = {
   en: {
     modeHomeowner: 'I\'m a homeowner',
     modeContractor: 'I\'m a contractor',
+    submitContractor: 'Register as a contractor',
     contractorTitleNote: 'Join our network — receive client requests in your area and pay commission only when you sign.',
     companyLabel: 'Company',
     companyPlaceholder: 'Your company name',
@@ -57,6 +58,7 @@ const STRINGS = {
   es: {
     modeHomeowner: 'Soy dueño de casa',
     modeContractor: 'Soy contratista',
+    submitContractor: 'Registrarme como contratista',
     contractorTitleNote: 'Únete a la red: recibe solicitudes de clientes en tu zona y paga comisión solo cuando firmes.',
     companyLabel: 'Empresa',
     companyPlaceholder: 'Nombre de tu empresa',
@@ -96,6 +98,7 @@ const STRINGS = {
   pt: {
     modeHomeowner: 'Sou proprietário',
     modeContractor: 'Sou construtora',
+    submitContractor: 'Cadastrar-me como construtora',
     contractorTitleNote: 'Junte-se à rede: receba solicitações de clientes na sua região e pague comissão apenas quando fechar.',
     companyLabel: 'Empresa',
     companyPlaceholder: 'Nome da sua empresa',
@@ -823,7 +826,7 @@ export function ContactForm() {
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        {mode === 'homeowner' ? form.submitText : t.modeContractor}
+                        {mode === 'homeowner' ? form.submitText : t.submitContractor}
                       </>
                     )}
                   </button>

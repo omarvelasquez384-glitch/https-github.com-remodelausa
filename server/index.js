@@ -16,8 +16,13 @@ app.use(createApiApp());
 const distDir = path.join(__dirname, '..', 'dist');
 if (fs.existsSync(distDir)) {
   app.use(express.static(distDir));
-  // SPA fallback: cualquier ruta que no sea /api devuelve index.html
+  // SPA fallback: cualquier ruta que no sea /api devuelve index.html.
+  // index.html se sirve con no-store: un index.html viejo guardado en
+  // caché apuntaría a chunks JS con hash ya borrados de dist/ tras un
+  // despliegue y dejaría la página en negro. Los assets con hash siguen
+  // con el caché normal de express.static (ETag).
   app.get(/^\/(?!api\/).*/, (_req, res) => {
+    res.set('Cache-Control', 'no-store');
     res.sendFile(path.join(distDir, 'index.html'));
   });
 } else {
