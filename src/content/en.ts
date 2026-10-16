@@ -4,7 +4,7 @@ export const enContent: SiteContent = {
   site: {
     title: "RemodelaUSA — Home Remodeling Contractors Across the United States",
     description:
-      "Find contractors reviewed by our team for remodels, bathrooms, kitchens, painting, concrete, and repairs in the Kansas City area. Free quotes within 24 hours.",
+      "Find contractors reviewed by our team for remodels, bathrooms, kitchens, painting, concrete, and repairs in the Kansas City area. Free quotes with no obligation.",
     language: "en",
     keywords:
       "remodeling, contractors, bathrooms, kitchens, painting, concrete, repairs, United States, free quote",
@@ -82,7 +82,7 @@ export const enContent: SiteContent = {
           "Includes: rainfall shower, double vanity, porcelain tile, tub installation, and improved ventilation.",
         alcohol: "$4,500",
         temperature: "2–3 wks",
-        aging: "1 yr",
+        aging: "",
       },
       {
         id: "cocinas",
@@ -98,7 +98,7 @@ export const enContent: SiteContent = {
           "Includes: cabinets, quartz countertop, electrical and gas hookups, new flooring, and tile backsplash.",
         alcohol: "$12,000",
         temperature: "4–6 wks",
-        aging: "1 yr",
+        aging: "",
       },
       {
         id: "pintura",
@@ -114,7 +114,7 @@ export const enContent: SiteContent = {
           "Includes: wall repair, sanding, patching, two coats of premium paint, and full cleanup.",
         alcohol: "$1,200",
         temperature: "3–5 days",
-        aging: "2 yrs",
+        aging: "",
       },
       {
         id: "concreto",
@@ -130,7 +130,7 @@ export const enContent: SiteContent = {
           "Includes: excavation, formwork, steel reinforcement, pouring, stamped finish, and protective sealing.",
         alcohol: "$3,800",
         temperature: "1–2 wks",
-        aging: "5 yrs",
+        aging: "",
       },
       {
         id: "remodelacion",
@@ -146,27 +146,27 @@ export const enContent: SiteContent = {
           "Includes: architectural design, permits, full labor, on-site supervision, and luxury finishes.",
         alcohol: "$25,000",
         temperature: "8–12 wks",
-        aging: "1 yr",
+        aging: "",
       },
     ],
     features: [
       {
         icon: "Sparkles",
-        title: "Verified contractors",
+        title: "Reviewed profiles",
         description:
           "Every contractor profile is reviewed by our team before receiving requests.",
       },
       {
         icon: "Clock",
-        title: "Quotes in 24 hours",
+        title: "Free quotes, no obligation",
         description:
-          "Post your project for free and receive up to 4 quotes from contractors in your area within a day.",
+          "Post your project for free and receive up to 4 quotes from contractors with reviewed profiles in your area. Contractors reply directly — timing depends on each contractor.",
       },
       {
         icon: "Thermometer",
         title: "Transparent pricing",
         description:
-          "Compare proposals side by side with clear prices, written warranties, and real customer reviews.",
+          "Compare proposals side by side with clear prices and customer reviews. Warranty terms are agreed directly with your contractor.",
       },
     ],
     quote: {
@@ -239,14 +239,14 @@ export const enContent: SiteContent = {
       },
       {
         id: "verificacion",
-        name: "Verified profile",
+        name: "Reviewed profile",
         icon: "Award",
         image: "/images/museum-tab2.png",
         content: {
-          title: "Stand out with the verified badge",
+          title: "Stand out with the reviewed-profile badge",
           description:
-            "Our team reviews your profile before you receive requests. Your verified profile ranks first in searches and builds trust from the first contact.",
-          highlight: "Verified profiles rank first in searches",
+            "Our team reviews your profile before you receive requests. Your reviewed profile ranks first in searches and builds trust from the first contact.",
+          highlight: "Reviewed profiles rank first in searches",
         },
       },
       {
@@ -272,7 +272,7 @@ export const enContent: SiteContent = {
       text: "I doubled my projects in six months. Requests arrive straight to my phone and I decide which ones to quote.",
       attribution: "Carlos R., General contractor, Miami, FL",
     },
-    founderPhotoAlt: "Verified RemodelaUSA contractor",
+    founderPhotoAlt: "RemodelaUSA contractor",
     founderPhoto: "/images/photo-retro.png",
   },
 
@@ -338,11 +338,11 @@ export const enContent: SiteContent = {
     storySubtitle: "The home marketplace",
     storyTitle: "We connect homes with expert hands",
     storyParagraphs: [
-      "RemodelaUSA was born from a simple idea: finding a trustworthy contractor shouldn't be a gamble. Homeowners deserve clear prices, guaranteed work, and peace of mind on every project.",
+      "RemodelaUSA was born from a simple idea: finding a trustworthy contractor shouldn't be a gamble. Homeowners deserve clear prices, honest communication, and peace of mind on every project.",
       "Today we connect homeowners with contractors reviewed by our team in the Kansas City area (Missouri & Kansas). We make the connection; contractors sign more jobs, and you transform your home.",
     ],
     storyTimeline: [
-      { value: "1", label: "Verified contractor" },
+      { value: "1", label: "Reviewed-profile contractor" },
       { value: "KC metro", label: "Service area" },
     ],
     storyQuote: {
@@ -359,7 +359,7 @@ export const enContent: SiteContent = {
     subtitle: "No commitment",
     mainTitle: "Find your contractor today",
     introText:
-      "Tell us about your project and receive up to 4 quotes from verified contractors in your area. It's free and there's no obligation.",
+      "Tell us about your project and receive up to 4 quotes from contractors with reviewed profiles in your area. It's free and there's no obligation.",
     contactInfoTitle: "Prefer to talk to us?",
     contactInfo: [
       {
@@ -372,13 +372,13 @@ export const enContent: SiteContent = {
         icon: "Mail",
         label: "Email",
         value: "hello@remodelausa.com",
-        subtext: "We reply within 24 hours",
+        subtext: "We reply as soon as possible",
       },
       {
         icon: "Clock",
         label: "Quotes",
-        value: "Within 24 hours",
-        subtext: "Up to 4 contractor proposals",
+        value: "From contractors",
+        subtext: "Up to 4 proposals, sent directly",
       },
     ],
     form: {
@@ -403,7 +403,7 @@ export const enContent: SiteContent = {
       submitText: "Get free quotes",
       submittingText: "Sending...",
       successMessage:
-        "Done! We received your request. We'll contact you within 24 hours.",
+        "Done! We received your request. Assigned contractors will contact you directly about your project.",
       errorMessage: "Something went wrong. Please try again.",
     },
     privacyNotice:

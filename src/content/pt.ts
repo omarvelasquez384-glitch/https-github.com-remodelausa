@@ -4,7 +4,7 @@ export const ptContent: SiteContent = {
   site: {
     title: "RemodelaUSA — Construtoras de Reforma nos Estados Unidos",
     description:
-      "Encontre construtoras revisadas pela nossa equipe para reformas, banheiros, cozinhas, pintura, concreto e reparos na região de Kansas City. Orçamentos grátis em 24 horas.",
+      "Encontre construtoras revisadas pela nossa equipe para reformas, banheiros, cozinhas, pintura, concreto e reparos na região de Kansas City. Orçamentos grátis e sem compromisso.",
     language: "pt",
     keywords:
       "reforma, construtoras, banheiros, cozinhas, pintura, concreto, reparos, Estados Unidos, orçamento grátis",
@@ -82,7 +82,7 @@ export const ptContent: SiteContent = {
           "Inclui: chuveiro tipo chuva, dupla cuba, azulejo de porcelana, instalação de banheira e ventilação melhorada.",
         alcohol: "$4.500",
         temperature: "2–3 sem",
-        aging: "1 ano",
+        aging: "",
       },
       {
         id: "cocinas",
@@ -98,7 +98,7 @@ export const ptContent: SiteContent = {
           "Inclui: armários, bancada de quartzo, instalação elétrica e de gás, piso novo e revestimento de azulejo.",
         alcohol: "$12.000",
         temperature: "4–6 sem",
-        aging: "1 ano",
+        aging: "",
       },
       {
         id: "pintura",
@@ -114,7 +114,7 @@ export const ptContent: SiteContent = {
           "Inclui: reparo de paredes, lixamento, massa corrida, duas demãos de tinta premium e limpeza completa.",
         alcohol: "$1.200",
         temperature: "3–5 dias",
-        aging: "2 anos",
+        aging: "",
       },
       {
         id: "concreto",
@@ -130,7 +130,7 @@ export const ptContent: SiteContent = {
           "Inclui: escavação, forma, armação de aço, concretagem, acabamento estampado e selagem protetora.",
         alcohol: "$3.800",
         temperature: "1–2 sem",
-        aging: "5 anos",
+        aging: "",
       },
       {
         id: "remodelacion",
@@ -146,27 +146,27 @@ export const ptContent: SiteContent = {
           "Inclui: projeto arquitetônico, alvarás, mão de obra completa, supervisão de obra e acabamentos de luxo.",
         alcohol: "$25.000",
         temperature: "8–12 sem",
-        aging: "1 ano",
+        aging: "",
       },
     ],
     features: [
       {
         icon: "Sparkles",
-        title: "Construtoras verificadas",
+        title: "Perfis revisados",
         description:
           "Todo perfil de construtora é revisado pela nossa equipe antes de receber solicitações.",
       },
       {
         icon: "Clock",
-        title: "Orçamento em 24 horas",
+        title: "Orçamento grátis, sem compromisso",
         description:
-          "Publique seu projeto grátis e receba até 4 orçamentos de construtoras da sua região em menos de um dia.",
+          "Publique seu projeto grátis e receba até 4 orçamentos de construtoras com perfil revisado da sua região. As construtoras respondem direto — o prazo depende de cada construtora.",
       },
       {
         icon: "Thermometer",
         title: "Preços transparentes",
         description:
-          "Compare propostas lado a lado com preços claros, garantias por escrito e avaliações reais de clientes.",
+          "Compare propostas lado a lado com preços claros e avaliações de clientes. Os termos de garantia são acordados direto com sua construtora.",
       },
     ],
     quote: {
@@ -239,14 +239,14 @@ export const ptContent: SiteContent = {
       },
       {
         id: "verificacion",
-        name: "Perfil verificado",
+        name: "Perfil revisado",
         icon: "Award",
         image: "/images/museum-tab2.png",
         content: {
-          title: "Destaque-se com o selo de verificado",
+          title: "Destaque-se com o selo de perfil revisado",
           description:
-            "Nossa equipe revisa seu perfil antes de você receber solicitações. Seu perfil verificado aparece primeiro nas buscas e gera confiança desde o primeiro contato.",
-          highlight: "Perfis verificados aparecem primeiro nas buscas",
+            "Nossa equipe revisa seu perfil antes de você receber solicitações. Seu perfil revisado aparece primeiro nas buscas e gera confiança desde o primeiro contato.",
+          highlight: "Perfis revisados aparecem primeiro nas buscas",
         },
       },
       {
@@ -272,7 +272,7 @@ export const ptContent: SiteContent = {
       text: "Dobrei meus projetos em seis meses. As solicitações chegam direto no meu celular e eu decido quais orçar.",
       attribution: "Carlos R., Construtor geral, Miami, FL",
     },
-    founderPhotoAlt: "Construtora verificada da RemodelaUSA",
+    founderPhotoAlt: "Construtora da RemodelaUSA",
     founderPhoto: "/images/photo-retro.png",
   },
 
@@ -338,11 +338,11 @@ export const ptContent: SiteContent = {
     storySubtitle: "O marketplace do lar",
     storyTitle: "Conectamos lares a mãos especializadas",
     storyParagraphs: [
-      "A RemodelaUSA nasceu de uma ideia simples: encontrar uma construtora confiável não deveria ser uma loteria. Os proprietários merecem preços claros, trabalhos garantidos e tranquilidade em cada projeto.",
+      "A RemodelaUSA nasceu de uma ideia simples: encontrar uma construtora confiável não deveria ser uma loteria. Os proprietários merecem preços claros, comunicação honesta e tranquilidade em cada projeto.",
       "Hoje conectamos proprietários a construtoras revisadas pela nossa equipe na região de Kansas City (Missouri e Kansas). Nós fazemos a conexão; as construtoras fecham mais trabalhos e você transforma sua casa.",
     ],
     storyTimeline: [
-      { value: "1", label: "Construtora verificada" },
+      { value: "1", label: "Construtora com perfil revisado" },
       { value: "KC metro", label: "Área de atendimento" },
     ],
     storyQuote: {
@@ -359,7 +359,7 @@ export const ptContent: SiteContent = {
     subtitle: "Sem compromisso",
     mainTitle: "Encontre sua construtora hoje",
     introText:
-      "Conte-nos sobre seu projeto e receba até 4 orçamentos de construtoras verificadas na sua região. É grátis e sem compromisso.",
+      "Conte-nos sobre seu projeto e receba até 4 orçamentos de construtoras com perfil revisado na sua região. É grátis e sem compromisso.",
     contactInfoTitle: "Prefere falar conosco?",
     contactInfo: [
       {
@@ -372,13 +372,13 @@ export const ptContent: SiteContent = {
         icon: "Mail",
         label: "E-mail",
         value: "ola@remodelausa.com",
-        subtext: "Respondemos em menos de 24 horas",
+        subtext: "Respondemos o quanto antes",
       },
       {
         icon: "Clock",
         label: "Orçamentos",
-        value: "Em 24 horas",
-        subtext: "Até 4 propostas de construtoras",
+        value: "De construtoras",
+        subtext: "Até 4 propostas, enviadas direto",
       },
     ],
     form: {
@@ -403,7 +403,7 @@ export const ptContent: SiteContent = {
       submitText: "Receber orçamentos grátis",
       submittingText: "Enviando...",
       successMessage:
-        "Pronto! Recebemos sua solicitação. Entraremos em contato em menos de 24 horas.",
+        "Pronto! Recebemos sua solicitação. As construtoras atribuídas entrarão em contato direto sobre o seu projeto.",
       errorMessage: "Ocorreu um problema ao enviar. Tente novamente.",
     },
     privacyNotice:
