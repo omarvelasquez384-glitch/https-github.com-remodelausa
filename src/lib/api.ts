@@ -12,6 +12,8 @@ export interface LeadPayload {
   lang: string;
   source?: string;
   tcpa_consent?: boolean; // aceptación de contacto por teléfono/SMS/correo (TCPA)
+  tcpa_consent_text?: string; // TEXTO EXACTO del consentimiento aceptado (evidencia TCPA)
+  tcpa_consent_version?: string; // versión del texto aceptado
 }
 
 export interface ContractorPayload {
@@ -113,6 +115,21 @@ export const api = {
       method: 'POST',
       headers: { 'x-homeowner-token': sessionToken },
       body: JSON.stringify(payload),
+    }),
+
+  // Retira el consentimiento de contacto (TCPA: equivale a responder STOP)
+  // y da de baja el correo. Usado por la página /opt-out.
+  revokeConsent: (payload: { email?: string; phone?: string; channel?: string }) =>
+    request<{ ok: boolean; revoked_at: string }>('/api/consent/revoke', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
+  // Baja de correo (CAN-SPAM). Usada por la página /unsubscribe.
+  unsubscribe: (email: string) =>
+    request<{ ok: boolean }>('/api/unsubscribe', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
     }),
 
   track: (type: string, payload: Record<string, unknown> = {}) => {
@@ -279,7 +296,7 @@ export const adminApi = {
   resendOutbox: (id: number) =>
     adminRequest<{ ok: boolean; demo?: boolean; message?: string }>(`/api/outbox/${id}/resend`, { method: 'POST' }),
 
-  settings: () => adminRequest<{ commission_rate: string; avg_ticket: string; membership_price: string; admin_token: string; resend: boolean; stripe: boolean }>('/api/settings'),
+  settings: () => adminRequest<{ commission_rate: string; avg_ticket: string; membership_price: string; admin_configured: boolean; resend: boolean; stripe: boolean }>('/api/settings'),
 
   saveSettings: (body: { commission_rate?: number; avg_ticket?: number; membership_price?: number; admin_token?: string }) =>
     adminRequest<{ ok: boolean }>('/api/settings', { method: 'PATCH', body: JSON.stringify(body) }),
