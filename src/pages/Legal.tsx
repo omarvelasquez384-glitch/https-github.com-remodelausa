@@ -58,7 +58,7 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
         },
         {
           heading: 'Data retention and your rights',
-          body: 'We keep request and account data while your request or account is active and as long as reasonably needed for records and dispute handling. Depending on your state (including California under the CCPA), you may request access, correction, or deletion of your personal data. Contact us at privacy@remodelausa.com and we will respond within 30 days.',
+          body: 'We keep request and account data while your request or account is active and as long as reasonably needed for records and dispute handling. Depending on your state (including California under the CCPA), you may request access, correction, or deletion of your personal data. Contact us at privacy@remodelausa.com and we will respond within 30 days. If a data breach involving your personal information occurs, we will notify you as required by applicable law.',
         },
         {
           heading: 'Contact',
@@ -105,7 +105,7 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
         },
         {
           heading: 'Conservación de datos y tus derechos',
-          body: 'Conservamos los datos de solicitudes y cuentas mientras tu solicitud o cuenta esté activa y durante el tiempo razonable necesario para registros y resolución de disputas. Según tu estado (incluida California bajo la CCPA), puedes solicitar acceso, corrección o eliminación de tus datos personales. Escríbenos a privacy@remodelausa.com y responderemos en un plazo de 30 días.',
+          body: 'Conservamos los datos de solicitudes y cuentas mientras tu solicitud o cuenta esté activa y durante el tiempo razonable necesario para registros y resolución de disputas. Según tu estado (incluida California bajo la CCPA), puedes solicitar acceso, corrección o eliminación de tus datos personales. Escríbenos a privacy@remodelausa.com y responderemos en un plazo de 30 días. Si ocurre una brecha de seguridad que afecte a tus datos personales, te lo notificaremos según lo exija la ley aplicable.',
         },
         {
           heading: 'Contacto',
@@ -152,7 +152,7 @@ const CONTENT: Record<DocKind, Record<Lang, DocContent>> = {
         },
         {
           heading: 'Retenção de dados e seus direitos',
-          body: 'Mantemos os dados de solicitações e contas enquanto sua solicitação ou conta estiver ativa e pelo tempo razoavelmente necessário para registros e resolução de disputas. Dependendo do seu estado (incluída a Califórnia sob a CCPA), você pode solicitar acesso, correção ou exclusão dos seus dados pessoais. Fale conosco em privacy@remodelausa.com e responderemos em até 30 dias.',
+          body: 'Mantemos os dados de solicitações e contas enquanto sua solicitação ou conta estiver ativa e pelo tempo razoavelmente necessário para registros e resolução de disputas. Dependendo do seu estado (incluída a Califórnia sob a CCPA), você pode solicitar acesso, correção ou exclusão dos seus dados pessoais. Fale conosco em privacy@remodelausa.com e responderemos em até 30 dias. Se ocorrer uma violação de segurança envolvendo seus dados pessoais, notificaremos você conforme exigido pela lei aplicável.',
         },
         {
           heading: 'Contato',
