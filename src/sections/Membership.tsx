@@ -10,7 +10,7 @@ const T = {
     eyebrow: 'MEMBERSHIP',
     title: 'Your first lead is free. Then grow with a flat membership.',
     subtitle:
-      'Try RemodelaUSA with zero risk: your first client lead is free. To keep receiving leads, the membership is $150/month — first month with no commission, then 8% only on jobs you sign through us.',
+      'Try RemodelaUSA: your first client lead is free. To keep receiving leads, the membership is $150/month — first month with no commission, then 8% only on jobs you sign through us.',
     planName: 'Monthly Membership',
     price: '$150',
     per: '/month',
@@ -29,7 +29,7 @@ const T = {
     eyebrow: 'MEMBRESÍA',
     title: 'Tu primer lead es gratis. Luego crece con una tarifa fija.',
     subtitle:
-      'Prueba RemodelaUSA sin riesgo: tu primer lead de cliente es gratis. Para seguir recibiendo leads, la membresía es de $150/mes — primer mes sin comisión y desde el segundo solo 8% de los trabajos que firmes con nosotros.',
+      'Prueba RemodelaUSA: tu primer lead de cliente es gratis. Para seguir recibiendo leads, la membresía es de $150/mes — primer mes sin comisión y desde el segundo solo 8% de los trabajos que firmes con nosotros.',
     planName: 'Membresía mensual',
     price: '$150',
     per: '/mes',
@@ -48,7 +48,7 @@ const T = {
     eyebrow: 'ASSINATURA',
     title: 'Seu primeiro lead é grátis. Depois cresça com uma taxa fixa.',
     subtitle:
-      'Teste a RemodelaUSA sem risco: seu primeiro lead de cliente é grátis. Para continuar recebendo leads, a assinatura é de US$ 150/mês — primeiro mês sem comissão e, a partir do segundo, só 8% dos trabalhos fechados conosco.',
+      'Teste a RemodelaUSA: seu primeiro lead de cliente é grátis. Para continuar recebendo leads, a assinatura é de US$ 150/mês — primeiro mês sem comissão e, a partir do segundo, só 8% dos trabalhos fechados conosco.',
     planName: 'Assinatura mensal',
     price: 'US$ 150',
     per: '/mês',

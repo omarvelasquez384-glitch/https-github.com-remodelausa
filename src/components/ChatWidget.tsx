@@ -382,8 +382,9 @@ export function ChatWidget() {
             <div className="px-4 py-3 bg-white/5 border-b border-white/10 space-y-3">
               <p className="text-xs text-gold-400 uppercase tracking-wider">{t.settings}</p>
               <div>
-                <label className="block text-[11px] text-white/60 mb-1">{t.apiKeyLabel}</label>
+                <label className="block text-[11px] text-white/60 mb-1" htmlFor="chat-api-key">{t.apiKeyLabel}</label>
                 <input
+                  id="chat-api-key"
                   type="password"
                   value={apiKeyInput}
                   onChange={(e) => setApiKeyInput(e.target.value)}
@@ -393,8 +394,9 @@ export function ChatWidget() {
                 <p className="text-[11px] text-white/40 mt-1 leading-relaxed">{t.apiKeyHint}</p>
               </div>
               <div>
-                <label className="block text-[11px] text-white/60 mb-1">{t.modelLabel}</label>
+                <label className="block text-[11px] text-white/60 mb-1" htmlFor="chat-model">{t.modelLabel}</label>
                 <input
+                  id="chat-model"
                   type="text"
                   value={modelInput}
                   onChange={(e) => setModelInput(e.target.value)}

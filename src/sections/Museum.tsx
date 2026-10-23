@@ -129,36 +129,6 @@ export function Museum() {
               </div>
             )}
 
-            {/* Founder Photo & Quote */}
-            {museumConfig.quote.text && (
-              <div className="fade-up mt-8 flex items-center gap-6" style={{ transitionDelay: '0.3s' }}>
-                {museumConfig.founderPhoto && (
-                  <div className="w-24 h-24 rounded-lg overflow-hidden border-2 border-gold-500/30 shadow-lg flex-shrink-0">
-                    <img
-                      src={museumConfig.founderPhoto}
-                      alt={museumConfig.founderPhotoAlt}
-                      loading="lazy"
-                      className="w-full h-full object-cover sepia"
-                    />
-                  </div>
-                )}
-                <div>
-                  {museumConfig.quote.prefix && (
-                    <p className="font-script text-2xl text-gold-400 mb-1">
-                      &ldquo;{museumConfig.quote.prefix}&rdquo;
-                    </p>
-                  )}
-                  <p className="text-white/70 text-sm italic">
-                    "{museumConfig.quote.text}"
-                  </p>
-                  {museumConfig.quote.attribution && (
-                    <p className="text-gold-500 text-xs mt-2">
-                      — {museumConfig.quote.attribution}
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Right Image */}

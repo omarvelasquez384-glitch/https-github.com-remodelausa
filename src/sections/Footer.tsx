@@ -7,10 +7,33 @@ import { getLanguage, type Lang } from '../i18n';
 // Aviso legal visible en todas las páginas: la plataforma es un servicio de
 // referidos, no un contratista (protección ante demandas por trabajo de terceros).
 const DISCLAIMER: Record<Lang, string> = {
-  en: 'RemodelaUSA is a referral service, not a contractor. All work is performed by independent contractors who hold their own licenses and insurance.',
-  es: 'RemodelaUSA es un servicio de referidos, no un contratista. Todo el trabajo lo realizan contratistas independientes con sus propias licencias y seguros.',
-  pt: 'A RemodelaUSA é um serviço de indicação, não uma construtora. Todo o trabalho é executado por construtoras independentes com suas próprias licenças e seguros.',
+  en: 'RemodelaUSA is a referral service, not a contractor. All work is performed by independent contractors. Our profile review is not a verification of licenses, insurance, or background, and we do not guarantee the work of any contractor.',
+  es: 'RemodelaUSA es un servicio de referidos, no un contratista. Todo el trabajo lo realizan contratistas independientes. Nuestra revisión de perfiles no es una verificación de licencias, seguros ni antecedentes, y no garantizamos el trabajo de ningún contratista.',
+  pt: 'A RemodelaUSA é um serviço de indicação, não uma construtora. Todo o trabalho é executado por construtoras independentes. Nossa revisão de perfis não é uma verificação de licenças, seguros ou antecedentes, e não garantimos o trabalho de nenhuma construtora.',
 };
+
+// Datos del negocio visibles en el pie (nombre, actividad, ciudad y contacto).
+// La dirección postal sigue pendiente de confirmación del propietario.
+const BUSINESS_INFO: Record<Lang, string> = {
+  en: 'RemodelaUSA — a marketplace connecting homeowners with independent remodeling contractors · Kansas City, MO, USA · hello@remodelausa.com · [Business mailing address — to be confirmed]',
+  es: 'RemodelaUSA — un marketplace que conecta dueños de casa con contratistas independientes de remodelación · Kansas City, MO, EE. UU. · hello@remodelausa.com · [Dirección postal del negocio — pendiente de confirmar]',
+  pt: 'RemodelaUSA — um marketplace que conecta proprietários a construtoras independentes de reforma · Kansas City, MO, EUA · hello@remodelausa.com · [Endereço postal comercial — a confirmar]',
+};
+
+// El formulario de newsletter no tiene endpoint configurado: nada de éxito simulado.
+const NEWSLETTER_UNAVAILABLE: Record<Lang, string> = {
+  en: 'Our newsletter is not available yet — please check back soon.',
+  es: 'Nuestro boletín aún no está disponible — vuelve pronto.',
+  pt: 'Nosso boletim ainda não está disponível — volte em breve.',
+};
+
+const NEWSLETTER_PRIVACY: Record<Lang, string> = {
+  en: 'We use your email only to send the newsletter. See our Privacy Policy.',
+  es: 'Usamos tu correo solo para enviarte el boletín. Consulta nuestra Política de Privacidad.',
+  pt: 'Usamos seu e-mail apenas para enviar o boletim. Veja nossa Política de Privacidade.',
+};
+
+const LEGAL_PATHS = ['/legal/privacy', '/legal/terms', '/legal/cookies', '/legal/refunds'];
 
 // Icon lookup map for dynamic icon resolution from config strings
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -23,7 +46,7 @@ export function Footer() {
 
   const navigate = useNavigate();
   const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error' | 'unavailable'>('idle');
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -45,12 +68,10 @@ export function Footer() {
     e.preventDefault();
     if (!newsletterEmail) return;
 
-    // Sin endpoint configurado: simular suscripción exitosa en local
+    // Sin endpoint configurado: no se envía nada; se avisa con honestidad
+    // en lugar de simular una suscripción exitosa.
     if (!footerConfig.newsletterEndpoint) {
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      setNewsletterStatus('success');
-      setNewsletterEmail('');
-      setTimeout(() => setNewsletterStatus('idle'), 4000);
+      setNewsletterStatus('unavailable');
       return;
     }
 
@@ -181,7 +202,7 @@ export function Footer() {
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-gold-500 text-white text-sm rounded-sm hover:bg-gold-600 transition-colors"
+                      className="px-4 py-2 bg-gold-500 text-[#141414] font-medium text-sm rounded-sm hover:bg-gold-600 transition-colors"
                     >
                       {footerConfig.newsletterButtonText}
                     </button>
@@ -190,6 +211,15 @@ export function Footer() {
                 {newsletterStatus === 'error' && (
                   <p className="text-red-400 text-xs mt-2">{footerConfig.newsletterErrorText}</p>
                 )}
+                {newsletterStatus === 'unavailable' && (
+                  <p className="text-white/60 text-xs mt-2">{NEWSLETTER_UNAVAILABLE[getLanguage() as Lang] ?? NEWSLETTER_UNAVAILABLE.en}</p>
+                )}
+                <p className="text-white/50 text-xs mt-3">
+                  {NEWSLETTER_PRIVACY[getLanguage() as Lang] ?? NEWSLETTER_PRIVACY.en}{' '}
+                  <a href="/legal/privacy" className="underline underline-offset-2 hover:text-gold-400">
+                    {footerConfig.legalLinks[0]}
+                  </a>
+                </p>
               </div>
             )}
           </div>
@@ -207,7 +237,7 @@ export function Footer() {
               <span key={index}>
                 <span className="hidden md:inline">|</span>
                 <a
-                  href={index === 0 ? '/legal/privacy' : '/legal/terms'}
+                  href={LEGAL_PATHS[index] ?? '/legal/privacy'}
                   className="hover:text-gold-400 transition-colors ml-2 md:ml-0"
                 >
                   {link}
@@ -248,8 +278,11 @@ export function Footer() {
       {/* Disclaimer: servicio de referidos (visibilidad legal en cada página) */}
       <div className="border-t border-white/10">
         <div className="container-custom py-4">
-          <p className="text-center text-white/40 text-xs max-w-3xl mx-auto leading-relaxed">
+          <p className="text-center text-white/60 text-xs max-w-3xl mx-auto leading-relaxed">
             {DISCLAIMER[getLanguage() as Lang] ?? DISCLAIMER.en}
+          </p>
+          <p className="text-center text-white/60 text-xs max-w-3xl mx-auto leading-relaxed mt-2">
+            {BUSINESS_INFO[getLanguage() as Lang] ?? BUSINESS_INFO.en}
           </p>
         </div>
       </div>

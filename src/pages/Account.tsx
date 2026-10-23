@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import {
   Home, LogOut, Loader, Plus, CheckCircle, AlertCircle, User, Phone, MapPin,
-  Star, BadgeCheck, Save,
+  BadgeCheck, Save,
 } from 'lucide-react';
 import { Navigation } from '../sections/Navigation';
 import { Footer } from '../sections/Footer';
@@ -34,7 +34,7 @@ const T = {
     dateLabel: 'Desired start date', messageLabel: 'Details (optional)',
     messagePlaceholder: 'Tell us about your project: size, materials, ideas…',
     publish: 'Publish my request', publishing: 'Publishing…',
-    consentBefore: 'I agree to the', consentLink: 'Terms of Use',
+    consentBefore: 'I agree to the', consentLink: 'Terms of Use', consentAnd: 'and', privacyLink: 'Privacy Policy', acceptRequired: 'Please accept the Terms of Use and the Privacy Policy to create your account.',
     consentAfter: 'and I consent to RemodelaUSA sharing my name, phone, email and project details with up to 4 assigned contractors, who may call or text me about my project (message/data rates may apply). Consent is not a condition of purchase. I can revoke this consent at any time by replying STOP to any text, emailing hello@remodelausa.com, or using the opt-out page at /opt-out.',
     consentRequired: 'Please accept the contact consent to publish.',
     publishedOk: 'Published! We are assigning contractors with reviewed profiles in your area.',
@@ -66,7 +66,7 @@ const T = {
     dateLabel: 'Fecha deseada de inicio', messageLabel: 'Detalles (opcional)',
     messagePlaceholder: 'Cuéntanos sobre tu proyecto: tamaño, materiales, ideas…',
     publish: 'Publicar mi solicitud', publishing: 'Publicando…',
-    consentBefore: 'Acepto los', consentLink: 'Términos de Uso',
+    consentBefore: 'Acepto los', consentLink: 'Términos de Uso', consentAnd: 'y', privacyLink: 'Política de Privacidad', acceptRequired: 'Acepta los Términos de Uso y la Política de Privacidad para crear tu cuenta.',
     consentAfter: 'y consiento que RemodelaUSA comparta mi nombre, teléfono, correo y detalles del proyecto con hasta 4 contratistas asignados, quienes podrán llamarme o enviarme mensajes de texto sobre mi proyecto (pueden aplicar tarifas de mensajes/datos). El consentimiento no es condición de compra. Puedo revocar este consentimiento en cualquier momento respondiendo STOP a cualquier mensaje de texto, escribiendo a hola@remodelausa.com o usando la página de baja en /opt-out.',
     consentRequired: 'Acepta el consentimiento de contacto para publicar.',
     publishedOk: '¡Publicada! Estamos asignando contratistas con perfil revisado en tu zona.',
@@ -98,7 +98,7 @@ const T = {
     dateLabel: 'Data desejada de início', messageLabel: 'Detalhes (opcional)',
     messagePlaceholder: 'Conte-nos sobre seu projeto: tamanho, materiais, ideias…',
     publish: 'Publicar minha solicitação', publishing: 'Publicando…',
-    consentBefore: 'Aceito os', consentLink: 'Termos de Uso',
+    consentBefore: 'Aceito os', consentLink: 'Termos de Uso', consentAnd: 'e', privacyLink: 'Política de Privacidade', acceptRequired: 'Aceite os Termos de Uso e a Política de Privacidade para criar sua conta.',
     consentAfter: 'e consinto que a RemodelaUSA compartilhe meu nome, telefone, e-mail e detalhes do projeto com até 4 construtoras atribuídas, que poderão me ligar ou enviar mensagens de texto sobre o meu projeto (podem aplicar-se tarifas de mensagens/dados). O consentimento não é condição de compra. Posso revogar este consentimento a qualquer momento respondendo STOP a qualquer mensagem de texto, escrevendo para ola@remodelausa.com ou usando a página de cancelamento em /opt-out.',
     consentRequired: 'Aceite o consentimento de contato para publicar.',
     publishedOk: 'Publicada! Estamos atribuindo construtoras com perfil revisado da sua região.',
@@ -132,6 +132,7 @@ export default function Account() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [checking, setChecking] = useState(true);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [authForm, setAuthForm] = useState({ email: '', password: '', name: '', phone: '' });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -181,6 +182,7 @@ export default function Account() {
     setError('');
     try {
       if (authMode === 'register') {
+        if (!acceptPrivacy) { setError(t.acceptRequired); setBusy(false); return; }
         const { token, user: me } = await authApi.registerHomeowner({
           name: authForm.name, email: authForm.email, phone: authForm.phone, password: authForm.password,
         });
@@ -319,6 +321,18 @@ export default function Account() {
                     </div>
                   </>
                 )}
+                {authMode === 'register' && (
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" checked={acceptPrivacy} onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                      className="mt-1 w-4 h-4 accent-[#d2a855] shrink-0" />
+                    <span className="text-xs text-white/60 leading-relaxed">
+                      {t.consentBefore}{' '}
+                      <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">{t.consentLink}</a>{' '}
+                      {t.consentAnd}{' '}
+                      <a href="/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">{t.privacyLink}</a>
+                    </span>
+                  </label>
+                )}
                 <div>
                   <label htmlFor="acc-email" className="block text-sm text-white/80 mb-2">{t.emailLabel}</label>
                   <input id="acc-email" type="email" required value={authForm.email}
@@ -335,7 +349,7 @@ export default function Account() {
                 </button>
                 {error && <p className="text-sm text-red-400 text-center">{error}</p>}
               </form>
-              <p className="text-xs text-white/40 text-center mt-6">
+              <p className="text-xs text-white/60 text-center mt-6">
                 {t.contractorHere}{' '}
                 <Link to="/portal" className="text-gold-400 hover:underline">{t.contractorLink}</Link>
               </p>
@@ -414,6 +428,10 @@ export default function Account() {
                       <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
                         {t.consentLink}
                       </a>{' '}
+                      {t.consentAnd}{' '}
+                      <a href="/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
+                        {t.privacyLink}
+                      </a>{' '}
                       {t.consentAfter}
                     </span>
                   </label>
@@ -460,16 +478,11 @@ export default function Account() {
                               {req.contractors.map((c) => (
                                 <li key={c.id} className="flex items-center gap-3 text-sm">
                                   {c.logo ? (
-                                    <img src={c.logo} alt="" className="w-8 h-8 rounded-full object-cover border border-gold-500/30" />
+                                    <img src={c.logo} alt={c.company || c.name} className="w-8 h-8 rounded-full object-cover border border-gold-500/30" />
                                   ) : (
                                     <BadgeCheck className="w-4 h-4 text-gold-500 flex-shrink-0" />
                                   )}
                                   <span className="text-white/80 flex-1 truncate">{c.company || c.name}</span>
-                                  {c.rating > 0 && (
-                                    <span className="inline-flex items-center gap-1 text-white/50">
-                                      <Star className="w-3 h-3 text-gold-500 fill-gold-500" /> {c.rating.toFixed(1)}
-                                    </span>
-                                  )}
                                   <a href={`tel:${c.phone.replace(/\s/g, '')}`} className="text-gold-400 hover:underline">{t.call}</a>
                                   <Link to={`/contractors/${c.id}`} className="text-white/50 hover:text-gold-400">{t.viewProfile}</Link>
                                 </li>

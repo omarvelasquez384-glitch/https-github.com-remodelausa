@@ -391,7 +391,7 @@ export default function Portal() {
               <div className="bg-white/5 border border-white/10 rounded-lg p-6 mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                   {profile.logo ? (
-                    <img src={profile.logo} alt="" className="w-14 h-14 rounded-full object-cover border-2 border-gold-500/30" />
+                    <img src={profile.logo} alt={profile.company || profile.name} className="w-14 h-14 rounded-full object-cover border-2 border-gold-500/30" />
                   ) : (
                     <div className="w-14 h-14 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center">
                       <HardHat className="w-6 h-6 text-gold-500" />
@@ -489,7 +489,7 @@ export default function Portal() {
                         <p className="text-sm text-white/80 mb-3">{t.uploadLogo}</p>
                         <div className="flex items-center gap-4">
                           {profile.logo ? (
-                            <img src={profile.logo} alt="logo" className="w-20 h-20 rounded-full object-cover border-2 border-gold-500/40" />
+                            <img src={profile.logo} alt={profile.company || profile.name} className="w-20 h-20 rounded-full object-cover border-2 border-gold-500/40" />
                           ) : (
                             <div className="w-20 h-20 rounded-full bg-white/5 border border-white/20 flex items-center justify-center text-white/30">
                               <ImagePlus className="w-6 h-6" />
@@ -517,7 +517,7 @@ export default function Portal() {
                         <div className="flex flex-wrap gap-3">
                           {profile.photos.map((photo, i) => (
                             <div key={photo} className="relative group">
-                              <img src={photo} alt={`project ${i + 1}`} className="w-20 h-20 object-cover rounded-md border border-white/10" />
+                              <img src={photo} alt={`${profile.company || profile.name} — project photo ${i + 1}`} className="w-20 h-20 object-cover rounded-md border border-white/10" />
                               <button
                                 type="button"
                                 onClick={() => void removePhoto(i)}
@@ -544,6 +544,7 @@ export default function Portal() {
                                 type="button"
                                 onClick={() => photoInput.current?.click()}
                                 disabled={uploading}
+                                aria-label={t.uploadPhoto}
                                 className="w-20 h-20 border border-dashed border-white/30 rounded-md flex flex-col items-center justify-center text-white/40 hover:border-gold-500/50 hover:text-gold-400 transition-colors disabled:opacity-50"
                               >
                                 <ImagePlus className="w-5 h-5" />
@@ -690,8 +691,9 @@ export default function Portal() {
                             <div className="mt-3 pt-3 border-t border-white/10">
                               {signingId === lead.id ? (
                                 <div className="flex flex-wrap items-center gap-2">
-                                  <label className="text-xs text-white/60">Job value ($)</label>
+                                  <label className="text-xs text-white/60" htmlFor="job-value-input">Job value ($)</label>
                                   <input
+                                    id="job-value-input"
                                     type="number" min={0} value={signValue}
                                     onChange={(e) => setSignValue(e.target.value)}
                                     placeholder="10000"

@@ -23,7 +23,7 @@ const T = {
       {
         icon: 'BadgeCheck',
         title: 'Hire with confidence',
-        description: 'Compare quotes, check reviews and photos, and choose the pro you trust. Free for homeowners — contractors start with a free lead, then a $150/month membership.',
+        description: 'Compare quotes and photos, and choose the pro you trust. Free for homeowners — contractors start with a free lead, then a $150/month membership.',
       },
     ],
     cta: 'Start my project',
@@ -46,7 +46,7 @@ const T = {
       {
         icon: 'BadgeCheck',
         title: 'Contrata con confianza',
-        description: 'Compara cotizaciones, reseñas y fotos, y elige al profesional de tu confianza. Gratis para ti — el contratista empieza con un lead gratis y luego una membresía de $150/mes.',
+        description: 'Compara cotizaciones y fotos, y elige al profesional de tu confianza. Gratis para ti — el contratista empieza con un lead gratis y luego una membresía de $150/mes.',
       },
     ],
     cta: 'Empezar mi proyecto',
@@ -69,7 +69,7 @@ const T = {
       {
         icon: 'BadgeCheck',
         title: 'Contrate com confiança',
-        description: 'Compare orçamentos, avaliações e fotos, e escolha o profissional de sua confiança. Grátis para você — a construtora começa com um lead grátis e depois uma assinatura de US$ 150/mês.',
+        description: 'Compare orçamentos e fotos, e escolha o profissional de sua confiança. Grátis para você — a construtora começa com um lead grátis e depois uma assinatura de US$ 150/mês.',
       },
     ],
     cta: 'Começar meu projeto',
