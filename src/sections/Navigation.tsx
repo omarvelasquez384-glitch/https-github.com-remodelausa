@@ -43,6 +43,16 @@ export function Navigation() {
     };
   }, [isMobileMenuOpen]);
 
+  // Cerrar el menú móvil con Escape (operable por teclado).
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isMobileMenuOpen]);
+
   // Enlaces a páginas reales (/contractors, /track...) navegan; los que
   // empiezan con # desplazan a la sección correspondiente.
   const goTo = (href: string) => {

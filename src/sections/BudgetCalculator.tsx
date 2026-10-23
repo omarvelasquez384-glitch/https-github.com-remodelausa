@@ -234,7 +234,7 @@ const STRINGS: Record<Lang, CalcStrings> = {
     subtitle: 'Estimate in seconds',
     mainTitle: 'What would your project cost?',
     intro:
-      'Pick your project, size, and state to get a price range based on real 2026 U.S. remodeling averages — adjusted for your region. Then receive exact quotes from contractors with reviewed profiles.',
+      'Pick your project, size, and state to get a price range based on typical U.S. remodeling costs — adjusted for your region. It is a rough estimate, not a quote; then receive exact quotes from contractors with reviewed profiles.',
     projectTypeLabel: 'Project type',
     stateLabel: 'Your state (adjusts prices to your region)',
     stateDefault: 'National average',
@@ -283,7 +283,7 @@ const STRINGS: Record<Lang, CalcStrings> = {
     subtitle: 'Estimado en segundos',
     mainTitle: '¿Cuánto costaría tu proyecto?',
     intro:
-      'Elige el proyecto, el tamaño y tu estado para obtener un rango basado en promedios reales de remodelación 2026 en EE. UU., ajustados a tu región. Después recibe cotizaciones exactas de contratistas con perfil revisado.',
+      'Elige el proyecto, el tamaño y tu estado para obtener un rango basado en costos típicos de remodelación en EE. UU., ajustados a tu región. Es una estimación, no una cotización; después recibe cotizaciones exactas de contratistas con perfil revisado.',
     projectTypeLabel: 'Tipo de proyecto',
     stateLabel: 'Tu estado (ajusta los precios a tu región)',
     stateDefault: 'Promedio nacional',
@@ -332,7 +332,7 @@ const STRINGS: Record<Lang, CalcStrings> = {
     subtitle: 'Estimativa em segundos',
     mainTitle: 'Quanto custaria seu projeto?',
     intro:
-      'Escolha o projeto, o tamanho e o seu estado para obter uma faixa baseada em médias reais de reforma 2026 nos EUA, ajustadas à sua região. Depois receba orçamentos exatos de construtoras com perfil revisado.',
+      'Escolha o projeto, o tamanho e o seu estado para obter uma faixa baseada em custos típicos de reforma nos EUA, ajustada à sua região. É uma estimativa, não um orçamento; depois receba orçamentos exatos de construtoras com perfil revisado.',
     projectTypeLabel: 'Tipo de projeto',
     stateLabel: 'Seu estado (ajusta os preços à sua região)',
     stateDefault: 'Média nacional',

@@ -42,7 +42,6 @@ export function WineShowcase() {
 
   const wines = wineShowcaseConfig.wines;
   const features = wineShowcaseConfig.features;
-  const quote = wineShowcaseConfig.quote;
   const wine = wines[activeWine];
   const t = STRINGS[getLanguage() as Lang] ?? STRINGS.en;
 
@@ -208,16 +207,6 @@ export function WineShowcase() {
               })}
             </div>
 
-            {/* Quote */}
-            {quote.text && (
-              <div className="mt-10 p-6 bg-white/[0.03] rounded-lg border-l-2 border-gold-500/50">
-                {quote.prefix && <p className="font-script text-2xl text-gold-400 mb-2">{quote.prefix}</p>}
-                <p className="text-white/70 text-sm italic leading-relaxed">
-                  "{quote.text}"
-                </p>
-                {quote.attribution && <p className="text-gold-500 text-xs mt-3">— {quote.attribution}</p>}
-              </div>
-            )}
           </div>
         </div>
       </div>

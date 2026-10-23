@@ -289,8 +289,9 @@ export default function Admin() {
             <h1 className="font-serif text-xl text-white">{t.title}</h1>
           </div>
           <div>
-            <label className="block text-sm text-white/80 mb-2">{t.tokenPrompt}</label>
+            <label className="block text-sm text-white/80 mb-2" htmlFor="admin-token">{t.tokenPrompt}</label>
             <input
+              id="admin-token"
               type="password"
               value={tokenInput}
               onChange={(e) => setTokenInput(e.target.value)}
@@ -404,6 +405,7 @@ export default function Admin() {
           <div className="space-y-4">
             <div className="flex items-center gap-2 flex-wrap">
               <select
+                aria-label="Filter leads by status"
                 value={leadFilter}
                 onChange={(e) => setLeadFilter(e.target.value)}
                 className="px-3 py-2 bg-white/5 border border-white/20 rounded-sm text-sm text-white focus:outline-none focus:border-gold-500"
@@ -450,6 +452,7 @@ export default function Admin() {
                           </td>
                           <td className="px-4 py-3">
                             <select
+                              aria-label="Lead status"
                               value={lead.status}
                               onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
                               className={`px-2 py-1 rounded-sm text-xs border bg-wine-800 focus:outline-none ${STATUS_COLORS[lead.status] ?? ''}`}
@@ -461,6 +464,7 @@ export default function Admin() {
                           </td>
                           <td className="px-4 py-3">
                             <input
+                              aria-label="Job value (USD)"
                               type="number"
                               min={0}
                               value={lead.job_value || ''}
@@ -529,6 +533,7 @@ export default function Admin() {
                       <td className="px-4 py-3 text-white/60">{c.state}</td>
                       <td className="px-4 py-3">
                         <select
+                          aria-label="Contractor status"
                           value={c.status}
                           onChange={(e) => updateContractor(c.id, { status: e.target.value })}
                           className="px-2 py-1 rounded-sm text-xs border bg-wine-800 focus:outline-none border-white/20 text-white/80"
@@ -590,6 +595,7 @@ export default function Admin() {
                                       await load();
                                     }}
                                     className="px-2 py-0.5 rounded-sm border border-red-500/40 text-red-400 hover:bg-red-500/10"
+                                    aria-label="Reset membership dates"
                                     title="Reset membership dates (fix over-extended dates)"
                                   >
                                     ↺
@@ -614,6 +620,7 @@ export default function Admin() {
                           step={0.1}
                           defaultValue={c.rating ?? 0}
                           title="Rating 0–5"
+                          aria-label="Rating 0 to 5"
                           onBlur={(e) => {
                             const v = Number(e.target.value) || 0;
                             if (v !== c.rating) void updateContractor(c.id, { rating: v });
@@ -625,6 +632,7 @@ export default function Admin() {
                           min={0}
                           defaultValue={c.jobs_done ?? 0}
                           title="Jobs completed"
+                          aria-label="Jobs completed"
                           onBlur={(e) => {
                             const v = Number(e.target.value) || 0;
                             if (v !== c.jobs_done) void updateContractor(c.id, { jobs_done: v });
@@ -706,8 +714,9 @@ export default function Admin() {
               </span>
             </div>
             <div>
-              <label className="block text-sm text-white/80 mb-2">{t.settings.commissionRate}</label>
+              <label className="block text-sm text-white/80 mb-2" htmlFor="set-commission">{t.settings.commissionRate}</label>
               <input
+                id="set-commission"
                 type="number" step="0.5" min="0" max="30"
                 value={settingsForm.commission_rate}
                 onChange={(e) => setSettingsForm((p) => ({ ...p, commission_rate: e.target.value }))}
@@ -715,8 +724,9 @@ export default function Admin() {
               />
             </div>
             <div>
-              <label className="block text-sm text-white/80 mb-2">{t.settings.avgTicket}</label>
+              <label className="block text-sm text-white/80 mb-2" htmlFor="set-avgticket">{t.settings.avgTicket}</label>
               <input
+                id="set-avgticket"
                 type="number" step="100" min="0"
                 value={settingsForm.avg_ticket}
                 onChange={(e) => setSettingsForm((p) => ({ ...p, avg_ticket: e.target.value }))}
@@ -724,8 +734,9 @@ export default function Admin() {
               />
             </div>
             <div>
-              <label className="block text-sm text-white/80 mb-2">Membership price (USD/month)</label>
+              <label className="block text-sm text-white/80 mb-2" htmlFor="set-membership">Membership price (USD/month)</label>
               <input
+                id="set-membership"
                 type="number" step="5" min="0" max="500"
                 value={settingsForm.membership_price}
                 onChange={(e) => setSettingsForm((p) => ({ ...p, membership_price: e.target.value }))}
@@ -733,8 +744,9 @@ export default function Admin() {
               />
             </div>
             <div>
-              <label className="block text-sm text-white/80 mb-2">{t.settings.adminToken}</label>
+              <label className="block text-sm text-white/80 mb-2" htmlFor="set-admtoken">{t.settings.adminToken}</label>
               <input
+                id="set-admtoken"
                 type="password"
                 value={settingsForm.admin_token}
                 onChange={(e) => setSettingsForm((p) => ({ ...p, admin_token: e.target.value }))}

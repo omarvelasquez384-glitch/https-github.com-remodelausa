@@ -2,7 +2,7 @@ import type { SiteContent } from '../config';
 
 export const ptContent: SiteContent = {
   site: {
-    title: "RemodelaUSA — Construtoras de Reforma nos Estados Unidos",
+    title: "RemodelaUSA — Encontre construtoras de reforma perto de você",
     description:
       "Encontre construtoras revisadas pela nossa equipe para reformas, banheiros, cozinhas, pintura, concreto e reparos na região de Kansas City. Orçamentos grátis e sem compromisso.",
     language: "pt",
@@ -34,7 +34,6 @@ export const ptContent: SiteContent = {
       { name: "Calculadora", href: "#calculadora", icon: "Calculator" },
       { name: "Construtoras", href: "/contractors", icon: "Users" },
       { name: "Diretório", href: "/contractors", icon: "HardHat" },
-      { name: "Avaliações", href: "#news", icon: "Newspaper" },
       { name: "Contato", href: "#contact", icon: "Mail" },
     ],
     ctaButtonText: "Orçamento grátis",
@@ -166,21 +165,16 @@ export const ptContent: SiteContent = {
         icon: "Thermometer",
         title: "Preços transparentes",
         description:
-          "Compare propostas lado a lado com preços claros e avaliações de clientes. Os termos de garantia são acordados direto com sua construtora.",
+          "Compare propostas lado a lado com preços claros e escopos de trabalho claros. Os termos de garantia são acordados direto com sua construtora.",
       },
     ],
-    quote: {
-      text: "Comparei quatro orçamentos em um único dia e escolhi a melhor construtora sem sair de casa.",
-      attribution: "Maria G., Houston, TX",
-      prefix: "Histórias reais",
-    },
   },
 
   wineryCarousel: {
     scriptText: "Inspiração",
-    subtitle: "Projetos reais",
-    mainTitle: "Transformações que falam por si",
-    locationTag: "Em todo os Estados Unidos",
+    subtitle: "Ideias de projetos",
+    mainTitle: "Ideias para sua próxima transformação",
+    locationTag: "Exemplo de projeto",
     slides: [
       {
         image: "/images/slider01.png",
@@ -227,14 +221,14 @@ export const ptContent: SiteContent = {
     tabs: [
       {
         id: "clientes",
-        name: "Clientes reais",
+        name: "Solicitações de clientes",
         icon: "History",
         image: "/images/museum-tab1.png",
         content: {
-          title: "Solicitações de clientes prontos para contratar",
+          title: "Solicitações de proprietários da sua região",
           description:
-            "Cada solicitação vem com fotos, orçamento estimado e data desejada de início. Você fala direto com o proprietário, sem intermediários tirando sua margem.",
-          highlight: "Solicitações de clientes na sua região — sem limite mensal",
+            "Cada solicitação inclui o tipo de projeto, os detalhes e a data desejada de início. Você fala direto com o proprietário, sem intermediários tirando sua margem.",
+          highlight: "Solicitações de clientes na sua região",
         },
       },
       {
@@ -245,8 +239,8 @@ export const ptContent: SiteContent = {
         content: {
           title: "Destaque-se com o selo de perfil revisado",
           description:
-            "Nossa equipe revisa seu perfil antes de você receber solicitações. Seu perfil revisado aparece primeiro nas buscas e gera confiança desde o primeiro contato.",
-          highlight: "Perfis revisados aparecem primeiro nas buscas",
+            "Nossa equipe revisa seu perfil antes de você receber solicitações. O selo mostra aos proprietários que seu perfil foi revisado e gera confiança desde o primeiro contato. Esta revisão não é uma verificação de licenças ou seguros.",
+          highlight: "Selo de perfil revisado no seu anúncio",
         },
       },
       {
@@ -267,11 +261,6 @@ export const ptContent: SiteContent = {
     ctaButtonText: "Cadastre-se como construtora",
     yearBadge: "8%",
     yearBadgeLabel: "Comissão",
-    quote: {
-      prefix: "Mais trabalhos",
-      text: "Dobrei meus projetos em seis meses. As solicitações chegam direto no meu celular e eu decido quais orçar.",
-      attribution: "Carlos R., Construtor geral, Miami, FL",
-    },
     founderPhotoAlt: "Construtora da RemodelaUSA",
     founderPhoto: "/images/photo-retro.png",
   },
@@ -311,29 +300,6 @@ export const ptContent: SiteContent = {
         category: "Guias",
       },
     ],
-    testimonialsScriptText: "Avaliações",
-    testimonialsSubtitle: "Clientes felizes",
-    testimonialsMainTitle: "O que dizem os proprietários",
-    testimonials: [
-      {
-        name: "Maria Gonzalez",
-        role: "Houston, TX",
-        text: "Publiquei meu projeto numa segunda e na quarta já tinha três orçamentos. A construtora que escolhi deixou meu banheiro lindo e respeitou o orçamento ao centavo.",
-        rating: 5,
-      },
-      {
-        name: "James Wilson",
-        role: "Atlanta, GA",
-        text: "O que mais gostei foi a verificação: sabia que cada construtora tinha licença e seguro. A pintura da minha casa ficou perfeita.",
-        rating: 5,
-      },
-      {
-        name: "Ana Martinez",
-        role: "San Diego, CA",
-        text: "A entrada de concreto estampado ficou melhor que nas fotos. Preço justo, trabalho limpo e garantia por escrito.",
-        rating: 4,
-      },
-    ],
     storyScriptText: "Nossa história",
     storySubtitle: "O marketplace do lar",
     storyTitle: "Conectamos lares a mãos especializadas",
@@ -351,7 +317,7 @@ export const ptContent: SiteContent = {
       attribution: "Equipe RemodelaUSA",
     },
     storyImage: "/images/museum.png",
-    storyImageCaption: "Sala reformada por uma construtora da RemodelaUSA",
+    storyImageCaption: "Reforma de sala — foto de exemplo",
   },
 
   contactForm: {
@@ -416,12 +382,7 @@ export const ptContent: SiteContent = {
     tagline: "Seu lar, renovado",
     description:
       "O marketplace que conecta proprietários a construtoras revisadas pela nossa equipe na região de Kansas City.",
-    socialLinks: [
-      { icon: "Instagram", label: "Instagram", href: "#" },
-      { icon: "Facebook", label: "Facebook", href: "#" },
-      { icon: "Twitter", label: "Twitter", href: "#" },
-      { icon: "Youtube", label: "YouTube", href: "#" },
-    ],
+    socialLinks: [],
     linkGroups: [
       {
         title: "Serviços",
@@ -443,14 +404,14 @@ export const ptContent: SiteContent = {
           { name: "Como funciona", href: "#museum" },
           { name: "Calculadora", href: "#calculadora" },
           { name: "Projetos", href: "#winery" },
-          { name: "Avaliações", href: "#news" },
           { name: "Blog", href: "#news" },
           { name: "Contato", href: "#contact" },
         ],
       },
     ],
     contactItems: [
-      { icon: "MapPin", text: "Região de Kansas City" },
+      { icon: "MapPin", text: "Kansas City, MO, EUA" },
+      { icon: "MapPin", text: "[Endereço postal comercial — a confirmar]" },
       { icon: "Mail", text: "ola@remodelausa.com" },
     ],
     newsletterLabel: "Receba dicas de reforma",
@@ -460,7 +421,7 @@ export const ptContent: SiteContent = {
     newsletterErrorText: "Falha ao assinar. Tente novamente.",
     newsletterEndpoint: "",
     copyrightText: "© 2026 RemodelaUSA. Todos os direitos reservados.",
-    legalLinks: ["Política de Privacidade", "Termos de Uso"],
+    legalLinks: ["Política de Privacidade", "Termos de Uso", "Política de Cookies", "Política de Reembolsos"],
     icpText: "",
     backToTopText: "Voltar ao topo",
     ageVerificationText: "Os orçamentos são gratuitos e sem compromisso.",

@@ -43,13 +43,13 @@
     --popover: 0 0% 5%;
     --popover-foreground: 0 0% 100%;
     --primary: 41 54% 58%;
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 0 0% 8%;
     --secondary: 0 0% 9%;
     --secondary-foreground: 0 0% 100%;
     --muted: 0 0% 14%;
     --muted-foreground: 0 0% 65%;
     --accent: 41 54% 58%;
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 0 0% 8%;
     --destructive: 0 79% 44%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 20%;
@@ -75,6 +75,12 @@
     overflow-x: hidden;
   }
 
+  /* Foco visible para navegación por teclado (WCAG 2.4.7) */
+  :focus-visible {
+    outline: 2px solid var(--gold-400);
+    outline-offset: 2px;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
@@ -98,7 +104,8 @@
   .btn-primary {
     @apply px-8 py-3 text-sm font-medium tracking-wide transition-all duration-300;
     background-color: var(--gold-500);
-    color: white;
+    /* Texto oscuro sobre dorado: el blanco no alcanzaba contraste WCAG AA */
+    color: #141414;
   }
 
   .btn-primary:hover {

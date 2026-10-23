@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { Search, Loader, PackageOpen, Phone, MapPin, Star, BadgeCheck, ArrowRight } from 'lucide-react';
+import { Search, Loader, PackageOpen, Phone, MapPin, BadgeCheck, ArrowRight } from 'lucide-react';
 import { Navigation } from '../sections/Navigation';
 import { Footer } from '../sections/Footer';
 import { publicApi, type MyRequest } from '../lib/api';
@@ -16,6 +16,7 @@ const T = {
     phoneLabel: 'Phone', phonePlaceholder: '(555) 123-4567',
     search: 'See my requests', searching: 'Searching…',
     hint: 'Use the same email or phone from your quote request.',
+    privacyNote: 'We use this information only to find your requests.', privacyLinkText: 'Privacy Policy',
     none: 'We couldn\'t find requests with that information. Check the spelling or submit a new request.',
     request: 'Request', submitted: 'Submitted', contractorsAssigned: 'Contractors assigned to your project',
     yourRequests: (n: number) => `We found ${n} request${n === 1 ? '' : 's'}`,
@@ -29,6 +30,7 @@ const T = {
     phoneLabel: 'Teléfono', phonePlaceholder: '(555) 123-4567',
     search: 'Ver mis solicitudes', searching: 'Buscando…',
     hint: 'Usa el mismo correo o teléfono de tu solicitud de cotización.',
+    privacyNote: 'Usamos esta información solo para buscar tus solicitudes.', privacyLinkText: 'Política de Privacidad',
     none: 'No encontramos solicitudes con esos datos. Revisa la escritura o envía una nueva solicitud.',
     request: 'Solicitud', submitted: 'Enviada', contractorsAssigned: 'Contratistas asignados a tu proyecto',
     yourRequests: (n: number) => `Encontramos ${n} solicitud${n === 1 ? '' : 'es'}`,
@@ -42,6 +44,7 @@ const T = {
     phoneLabel: 'Telefone', phonePlaceholder: '(555) 123-4567',
     search: 'Ver minhas solicitações', searching: 'Buscando…',
     hint: 'Use o mesmo e-mail ou telefone do seu pedido de orçamento.',
+    privacyNote: 'Usamos estas informações apenas para localizar suas solicitações.', privacyLinkText: 'Política de Privacidade',
     none: 'Não encontramos solicitações com esses dados. Verifique a escrita ou envie uma nova solicitação.',
     request: 'Solicitação', submitted: 'Enviada', contractorsAssigned: 'Construtoras atribuídas ao seu projeto',
     yourRequests: (n: number) => `Encontramos ${n} solicitaç${n === 1 ? 'ão' : 'ões'}`,
@@ -129,7 +132,11 @@ export default function Track() {
               {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
               {loading ? t.searching : t.search}
             </button>
-            <p className="text-xs text-white/40 text-center mt-3">{t.hint}</p>
+            <p className="text-xs text-white/60 text-center mt-3">{t.hint}</p>
+            <p className="text-xs text-white/50 text-center mt-2">
+              {t.privacyNote}{' '}
+              <Link to="/legal/privacy" className="underline underline-offset-2 hover:text-gold-400">{t.privacyLinkText}</Link>
+            </p>
             {error && <p className="text-sm text-red-400 text-center mt-3">{error}</p>}
           </form>
 
@@ -171,7 +178,7 @@ export default function Track() {
                             {req.contractors.map((c) => (
                               <li key={c.id} className="flex items-center gap-4 bg-white/[0.03] border border-white/10 rounded-md p-3">
                                 {c.logo ? (
-                                  <img src={c.logo} alt="" className="w-11 h-11 rounded-full object-cover border border-gold-500/30 flex-shrink-0" />
+                                  <img src={c.logo} alt={c.company || c.name} className="w-11 h-11 rounded-full object-cover border border-gold-500/30 flex-shrink-0" />
                                 ) : (
                                   <div className="w-11 h-11 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center flex-shrink-0">
                                     <BadgeCheck className="w-5 h-5 text-gold-500" />
@@ -181,11 +188,6 @@ export default function Track() {
                                   <p className="text-white font-medium truncate">{c.company || c.name}</p>
                                   <p className="text-xs text-white/50">
                                     {TRADE_LABELS[lang][c.trade] ?? c.trade}
-                                    {c.rating > 0 && (
-                                      <span className="inline-flex items-center gap-1 ml-2">
-                                        <Star className="w-3 h-3 text-gold-500 fill-gold-500" /> {c.rating.toFixed(1)}
-                                      </span>
-                                    )}
                                   </p>
                                 </div>
                                 <div className="flex items-center gap-2 flex-shrink-0">

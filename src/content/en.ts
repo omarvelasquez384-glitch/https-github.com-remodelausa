@@ -2,7 +2,7 @@ import type { SiteContent } from '../config';
 
 export const enContent: SiteContent = {
   site: {
-    title: "RemodelaUSA — Home Remodeling Contractors Across the United States",
+    title: "RemodelaUSA — Find Remodeling Contractors Near You",
     description:
       "Find contractors reviewed by our team for remodels, bathrooms, kitchens, painting, concrete, and repairs in the Kansas City area. Free quotes with no obligation.",
     language: "en",
@@ -34,7 +34,6 @@ export const enContent: SiteContent = {
       { name: "Calculator", href: "#calculadora", icon: "Calculator" },
       { name: "Contractors", href: "/contractors", icon: "Users" },
       { name: "Directory", href: "/contractors", icon: "HardHat" },
-      { name: "Reviews", href: "#news", icon: "Newspaper" },
       { name: "Contact", href: "#contact", icon: "Mail" },
     ],
     ctaButtonText: "Get a free quote",
@@ -166,21 +165,16 @@ export const enContent: SiteContent = {
         icon: "Thermometer",
         title: "Transparent pricing",
         description:
-          "Compare proposals side by side with clear prices and customer reviews. Warranty terms are agreed directly with your contractor.",
+          "Compare proposals side by side with clear prices and scopes of work. Warranty terms are agreed directly with your contractor.",
       },
     ],
-    quote: {
-      text: "I compared four quotes in a single day and picked the best contractor without leaving home.",
-      attribution: "Maria G., Houston, TX",
-      prefix: "Real stories",
-    },
   },
 
   wineryCarousel: {
     scriptText: "Inspiration",
-    subtitle: "Real projects",
-    mainTitle: "Transformations that speak for themselves",
-    locationTag: "Across the United States",
+    subtitle: "Project ideas",
+    mainTitle: "Ideas for your next transformation",
+    locationTag: "Example project",
     slides: [
       {
         image: "/images/slider01.png",
@@ -227,14 +221,14 @@ export const enContent: SiteContent = {
     tabs: [
       {
         id: "clientes",
-        name: "Real clients",
+        name: "Client requests",
         icon: "History",
         image: "/images/museum-tab1.png",
         content: {
-          title: "Requests from clients ready to hire",
+          title: "Requests from homeowners in your area",
           description:
-            "Every request comes with photos, an estimated budget, and a desired start date. You talk directly to the homeowner — no middlemen taking your margin.",
-          highlight: "Client requests in your area — no monthly cap",
+            "Each request includes the project type, the details, and a desired start date. You talk directly to the homeowner — no middlemen taking your margin.",
+          highlight: "Client requests in your area",
         },
       },
       {
@@ -245,8 +239,8 @@ export const enContent: SiteContent = {
         content: {
           title: "Stand out with the reviewed-profile badge",
           description:
-            "Our team reviews your profile before you receive requests. Your reviewed profile ranks first in searches and builds trust from the first contact.",
-          highlight: "Reviewed profiles rank first in searches",
+            "Our team reviews your profile before you receive requests. The badge shows homeowners that your profile was reviewed, which builds trust from the first contact. This review is not a verification of licenses or insurance.",
+          highlight: "Reviewed-profile badge on your listing",
         },
       },
       {
@@ -267,11 +261,6 @@ export const enContent: SiteContent = {
     ctaButtonText: "Join as a contractor",
     yearBadge: "8%",
     yearBadgeLabel: "Commission",
-    quote: {
-      prefix: "More jobs",
-      text: "I doubled my projects in six months. Requests arrive straight to my phone and I decide which ones to quote.",
-      attribution: "Carlos R., General contractor, Miami, FL",
-    },
     founderPhotoAlt: "RemodelaUSA contractor",
     founderPhoto: "/images/photo-retro.png",
   },
@@ -311,29 +300,6 @@ export const enContent: SiteContent = {
         category: "Guides",
       },
     ],
-    testimonialsScriptText: "Reviews",
-    testimonialsSubtitle: "Happy customers",
-    testimonialsMainTitle: "What homeowners say",
-    testimonials: [
-      {
-        name: "Maria Gonzalez",
-        role: "Houston, TX",
-        text: "I posted my project on Monday and had three quotes by Wednesday. The contractor I chose left my bathroom beautiful and hit the budget to the penny.",
-        rating: 5,
-      },
-      {
-        name: "James Wilson",
-        role: "Atlanta, GA",
-        text: "What I liked most was the verification: I knew every contractor had a license and insurance. The paint job on my house came out perfect.",
-        rating: 5,
-      },
-      {
-        name: "Ana Martinez",
-        role: "San Diego, CA",
-        text: "The stamped concrete driveway looks better than the photos. Fair price, clean work, and a written warranty.",
-        rating: 4,
-      },
-    ],
     storyScriptText: "Our story",
     storySubtitle: "The home marketplace",
     storyTitle: "We connect homes with expert hands",
@@ -351,7 +317,7 @@ export const enContent: SiteContent = {
       attribution: "The RemodelaUSA team",
     },
     storyImage: "/images/museum.png",
-    storyImageCaption: "Living room remodeled by a RemodelaUSA contractor",
+    storyImageCaption: "Living room remodeling — example photo",
   },
 
   contactForm: {
@@ -416,12 +382,7 @@ export const enContent: SiteContent = {
     tagline: "Your home, renewed",
     description:
       "The marketplace that connects homeowners with contractors reviewed by our team in the Kansas City area.",
-    socialLinks: [
-      { icon: "Instagram", label: "Instagram", href: "#" },
-      { icon: "Facebook", label: "Facebook", href: "#" },
-      { icon: "Twitter", label: "Twitter", href: "#" },
-      { icon: "Youtube", label: "YouTube", href: "#" },
-    ],
+    socialLinks: [],
     linkGroups: [
       {
         title: "Services",
@@ -443,14 +404,14 @@ export const enContent: SiteContent = {
           { name: "How it works", href: "#museum" },
           { name: "Calculator", href: "#calculadora" },
           { name: "Projects", href: "#winery" },
-          { name: "Reviews", href: "#news" },
           { name: "Blog", href: "#news" },
           { name: "Contact", href: "#contact" },
         ],
       },
     ],
     contactItems: [
-      { icon: "MapPin", text: "Kansas City area" },
+      { icon: "MapPin", text: "Kansas City, MO, USA" },
+      { icon: "MapPin", text: "[Business mailing address — to be confirmed]" },
       { icon: "Mail", text: "hello@remodelausa.com" },
     ],
     newsletterLabel: "Get remodeling tips",
@@ -460,7 +421,7 @@ export const enContent: SiteContent = {
     newsletterErrorText: "Subscription failed. Please try again.",
     newsletterEndpoint: "",
     copyrightText: "© 2026 RemodelaUSA. All rights reserved.",
-    legalLinks: ["Privacy Policy", "Terms of Use"],
+    legalLinks: ["Privacy Policy", "Terms of Use", "Cookie Policy", "Refund Policy"],
     icpText: "",
     backToTopText: "Back to top",
     ageVerificationText: "Quotes are free and carry no obligation.",

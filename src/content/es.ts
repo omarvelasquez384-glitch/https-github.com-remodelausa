@@ -2,7 +2,7 @@ import type { SiteContent } from '../config';
 
 export const esContent: SiteContent = {
   site: {
-    title: "RemodelaUSA — Contratistas de Remodelación en Estados Unidos",
+    title: "RemodelaUSA — Encuentra contratistas de remodelación cerca de ti",
     description:
       "Encuentra contratistas revisados por nuestro equipo para remodelaciones, baños, cocinas, pintura, concreto y reparaciones en el área de Kansas City. Cotizaciones gratis y sin compromiso.",
     language: "es",
@@ -34,7 +34,6 @@ export const esContent: SiteContent = {
       { name: "Calculadora", href: "#calculadora", icon: "Calculator" },
       { name: "Contratistas", href: "/contractors", icon: "Users" },
       { name: "Directorio", href: "/contractors", icon: "HardHat" },
-      { name: "Opiniones", href: "#news", icon: "Newspaper" },
       { name: "Contacto", href: "#contact", icon: "Mail" },
     ],
     ctaButtonText: "Cotizar gratis",
@@ -166,21 +165,16 @@ export const esContent: SiteContent = {
         icon: "Thermometer",
         title: "Precios transparentes",
         description:
-          "Compara propuestas lado a lado con precios claros y opiniones de clientes. Los términos de garantía se acuerdan directo con tu contratista.",
+          "Compara propuestas lado a lado con precios claros y alcances de trabajo claros. Los términos de garantía se acuerdan directo con tu contratista.",
       },
     ],
-    quote: {
-      text: "Comparé cuatro cotizaciones en un solo día y elegí al mejor contratista sin salir de casa.",
-      attribution: "María G., Houston, TX",
-      prefix: "Historias reales",
-    },
   },
 
   wineryCarousel: {
     scriptText: "Inspiración",
-    subtitle: "Proyectos reales",
-    mainTitle: "Transformaciones que hablan por sí solas",
-    locationTag: "En todo Estados Unidos",
+    subtitle: "Ideas de proyectos",
+    mainTitle: "Ideas para tu próxima transformación",
+    locationTag: "Proyecto de ejemplo",
     slides: [
       {
         image: "/images/slider01.png",
@@ -227,14 +221,14 @@ export const esContent: SiteContent = {
     tabs: [
       {
         id: "clientes",
-        name: "Clientes reales",
+        name: "Solicitudes de clientes",
         icon: "History",
         image: "/images/museum-tab1.png",
         content: {
-          title: "Solicitudes de clientes listos para contratar",
+          title: "Solicitudes de dueños de casa de tu zona",
           description:
-            "Cada solicitud viene con fotos, presupuesto estimado y fecha deseada de inicio. Hablas directo con el dueño de la casa, sin intermediarios que se queden con tu margen.",
-          highlight: "Solicitudes de clientes en tu zona — sin tope mensual",
+            "Cada solicitud incluye el tipo de proyecto, los detalles y la fecha deseada de inicio. Hablas directo con el dueño de la casa, sin intermediarios que se queden con tu margen.",
+          highlight: "Solicitudes de clientes en tu zona",
         },
       },
       {
@@ -245,8 +239,8 @@ export const esContent: SiteContent = {
         content: {
           title: "Destaca con la insignia de perfil revisado",
           description:
-            "Nuestro equipo revisa tu perfil antes de que recibas solicitudes. Tu perfil revisado aparece primero en las búsquedas y genera confianza desde el primer contacto.",
-          highlight: "Los perfiles revisados aparecen primero en las búsquedas",
+            "Nuestro equipo revisa tu perfil antes de que recibas solicitudes. La insignia muestra a los dueños de casa que tu perfil fue revisado y genera confianza desde el primer contacto. Esta revisión no es una verificación de licencias ni de seguros.",
+          highlight: "Insignia de perfil revisado en tu ficha",
         },
       },
       {
@@ -267,11 +261,6 @@ export const esContent: SiteContent = {
     ctaButtonText: "Únete como contratista",
     yearBadge: "8%",
     yearBadgeLabel: "Comisión",
-    quote: {
-      prefix: "Más trabajos",
-      text: "Dupliqué mis proyectos en seis meses. Las solicitudes llegan directo a mi teléfono y decido cuáles cotizar.",
-      attribution: "Carlos R., Contratista general, Miami, FL",
-    },
     founderPhotoAlt: "Contratista de RemodelaUSA",
     founderPhoto: "/images/photo-retro.png",
   },
@@ -311,29 +300,6 @@ export const esContent: SiteContent = {
         category: "Guías",
       },
     ],
-    testimonialsScriptText: "Opiniones",
-    testimonialsSubtitle: "Clientes felices",
-    testimonialsMainTitle: "Lo que dicen los dueños de casa",
-    testimonials: [
-      {
-        name: "María González",
-        role: "Houston, TX",
-        text: "Publiqué mi proyecto un lunes y el miércoles ya tenía tres cotizaciones. El contratista que elegí dejó mi baño hermoso y cumplió el presupuesto al centavo.",
-        rating: 5,
-      },
-      {
-        name: "James Wilson",
-        role: "Atlanta, GA",
-        text: "Lo que más me gustó fue la verificación: sabía que cada contratista tenía licencia y seguro. La pintura de mi casa quedó perfecta.",
-        rating: 5,
-      },
-      {
-        name: "Ana Martínez",
-        role: "San Diego, CA",
-        text: "El driveway de concreto estampado quedó mejor que en las fotos. Precio justo, trabajo limpio y garantía por escrito.",
-        rating: 4,
-      },
-    ],
     storyScriptText: "Nuestra historia",
     storySubtitle: "El marketplace del hogar",
     storyTitle: "Conectamos hogares con manos expertas",
@@ -351,7 +317,7 @@ export const esContent: SiteContent = {
       attribution: "Equipo RemodelaUSA",
     },
     storyImage: "/images/museum.png",
-    storyImageCaption: "Sala remodelada por un contratista de RemodelaUSA",
+    storyImageCaption: "Remodelación de sala — foto de ejemplo",
   },
 
   contactForm: {
@@ -416,12 +382,7 @@ export const esContent: SiteContent = {
     tagline: "Tu hogar, renovado",
     description:
       "El marketplace que conecta dueños de casa con contratistas revisados por nuestro equipo en el área de Kansas City.",
-    socialLinks: [
-      { icon: "Instagram", label: "Instagram", href: "#" },
-      { icon: "Facebook", label: "Facebook", href: "#" },
-      { icon: "Twitter", label: "Twitter", href: "#" },
-      { icon: "Youtube", label: "YouTube", href: "#" },
-    ],
+    socialLinks: [],
     linkGroups: [
       {
         title: "Servicios",
@@ -443,14 +404,14 @@ export const esContent: SiteContent = {
           { name: "Cómo funciona", href: "#museum" },
           { name: "Calculadora", href: "#calculadora" },
           { name: "Proyectos", href: "#winery" },
-          { name: "Opiniones", href: "#news" },
           { name: "Blog", href: "#news" },
           { name: "Contacto", href: "#contact" },
         ],
       },
     ],
     contactItems: [
-      { icon: "MapPin", text: "Área de Kansas City" },
+      { icon: "MapPin", text: "Kansas City, MO, EE. UU." },
+      { icon: "MapPin", text: "[Dirección postal del negocio — pendiente de confirmar]" },
       { icon: "Mail", text: "hola@remodelausa.com" },
     ],
     newsletterLabel: "Recibe consejos de remodelación",
@@ -460,7 +421,7 @@ export const esContent: SiteContent = {
     newsletterErrorText: "Error al suscribirte. Intenta de nuevo.",
     newsletterEndpoint: "",
     copyrightText: "© 2026 RemodelaUSA. Todos los derechos reservados.",
-    legalLinks: ["Política de Privacidad", "Términos de Uso"],
+    legalLinks: ["Política de Privacidad", "Términos de Uso", "Política de Cookies", "Política de Reembolsos"],
     icpText: "",
     backToTopText: "Volver arriba",
     ageVerificationText: "Las cotizaciones son gratuitas y sin compromiso.",

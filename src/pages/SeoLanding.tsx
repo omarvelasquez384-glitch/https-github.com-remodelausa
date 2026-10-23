@@ -87,6 +87,7 @@ function SeoContent({ state, service }: { state: { abbr: string; name: string };
               {t.priceRange}: <strong className="text-white">{fmtUSD.format(service.priceFrom)} – {fmtUSD.format(service.priceTo)}+</strong>
             </span>
           </div>
+          <p className="text-xs text-white/50 mt-3">{t.estimatesNote}</p>
         </header>
 
         {/* CTA principal */}

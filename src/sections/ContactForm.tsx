@@ -40,6 +40,8 @@ const STRINGS = {
     passwordMismatch: 'Passwords do not match.',
     consentBefore: 'I agree to the',
     consentLink: 'Terms of Use',
+    consentAnd: 'and',
+    privacyLink: 'Privacy Policy',
     consentAfter: 'and I consent to RemodelaUSA sharing my name, phone, email and project details with up to 4 assigned contractors, who may call or text me about my project (message/data rates may apply). Consent is not a condition of purchase. I can revoke this consent at any time by replying STOP to any text, emailing hello@remodelausa.com, or using the opt-out page at /opt-out.',
     consentRequired: 'Please accept the contact consent to submit your request.',
     termsAfter: 'including the commission on jobs signed through RemodelaUSA.',
@@ -80,6 +82,8 @@ const STRINGS = {
     passwordMismatch: 'Las contraseñas no coinciden.',
     consentBefore: 'Acepto los',
     consentLink: 'Términos de Uso',
+    consentAnd: 'y',
+    privacyLink: 'Política de Privacidad',
     consentAfter: 'y consiento que RemodelaUSA comparta mi nombre, teléfono, correo y detalles del proyecto con hasta 4 contratistas asignados, quienes podrán llamarme o enviarme mensajes de texto sobre mi proyecto (pueden aplicar tarifas de mensajes/datos). El consentimiento no es condición de compra. Puedo revocar este consentimiento en cualquier momento respondiendo STOP a cualquier mensaje de texto, escribiendo a hola@remodelausa.com o usando la página de baja en /opt-out.',
     consentRequired: 'Por favor acepta el consentimiento de contacto para enviar tu solicitud.',
     termsAfter: 'incluida la comisión por trabajos firmados a través de RemodelaUSA.',
@@ -120,6 +124,8 @@ const STRINGS = {
     passwordMismatch: 'As senhas não coincidem.',
     consentBefore: 'Aceito os',
     consentLink: 'Termos de Uso',
+    consentAnd: 'e',
+    privacyLink: 'Política de Privacidade',
     consentAfter: 'e consinto que a RemodelaUSA compartilhe meu nome, telefone, e-mail e detalhes do projeto com até 4 construtoras atribuídas, que poderão me ligar ou enviar mensagens de texto sobre o meu projeto (podem aplicar-se tarifas de mensagens/dados). O consentimento não é condição de compra. Posso revogar este consentimento a qualquer momento respondendo STOP a qualquer mensagem de texto, escrevendo para ola@remodelausa.com ou usando a página de cancelamento em /opt-out.',
     consentRequired: 'Aceite o consentimento de contato para enviar sua solicitação.',
     termsAfter: 'incluída a comissão por trabalhos fechados pela RemodelaUSA.',
@@ -538,7 +544,7 @@ export function ContactForm() {
                       /* Start date */
                       <div>
                         <label htmlFor="contact-date" className="block text-sm text-white/80 mb-2">
-                          {form.visitDateLabel} <span className="text-gold-500">*</span>
+                          {form.visitDateLabel}
                         </label>
                         <input
                           id="contact-date"
@@ -546,7 +552,6 @@ export function ContactForm() {
                           name="visitDate"
                           value={formData.visitDate}
                           onChange={handleChange}
-                          required
                           className={inputClass}
                         />
                       </div>
@@ -791,6 +796,10 @@ export function ContactForm() {
                         <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
                           {t.consentLink}
                         </a>{' '}
+                        {t.consentAnd}{' '}
+                        <a href="/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
+                          {t.privacyLink}
+                        </a>{' '}
                         {t.consentAfter}
                       </span>
                     </label>
@@ -806,6 +815,10 @@ export function ContactForm() {
                         {t.consentBefore}{' '}
                         <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
                           {t.consentLink}
+                        </a>{' '}
+                        {t.consentAnd}{' '}
+                        <a href="/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-gold-400 hover:text-gold-300 underline underline-offset-2">
+                          {t.privacyLink}
                         </a>{' '}
                         {t.termsAfter}
                       </span>

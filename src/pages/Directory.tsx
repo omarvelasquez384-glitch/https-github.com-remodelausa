@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
-import { HardHat, BadgeCheck, MapPin, Star, ArrowRight, Loader } from 'lucide-react';
+import { HardHat, BadgeCheck, MapPin, ArrowRight, Loader } from 'lucide-react';
 import { Navigation } from '../sections/Navigation';
 import { Footer } from '../sections/Footer';
 import { publicApi, type PublicContractor } from '../lib/api';
@@ -28,19 +28,6 @@ const T = {
     contractorsFound: (n: number) => `${n} construtora${n === 1 ? '' : 's'} disponíve${n === 1 ? 'l' : 'is'}`,
   },
 } as const;
-
-function Stars({ rating }: { rating: number }) {
-  return (
-    <span className="flex items-center gap-0.5" aria-label={`${rating} / 5`}>
-      {[1, 2, 3, 4, 5].map((i) => (
-        <Star
-          key={i}
-          className={`w-3.5 h-3.5 ${i <= Math.round(rating) ? 'text-gold-500 fill-gold-500' : 'text-white/20'}`}
-        />
-      ))}
-    </span>
-  );
-}
 
 export default function Directory() {
   const lang = useLang();
@@ -150,12 +137,6 @@ export default function Directory() {
                   )}
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-3">
-                      {c.rating > 0 && (
-                        <span className="flex items-center gap-1.5">
-                          <Stars rating={c.rating} />
-                          <span className="text-white/60">{c.rating.toFixed(1)}</span>
-                        </span>
-                      )}
                       {c.years > 0 && <span className="text-white/50">{ui.years(c.years)}</span>}
                     </div>
                     <span className="inline-flex items-center gap-1 text-gold-500 group-hover:gap-2 transition-all">

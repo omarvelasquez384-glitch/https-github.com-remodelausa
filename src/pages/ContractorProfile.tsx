@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router';
-import { HardHat, BadgeCheck, MapPin, Star, Phone, Mail, Globe, ArrowLeft, Loader, ShieldCheck, Briefcase } from 'lucide-react';
+import { HardHat, BadgeCheck, MapPin, Phone, Mail, Globe, ArrowLeft, Loader, ShieldCheck, Briefcase } from 'lucide-react';
 import { Navigation } from '../sections/Navigation';
 import { Footer } from '../sections/Footer';
 import { publicApi, type PublicContractor } from '../lib/api';
@@ -76,16 +76,6 @@ export default function ContractorProfile() {
                     <p className="text-white/60 text-sm mt-1 flex items-center gap-1.5">
                       <MapPin className="w-3.5 h-3.5" /> {ui.basedIn}: {c.city ? `${c.city}, ` : ''}{c.state}
                     </p>
-                    {c.rating > 0 && (
-                      <div className="flex items-center gap-2 mt-2">
-                        <span className="flex">
-                          {[1, 2, 3, 4, 5].map((i) => (
-                            <Star key={i} className={`w-4 h-4 ${i <= Math.round(c.rating) ? 'text-gold-500 fill-gold-500' : 'text-white/20'}`} />
-                          ))}
-                        </span>
-                        <span className="text-white/70 text-sm">{c.rating.toFixed(1)}</span>
-                      </div>
-                    )}
                   </div>
                   <div className="flex flex-col gap-2 flex-shrink-0">
                     <button onClick={requestQuote} className="btn-primary rounded-sm text-sm px-6">

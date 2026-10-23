@@ -108,19 +108,12 @@ export interface WineFeature {
   description: string;
 }
 
-export interface WineQuote {
-  text: string;
-  attribution: string;
-  prefix: string;
-}
-
 export interface WineShowcaseConfig {
   scriptText: string;
   subtitle: string;
   mainTitle: string;
   wines: Wine[];
   features: WineFeature[];
-  quote: WineQuote;
 }
 
 export const wineShowcaseConfig: WineShowcaseConfig = { ...esContent.wineShowcase };
@@ -169,12 +162,6 @@ export interface MuseumTab {
   content: MuseumTabContent;
 }
 
-export interface MuseumQuote {
-  prefix: string;
-  text: string;
-  attribution: string;
-}
-
 export interface MuseumConfig {
   scriptText: string;
   subtitle: string;
@@ -187,7 +174,6 @@ export interface MuseumConfig {
   ctaButtonText: string;
   yearBadge: string;
   yearBadgeLabel: string;
-  quote: MuseumQuote;
   founderPhotoAlt: string;
   founderPhoto: string;
 }
@@ -204,13 +190,6 @@ export interface NewsArticle {
   excerpt: string;
   date: string;
   category: string;
-}
-
-export interface Testimonial {
-  name: string;
-  role: string;
-  text: string;
-  rating: number;
 }
 
 export interface StoryQuote {
@@ -231,10 +210,6 @@ export interface NewsConfig {
   viewAllText: string;
   readMoreText: string;
   articles: NewsArticle[];
-  testimonialsScriptText: string;
-  testimonialsSubtitle: string;
-  testimonialsMainTitle: string;
-  testimonials: Testimonial[];
   storyScriptText: string;
   storySubtitle: string;
   storyTitle: string;
